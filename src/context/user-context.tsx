@@ -8,7 +8,7 @@ type UserContext = {
   logout: () => void;
 };
 
-const AuthContext = createContext<UserContext>({
+export const AuthContext = createContext<UserContext>({
   token: null,
   userId: null,
   isLoggedIn: false,
@@ -56,5 +56,3 @@ export const AuthContextProvider = (props: Props) => {
     </AuthContext.Provider>
   );
 };
-
-export default { AuthContext };

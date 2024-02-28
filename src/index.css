@@ -10,5 +10,154 @@
 
 #root {
   min-width: 300px;
+  position: relative;
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+body {
+  font-family: 'Inter', 'Poppins', sans-serif;
+}
+
+main {
+  flex: 1;
+}
+
+.max-container {
   max-width: 1440px;
+}
+
+.theme-toggle label {
+  width: 50px;
+  height: 20px;
+  position: relative;
+  display: block;
+  background: #ebebeb;
+  border-radius: 200px;
+  box-shadow:
+    inset 0px 5px 15px rgba(0, 0, 0, 0.4),
+    inset 0px -5px 15px rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+}
+
+.theme-toggle label:after {
+  content: '';
+  width: 18px;
+  height: 18px;
+  position: absolute;
+  /* top: 10px;
+  left: 10px; */
+  background: linear-gradient(180deg, #ffcc89, #d8860b);
+  border-radius: 18px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+}
+.theme-toggle input {
+  width: 0;
+  height: 0;
+  visibility: hidden;
+}
+
+.theme-toggle input:checked + label {
+  background: #242424;
+}
+.theme-toggle input:checked + label:after {
+  left: 49px;
+  transform: translateX(-30%);
+  background: linear-gradient(180deg, #777, #3a3a3a);
+}
+.theme-toggle label,
+label:after {
+  transition: 0.7s;
+}
+
+.theme-toggle label:active:after {
+  width: 26px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  transition: all 0.2s;
+}
+
+.switch:hover {
+  opacity: 0.8;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switch .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: linear-gradient(180deg, #777, #3a3a3a);
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.switch .slider::before {
+  position: absolute;
+  content: '';
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+.switch input:checked + .slider::before {
+  transform: translateX(26px);
+}
+
+/* .switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  transition: all 0.2s;
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: linear-gradient(hsl(236, 72%, 79%), hsl(237, 63%, 64%));
+    transition: 0.4s;
+    border-radius: 34px;
+
+    &::before {
+      position: absolute;
+      content: '';
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+  }
+
+  input:checked + .slider::before {
+    transform: translateX(26px);
+  }
+} */
+
+@layer components {
+  .tw-text-input {
+    @apply h-10 rounded border-2 px-2 py-3 text-slate-800 focus:border-cyan-300 focus:outline-none focus:ring-1;
+  }
 }
