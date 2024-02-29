@@ -1,5 +1,5 @@
-import { useContext, useEffect, useMemo, useState } from 'react';
-import { AuthContext } from '../../context/user-context';
+import { useEffect, useMemo, useState } from 'react';
+import { useAuth } from '../../context/user-context';
 import { NavLink } from 'react-router-dom';
 import { ThemeToggle } from '../UI/ThemeToggle';
 
@@ -29,7 +29,7 @@ export const BaseHeader = () => {
     ],
   };
 
-  const { isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn } = useAuth();
   const navLinks = isLoggedIn ? navItems.user : navItems.public;
 
   const [themeChanged, setThemeChanged] = useState(false);

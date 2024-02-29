@@ -1,19 +1,25 @@
-import { useContext } from 'react';
-import { AuthContext } from '../context/user-context';
+import { useAuth } from '../context/user-context';
 import { useInput } from '../hooks/use-input';
 import { validateEmail } from '../utils/validations';
 import { useMutation } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import authService from '../services/auth.service';
+import { useNavigate } from 'react-router-dom';
+import { useSnackbar } from '../context/snackbar-context';
+import { ApiErrorResponse, LoginResponseData } from '../common/types';
 
 export type RegisterInputState = {
   email: string;
   password: string;
   repeatPassword?: string;
+  firstName: string;
+  lastName: string;
 };
 
 export const Register = () => {
-  const context = useContext(AuthContext);
+  const { login } = useAuth();
+  const { show } = useSnackbar();
+  const navigate = useNavigate();
 
   const {
     value: email,
@@ -41,11 +47,20 @@ export const Register = () => {
 
   const formIsValid = passwordIsValid && emailIsValid && password === repeatPassword;
 
-  const { isError, error, isPending, mutate } = useMutation<any, AxiosError, RegisterInputState>({
+  const { isPending, mutate } = useMutation<
+    AxiosResponse<LoginResponseData>,
+    AxiosError,
+    RegisterInputState
+  >({
     mutationFn: authService.register,
-    onSuccess: (res: any) => {
-      context.login(res.data.token, res.data.userId);
-      // success
+    onSuccess: (res: AxiosResponse<LoginResponseData>) => {
+      login(res.data.token, res.data.userId);
+      show('Succesfully registered', 'success');
+      navigate('/');
+    },
+    onError: (error) => {
+      let err = error.response?.data as ApiErrorResponse;
+      show(err?.message || 'Could not log in!', 'error');
     },
   });
 
@@ -56,18 +71,18 @@ export const Register = () => {
     (isPending && !repeatPasswordIsValid) ||
     (password !== repeatPassword && repeatPassword);
 
-  let errorContent: any;
-  if (isError && error) {
-    let err: any = error.response?.data;
-    errorContent = err?.message || 'Could not register!';
-  }
-
   const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    let firstName = 'N/A';
+    let lastName = 'N/A';
+
+    show('This is a warning message', 'success');
     mutate({
       password,
       repeatPassword,
       email,
+      firstName,
+      lastName,
     });
   };
 
@@ -124,9 +139,10 @@ export const Register = () => {
             )}
           </div>
           <button
-            type="submit"
+            disabled={!formIsValid || isPending}
             className="ml-auto mt-3 rounded bg-cyan-600 px-4 py-2 text-lg font-semibold tracking-wider text-slate-100
-             transition-all hover:bg-slate-100 hover:text-slate-600 sm:w-[40%]"
+             transition-all enabled:hover:bg-slate-100 enabled:hover:text-slate-600 sm:w-[40%] 
+             disabled:cursor-not-allowed disabled:opacity-70"
           >
             Submit
           </button>

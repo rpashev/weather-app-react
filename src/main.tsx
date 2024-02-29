@@ -1,36 +1,42 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import "./index.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { BaseLayout } from "./layouts/BaseLayout";
-import { Register } from "./pages/Register";
-import { Login } from "./pages/Login";
-import { Profile } from "./pages/Profile";
-import { WeatherMap } from "./pages/WeatherMap";
-import { Home } from "./pages/Home";
-import { AuthContextProvider } from "./context/user-context";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { BaseLayout } from './layouts/BaseLayout';
+import { Register } from './pages/Register';
+import { Login } from './pages/Login';
+import { Profile } from './pages/Profile';
+import { WeatherMap } from './pages/WeatherMap';
+import { Home } from './pages/Home';
+import { AuthContextProvider } from './context/user-context';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { SnackbarProvider } from './context/snackbar-context';
+import { Logout } from './pages/Logout';
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <BaseLayout />,
     children: [
-      { path: "", element: <Home /> },
+      { path: '', element: <Home /> },
       {
-        path: "register",
+        path: 'register',
         element: <Register />,
       },
       {
-        path: "login",
+        path: 'login',
         element: <Login />,
       },
       {
-        path: "profile",
+        path: 'logout',
+        element: <Logout />,
+      },
+      {
+        path: 'profile',
         element: <Profile />,
       },
       {
-        path: "weather-map",
+        path: 'weather-map',
         element: <WeatherMap />,
       },
     ],
@@ -39,14 +45,14 @@ const router = createBrowserRouter([
 
 const queryClient = new QueryClient();
 
-const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
-);
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(
-  <AuthContextProvider>
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
-  </AuthContextProvider>
+  <SnackbarProvider>
+    <AuthContextProvider>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </AuthContextProvider>
+  </SnackbarProvider>
 );

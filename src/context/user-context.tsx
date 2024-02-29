@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from 'react';
 
 type UserContext = {
   token: null | string;
@@ -20,9 +20,17 @@ type Props = {
   children: React.ReactNode;
 };
 
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useSnackbar must be used within a SnackbarProvider');
+  }
+  return context;
+};
+
 export const AuthContextProvider = (props: Props) => {
-  const initialToken = localStorage.getItem("token");
-  const initialUserId = localStorage.getItem("userId");
+  const initialToken = localStorage.getItem('token');
+  const initialUserId = localStorage.getItem('userId');
 
   const [token, setToken] = useState<null | string>(initialToken);
   const [userId, setUserId] = useState<null | string>(initialUserId);
@@ -32,8 +40,8 @@ export const AuthContextProvider = (props: Props) => {
   const loginHandler = (token: string, userId: string): void => {
     setToken(token);
     setUserId(userId);
-    localStorage.setItem("token", token);
-    localStorage.setItem("userId", userId);
+    localStorage.setItem('token', token);
+    localStorage.setItem('userId', userId);
   };
 
   const logoutHandler = (): void => {
@@ -50,9 +58,5 @@ export const AuthContextProvider = (props: Props) => {
     logout: logoutHandler,
   };
 
-  return (
-    <AuthContext.Provider value={contextValue}>
-      {props.children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={contextValue}>{props.children}</AuthContext.Provider>;
 };

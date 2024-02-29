@@ -120,44 +120,12 @@ label:after {
   transform: translateX(26px);
 }
 
-/* .switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-  transition: all 0.2s;
-
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: linear-gradient(hsl(236, 72%, 79%), hsl(237, 63%, 64%));
-    transition: 0.4s;
-    border-radius: 34px;
-
-    &::before {
-      position: absolute;
-      content: '';
-      height: 26px;
-      width: 26px;
-      left: 4px;
-      bottom: 4px;
-      background-color: white;
-      transition: 0.4s;
-      border-radius: 50%;
-    }
-  }
-
-  input:checked + .slider::before {
-    transform: translateX(26px);
-  }
-} */
-
 @layer components {
   .tw-text-input {
     @apply h-10 rounded border-2 px-2 py-3 text-slate-800 focus:border-cyan-300 focus:outline-none focus:ring-1;
+  }
+
+  .tw-fixed-center {
+    @apply fixed left-1/2 transform -translate-x-1/2;
   }
 }
