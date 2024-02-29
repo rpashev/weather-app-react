@@ -12,8 +12,8 @@ export const AuthContext = createContext<UserContext>({
   token: null,
   userId: null,
   isLoggedIn: false,
-  login: (token: string, userId: string): void => {},
-  logout: (): void => {},
+  login: () => {},
+  logout: () => {},
 });
 
 type Props = {

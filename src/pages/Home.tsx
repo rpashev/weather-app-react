@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import weatherApiService from '../services/weather-api.service';
-import { useSpinner } from '../context/spinner-context';
 
 export const Home = () => {
   const [weatherIconSrc, setWeatherIconSrc] = useState(null);
