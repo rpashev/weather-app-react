@@ -12,6 +12,7 @@ import { AuthContextProvider } from './context/user-context';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SnackbarProvider } from './context/snackbar-context';
 import { Logout } from './pages/Logout';
+import { SpinnerProvider } from './context/spinner-context';
 
 const router = createBrowserRouter([
   {
@@ -49,10 +50,12 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
 root.render(
   <SnackbarProvider>
-    <AuthContextProvider>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>
-    </AuthContextProvider>
+    <SpinnerProvider>
+      <AuthContextProvider>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+        </QueryClientProvider>
+      </AuthContextProvider>
+    </SpinnerProvider>
   </SnackbarProvider>
 );

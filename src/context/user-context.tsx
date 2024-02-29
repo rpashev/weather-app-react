@@ -21,11 +21,7 @@ type Props = {
 };
 
 export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useSnackbar must be used within a SnackbarProvider');
-  }
-  return context;
+  return useContext(AuthContext);
 };
 
 export const AuthContextProvider = (props: Props) => {

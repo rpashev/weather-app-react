@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from '../context/snackbar-context';
 import authService from '../services/auth.service';
 import { ApiErrorResponse, LoginResponseData } from '../common/types';
+import { useSpinner } from '../context/spinner-context';
 
 export type LoginInputState = {
   email: string;
@@ -15,7 +16,9 @@ export type LoginInputState = {
 
 export const Login = () => {
   const { login } = useAuth();
-  const { show } = useSnackbar();
+  const { showSnackbar } = useSnackbar();
+  const { showSpinner, hideSpinner } = useSpinner();
+
   const navigate = useNavigate();
 
   const {
@@ -44,12 +47,15 @@ export const Login = () => {
     mutationFn: authService.login,
     onSuccess: (res: AxiosResponse<LoginResponseData>) => {
       login(res.data.token, res.data.userId);
-      show('Succesfully registered', 'success');
+      showSnackbar('Succesfully logged in', 'success');
       navigate('/');
     },
     onError: (error) => {
       let err = error.response?.data as ApiErrorResponse;
-      show(err?.message || 'Could not log in!', 'error');
+      showSnackbar(err?.message || 'Could not log in!', 'error');
+    },
+    onSettled: () => {
+      hideSpinner();
     },
   });
 
@@ -58,6 +64,8 @@ export const Login = () => {
 
   const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    showSpinner();
+    setTimeout(() => console.log('1'), 2000);
     mutate({ password, email });
   };
 
@@ -67,7 +75,7 @@ export const Login = () => {
         onSubmit={submitHandler}
         className="w-full rounded-lg bg-white px-5 py-4 pb-6 text-slate-100 sm:w-[25rem] dark:bg-slate-800"
       >
-        <h2 className="mb-5 text-center text-3xl">Sign Up</h2>
+        <h2 className="mb-5 text-center text-3xl">Login</h2>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
             <label htmlFor="email">Email</label>

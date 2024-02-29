@@ -4,21 +4,17 @@ import { Snackbar } from '../components/UI/Snackbar';
 type SnackbarMode = 'warning' | 'success' | 'error';
 
 type SnackbarContextType = {
-  show: (message: string, mode: SnackbarMode) => void;
+  showSnackbar: (message: string, mode: SnackbarMode) => void;
 };
 
 // Create the Snackbar context
 const SnackbarContext = createContext<SnackbarContextType>({
-  show: () => {},
+  showSnackbar: () => {},
 });
 
 // Custom hook to access the Snackbar context
 export const useSnackbar = () => {
-  const context = useContext(SnackbarContext);
-  if (!context) {
-    throw new Error('useSnackbar must be used within a SnackbarProvider');
-  }
-  return context;
+  return useContext(SnackbarContext);
 };
 // Snackbar provider component
 type SnackbarProviderProps = {
@@ -40,7 +36,7 @@ export const SnackbarProvider = ({ children }: SnackbarProviderProps) => {
   };
 
   return (
-    <SnackbarContext.Provider value={{ show }}>
+    <SnackbarContext.Provider value={{ showSnackbar: show }}>
       {children}
       {showSnackbar && <Snackbar message={snackbarMessage} mode={snackbarMode} />}
     </SnackbarContext.Provider>

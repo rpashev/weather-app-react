@@ -8,13 +8,18 @@ export const Snackbar = ({ mode, message }: Props) => {
   const [showSnackbar, setShowSnackbar] = useState(false);
 
   useEffect(() => {
-    setShowSnackbar(true);
-
     const timer = setTimeout(() => {
-      setShowSnackbar(false);
-    }, 30000); // Snackbar will disappear after 3 seconds
+      setShowSnackbar(true);
+    }, 100);
 
-    return () => clearTimeout(timer);
+    const hideTimer = setTimeout(() => {
+      setShowSnackbar(false);
+    }, 3000);
+
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(hideTimer);
+    };
   }, []);
 
   const getBackgroundColor = () => {

@@ -7,6 +7,7 @@ import authService from '../services/auth.service';
 import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from '../context/snackbar-context';
 import { ApiErrorResponse, LoginResponseData } from '../common/types';
+import { useSpinner } from '../context/spinner-context';
 
 export type RegisterInputState = {
   email: string;
@@ -18,7 +19,9 @@ export type RegisterInputState = {
 
 export const Register = () => {
   const { login } = useAuth();
-  const { show } = useSnackbar();
+  const { showSnackbar: show } = useSnackbar();
+  const { showSpinner, hideSpinner } = useSpinner();
+
   const navigate = useNavigate();
 
   const {
@@ -62,6 +65,9 @@ export const Register = () => {
       let err = error.response?.data as ApiErrorResponse;
       show(err?.message || 'Could not log in!', 'error');
     },
+    onSettled: () => {
+      hideSpinner();
+    },
   });
 
   const showEmailError = emailError || (isPending && !emailIsValid);
@@ -76,7 +82,7 @@ export const Register = () => {
     let firstName = 'N/A';
     let lastName = 'N/A';
 
-    show('This is a warning message', 'success');
+    showSpinner();
     mutate({
       password,
       repeatPassword,

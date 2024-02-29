@@ -4,8 +4,9 @@ import { useAuth } from '../context/user-context';
 import { useSnackbar } from '../context/snackbar-context';
 
 export const Logout = () => {
-  const { show } = useSnackbar();
+  const { showSnackbar: show } = useSnackbar();
   const { logout } = useAuth();
+
   const navigate = useNavigate();
 
   useEffect(() => {
