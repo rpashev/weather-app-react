@@ -27,7 +27,7 @@ export default {
   },
   getCitiesList(query: string) {
     return axios.get(
-      `http://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${import.meta.env.VITE_WEATHER_API_KEY}`
+      `https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${import.meta.env.VITE_WEATHER_API_KEY}`
     );
   },
 };
