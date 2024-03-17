@@ -12,7 +12,7 @@ const SpinnerContext = createContext<SpinnerContextType>({
   hideSpinner: () => {},
 });
 
-export const useSpinner = () => {
+export const useSpinnerContext = () => {
   return useContext(SpinnerContext);
 };
 

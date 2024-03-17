@@ -1,17 +1,22 @@
 import { useEffect, useRef, useState } from 'react';
 import locationsService from '../services/locations.service';
 import { useFetchCityListQuery } from '../hooks/tanstack-query/useFetchCityListQuery';
-import { CityGeoData } from '../common/types';
+import { CityGeoDataResponse } from '../common/types';
 import { useFetchCityDataQuery } from '../hooks/tanstack-query/useFetchCityDataQuery';
+import { useSpinnerContext } from '../context/spinner-context';
 
 export const Home = () => {
+  const { hideSpinner, showSpinner } = useSpinnerContext();
+
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCity, setSelectedCity] = useState<CityGeoData | null>(null);
+  const [selectedCity, setSelectedCity] = useState<CityGeoDataResponse | null>(null);
   const debounceTimerRef = useRef<number | null>(null);
 
   const { data: cityListData, refetch: fetchCityList } = useFetchCityListQuery(searchTerm);
-  const { data: selectedCityData, refetch: fetchSelectedCityData } =
-    useFetchCityDataQuery(selectedCity);
+  const { data: selectedCityData, refetch: fetchSelectedCityData } = useFetchCityDataQuery({
+    lon: selectedCity?.lon!,
+    lat: selectedCity?.lat!,
+  });
 
   const handleChangeSearchTerm = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -28,7 +33,7 @@ export const Home = () => {
     }, 300);
   };
 
-  const handleSelectCity = (city: CityGeoData) => {
+  const handleSelectCity = (city: CityGeoDataResponse) => {
     console.log(city);
     setSearchTerm(`${city.name}, ${city.country}`);
     setSelectedCity(city);
@@ -48,7 +53,8 @@ export const Home = () => {
 
   useEffect(() => {
     if (selectedCity) {
-      fetchSelectedCityData();
+      showSpinner();
+      fetchSelectedCityData().finally(() => hideSpinner());
     }
   }, [selectedCity]);
 
@@ -64,9 +70,9 @@ export const Home = () => {
           className="tw-text-input"
         />
       </div>
-      {cityListData?.data?.length > 0 && (
+      {cityListData && cityListData.length > 0 && (
         <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded shadow-md mt-1">
-          {cityListData.data.map((city: any, index: number) => (
+          {cityListData.map((city: any, index: number) => (
             <li
               key={index}
               className="px-4 py-1 cursor-pointer text-sm hover:bg-gray-100"
@@ -77,9 +83,9 @@ export const Home = () => {
           ))}
         </ul>
       )}
-      {cityListData?.data?.length === 0 && <p>No results found!</p>}
+      {cityListData?.length === 0 && <p>No results found!</p>}
 
-      {selectedCityData && <p>{selectedCityData.data?.main?.temp}</p>}
+      {selectedCityData && <p>{selectedCityData.main?.temp}</p>}
     </div>
   );
 };

@@ -1,11 +1,8 @@
-import { useInput } from '../hooks/use-input';
-import { validateEmail } from '../utils/validations';
-import { useSpinner } from '../context/spinner-context';
+import { useInput } from '../hooks/useInput';
 import { useRegisterMutate } from '../hooks/tanstack-query/useRegisterMutate';
+import { validateEmail } from '../utils/validations';
 
 export const Register = () => {
-  const { showSpinner } = useSpinner();
-
   const { isPending, mutate } = useRegisterMutate();
 
   const {
@@ -46,7 +43,6 @@ export const Register = () => {
     let firstName = 'N/A';
     let lastName = 'N/A';
 
-    showSpinner();
     mutate({
       password,
       repeatPassword,

@@ -24,14 +24,18 @@ export type LoginResponseData = {
   email: string;
 };
 
-// locations
+// weather apis
 
-export type CityGeoData = {
+export type CityGeoDataResponse = {
   country: string;
   name: string;
   lat: number;
   lon: number;
   local_names: string[];
+};
+export type CoordinatesWeatherApi = {
+  lat: number;
+  lon: number;
 };
 
 export type TrackedLocationInputData = {

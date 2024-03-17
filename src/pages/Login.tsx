@@ -1,11 +1,8 @@
-import { useInput } from '../hooks/use-input';
-import { validateEmail } from '../utils/validations';
-import { useSpinner } from '../context/spinner-context';
+import { useInput } from '../hooks/useInput';
 import { useLoginMutate } from '../hooks/tanstack-query/useLoginMutate';
+import { validateEmail } from '../utils/validations';
 
 export const Login = () => {
-  const { showSpinner } = useSpinner();
-
   const {
     value: email,
     hasError: emailError,
@@ -31,8 +28,6 @@ export const Login = () => {
 
   const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    showSpinner();
-    setTimeout(() => console.log('1'), 2000);
     mutate({ password, email });
   };
 

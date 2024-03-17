@@ -2,33 +2,28 @@ import { Outlet } from 'react-router-dom';
 import { BaseHeader } from '../components/layout/BaseHeader';
 import { BaseFooter } from '../components/layout/BaseFooter';
 import { useState, useEffect } from 'react';
-import weatherApiService from '../services/weather-api.service';
-import { useQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 import { useSnackbar } from '../context/snackbar-context';
+import { useFetchCityDataQuery } from '../hooks/tanstack-query/useFetchCityDataQuery';
+import { useSpinnerContext } from '../context/spinner-context';
 
-type Coordinates = {
+type CoordinatesGeoBrowser = {
   latitude: number;
   longitude: number;
 };
 
 type Position = {
-  coords: Coordinates;
+  coords: CoordinatesGeoBrowser;
 };
 
 export const BaseLayout = () => {
-  const [userLocation, setUserLocation] = useState<Coordinates | null>(null);
+  const [userLocation, setUserLocation] = useState<CoordinatesGeoBrowser | null>(null);
 
   const { showSnackbar } = useSnackbar();
+  const { hideSpinner, showSpinner } = useSpinnerContext();
 
-  const { data: localCityData, refetch: fetchLocalCityData } = useQuery<any, AxiosError>({
-    queryKey: ['local-data', { lon: userLocation?.longitude!, lat: userLocation?.latitude! }],
-    queryFn: () =>
-      weatherApiService.getCurrentWeather({
-        lon: userLocation?.longitude!,
-        lat: userLocation?.latitude!,
-      }),
-    enabled: false,
+  const { data: localCityData, refetch: fetchLocalCityData } = useFetchCityDataQuery({
+    lon: userLocation?.longitude!,
+    lat: userLocation?.latitude!,
   });
 
   useEffect(() => {
@@ -60,13 +55,14 @@ export const BaseLayout = () => {
 
   useEffect(() => {
     if (userLocation) {
-      fetchLocalCityData();
+      showSpinner();
+      fetchLocalCityData().finally(() => hideSpinner());
     }
   }, [userLocation]);
   return (
     <div className="flex min-h-screen flex-col items-center bg-cyan-800">
       <BaseHeader />
-      {localCityData && <p>{localCityData.data?.main?.temp} local</p>}
+      {localCityData && <p>{localCityData.main?.temp} local</p>}
 
       <main className="max-container flex flex-1 justify-center">
         <Outlet />
