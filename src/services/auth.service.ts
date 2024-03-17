@@ -1,16 +1,16 @@
 import axios from 'axios';
-import { LoginInputState } from '../pages/Login';
-import { RegisterInputState } from '../pages/Register';
+import { type RegisterInputData } from '../common/types';
+import { type LoginInputData } from '../common/types';
 
 export default {
-  login(inputs: LoginInputState) {
+  login(inputs: LoginInputData) {
     return axios.post(`${import.meta.env.VITE_APP_BASE_URL}auth/login`, {
       email: inputs.email,
       password: inputs.password,
     });
   },
 
-  register(formState: RegisterInputState) {
+  register(formState: RegisterInputData) {
     return axios.post(`${import.meta.env.VITE_APP_BASE_URL}auth/signup`, {
       ...formState,
     });

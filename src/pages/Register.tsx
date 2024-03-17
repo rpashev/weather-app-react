@@ -1,28 +1,12 @@
-import { useAuth } from '../context/user-context';
 import { useInput } from '../hooks/use-input';
 import { validateEmail } from '../utils/validations';
-import { useMutation } from '@tanstack/react-query';
-import { AxiosError, AxiosResponse } from 'axios';
-import authService from '../services/auth.service';
-import { useNavigate } from 'react-router-dom';
-import { useSnackbar } from '../context/snackbar-context';
-import { ApiErrorResponse, LoginResponseData } from '../common/types';
 import { useSpinner } from '../context/spinner-context';
-
-export type RegisterInputState = {
-  email: string;
-  password: string;
-  repeatPassword?: string;
-  firstName: string;
-  lastName: string;
-};
+import { useRegisterMutate } from '../hooks/tanstack-query/useRegisterMutate';
 
 export const Register = () => {
-  const { login } = useAuth();
-  const { showSnackbar: show } = useSnackbar();
-  const { showSpinner, hideSpinner } = useSpinner();
+  const { showSpinner } = useSpinner();
 
-  const navigate = useNavigate();
+  const { isPending, mutate } = useRegisterMutate();
 
   const {
     value: email,
@@ -49,26 +33,6 @@ export const Register = () => {
   } = useInput((value: string) => (value.length < 6 ? false : true));
 
   const formIsValid = passwordIsValid && emailIsValid && password === repeatPassword;
-
-  const { isPending, mutate } = useMutation<
-    AxiosResponse<LoginResponseData>,
-    AxiosError,
-    RegisterInputState
-  >({
-    mutationFn: authService.register,
-    onSuccess: (res: AxiosResponse<LoginResponseData>) => {
-      login(res.data.token, res.data.userId);
-      show('Succesfully registered', 'success');
-      navigate('/');
-    },
-    onError: (error) => {
-      let err = error.response?.data as ApiErrorResponse;
-      show(err?.message || 'Could not log in!', 'error');
-    },
-    onSettled: () => {
-      hideSpinner();
-    },
-  });
 
   const showEmailError = emailError || (isPending && !emailIsValid);
   const showPasswordError = passwordError || (isPending && !passwordIsValid);

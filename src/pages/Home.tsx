@@ -1,32 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
-import weatherApiService from '../services/weather-api.service';
-import { useQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
-
-type CityGeoData = {
-  country: string;
-  name: string;
-  lat: number;
-  lon: number;
-  local_names: string[];
-};
+import locationsService from '../services/locations.service';
+import { useFetchCityListQuery } from '../hooks/tanstack-query/useFetchCityListQuery';
+import { CityGeoData } from '../common/types';
+import { useFetchCityDataQuery } from '../hooks/tanstack-query/useFetchCityDataQuery';
 
 export const Home = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCity, setSelectedCity] = useState<CityGeoData | null>(null);
   const debounceTimerRef = useRef<number | null>(null);
 
-  const { data: cityListData, refetch: fetchCityList } = useQuery<any, AxiosError>({
-    queryKey: ['search-city', searchTerm],
-    queryFn: () => weatherApiService.getCitiesList(searchTerm),
-    enabled: false,
-  });
-  const { data: selectedCityData, refetch: fetchSelectedCityData } = useQuery<any, AxiosError>({
-    queryKey: ['selected-city', { lon: selectedCity?.lon!, lat: selectedCity?.lat! }],
-    queryFn: () =>
-      weatherApiService.getCurrentWeather({ lon: selectedCity?.lon!, lat: selectedCity?.lat! }),
-    enabled: false,
-  });
+  const { data: cityListData, refetch: fetchCityList } = useFetchCityListQuery(searchTerm);
+  const { data: selectedCityData, refetch: fetchSelectedCityData } =
+    useFetchCityDataQuery(selectedCity);
 
   const handleChangeSearchTerm = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -48,8 +33,12 @@ export const Home = () => {
     setSearchTerm(`${city.name}, ${city.country}`);
     setSelectedCity(city);
   };
-
   useEffect(() => {
+    locationsService
+      .getTrackedLocations()
+      .then((data) => console.log(data))
+      .catch((err) => console.log(err));
+
     return () => {
       if (debounceTimerRef.current !== null) {
         clearTimeout(debounceTimerRef.current);

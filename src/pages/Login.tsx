@@ -1,25 +1,10 @@
-import { useMutation } from '@tanstack/react-query';
-import { AxiosError, AxiosResponse } from 'axios';
-import { useAuth } from '../context/user-context';
 import { useInput } from '../hooks/use-input';
 import { validateEmail } from '../utils/validations';
-import { useNavigate } from 'react-router-dom';
-import { useSnackbar } from '../context/snackbar-context';
-import authService from '../services/auth.service';
-import { ApiErrorResponse, LoginResponseData } from '../common/types';
 import { useSpinner } from '../context/spinner-context';
-
-export type LoginInputState = {
-  email: string;
-  password: string;
-};
+import { useLoginMutate } from '../hooks/tanstack-query/useLoginMutate';
 
 export const Login = () => {
-  const { login } = useAuth();
-  const { showSnackbar } = useSnackbar();
-  const { showSpinner, hideSpinner } = useSpinner();
-
-  const navigate = useNavigate();
+  const { showSpinner } = useSpinner();
 
   const {
     value: email,
@@ -39,25 +24,7 @@ export const Login = () => {
 
   const formIsValid = passwordIsValid && emailIsValid;
 
-  const { isPending, mutate } = useMutation<
-    AxiosResponse<LoginResponseData>,
-    AxiosError,
-    LoginInputState
-  >({
-    mutationFn: authService.login,
-    onSuccess: (res: AxiosResponse<LoginResponseData>) => {
-      login(res.data.token, res.data.userId);
-      showSnackbar('Succesfully logged in', 'success');
-      navigate('/');
-    },
-    onError: (error) => {
-      let err = error.response?.data as ApiErrorResponse;
-      showSnackbar(err?.message || 'Could not log in!', 'error');
-    },
-    onSettled: () => {
-      hideSpinner();
-    },
-  });
+  const { isPending, mutate } = useLoginMutate();
 
   const showEmailError = emailError || (isPending && !emailIsValid);
   const showPasswordError = passwordError || (isPending && !passwordIsValid);
