@@ -61,10 +61,9 @@ export const BaseLayout = () => {
   }, [userLocation]);
   return (
     <div className="flex min-h-screen flex-col items-center bg-cyan-800">
-      <BaseHeader />
-      {localCityData && <p>{localCityData.main?.temp} local</p>}
+      <BaseHeader localCityData={localCityData || null} />
 
-      <main className="max-container flex flex-1 justify-center">
+      <main className="max-container py-4 flex flex-1 justify-center">
         <Outlet />
       </main>
       <BaseFooter />

@@ -4,6 +4,7 @@ import { useFetchCityListQuery } from '../hooks/tanstack-query/useFetchCityListQ
 import { CityGeoDataResponse } from '../common/types';
 import { useFetchCityDataQuery } from '../hooks/tanstack-query/useFetchCityDataQuery';
 import { useSpinnerContext } from '../context/spinner-context';
+import { WeatherLocationCard } from '../components/WeatherLocationCard';
 
 export const Home = () => {
   const { hideSpinner, showSpinner } = useSpinnerContext();
@@ -38,6 +39,7 @@ export const Home = () => {
     setSearchTerm(`${city.name}, ${city.country}`);
     setSelectedCity(city);
   };
+
   useEffect(() => {
     locationsService
       .getTrackedLocations()
@@ -60,32 +62,35 @@ export const Home = () => {
 
   return (
     <div>
-      <div className="flex flex-col gap-2">
-        <label htmlFor="email">Search city</label>
+      <div className="flex flex-col gap-2 relative">
         <input
           type="search"
           id="search"
           value={searchTerm}
           onChange={handleChangeSearchTerm}
           className="tw-text-input"
+          autoComplete="off"
+          placeholder="Search location..."
         />
+        {cityListData && cityListData.length > 0 && (
+          <ul className="absolute top-full z-10 bg-white border border-gray-300 rounded shadow-md mt-1 w-full">
+            {cityListData.map((city: any, index: number) => (
+              <li
+                key={index}
+                className="px-4 py-1 cursor-pointer text-sm hover:bg-gray-100"
+                onClick={() => handleSelectCity(city)}
+              >
+                {city.name}, {city.country}
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
-      {cityListData && cityListData.length > 0 && (
-        <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded shadow-md mt-1">
-          {cityListData.map((city: any, index: number) => (
-            <li
-              key={index}
-              className="px-4 py-1 cursor-pointer text-sm hover:bg-gray-100"
-              onClick={() => handleSelectCity(city)}
-            >
-              {city.name}, {city.country}
-            </li>
-          ))}
-        </ul>
-      )}
-      {cityListData?.length === 0 && <p>No results found!</p>}
 
-      {selectedCityData && <p>{selectedCityData.main?.temp}</p>}
+      {cityListData?.length === 0 && <p>No results found!</p>}
+      <ul className="mt-6">
+        {selectedCityData && <WeatherLocationCard weatherData={selectedCityData} />}
+      </ul>
     </div>
   );
 };

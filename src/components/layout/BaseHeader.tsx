@@ -2,8 +2,14 @@ import { useEffect, useMemo, useState } from 'react';
 import { useAuth } from '../../context/user-context';
 import { NavLink } from 'react-router-dom';
 import { ThemeToggle } from '../UI/ThemeToggle';
+import { type BaseWeatherResponseData } from '../../schemas/BaseWeatherSchema';
+import { WeatherLocalWidget } from '../WeatherLocalWidget';
 
-export const BaseHeader = () => {
+type BaseHeaderProps = {
+  localCityData: BaseWeatherResponseData | null;
+};
+
+export const BaseHeader = ({ localCityData }: BaseHeaderProps) => {
   type Link = {
     title: string;
     path: string;
@@ -60,8 +66,9 @@ export const BaseHeader = () => {
   }, []);
 
   return (
-    <header className="flex w-full justify-center bg-slate-800 p-4">
-      <nav className="grid w-full grid-cols-3">
+    <header className="flex w-full relative justify-center bg-slate-800">
+      {localCityData && <WeatherLocalWidget localCityData={localCityData} />}
+      <nav className="grid w-full grid-cols-3 p-4">
         <ul className="col-start-2 flex justify-center gap-6 text-slate-100">
           {navLinks.map((link) => (
             <li
