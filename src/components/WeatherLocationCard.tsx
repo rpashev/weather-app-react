@@ -24,7 +24,9 @@ export const WeatherLocationCard = ({ weatherData }: WeatherLocationCardProps) =
           {Math.round(weatherData.main.temp)}°C
         </div>
         <div className="w-1/2">
-          <label className="font-bold w-full border-b-2 border-gray-400 block my-2">Details</label>
+          <label className="font-bold w-full border-b-2 border-gray-400 block mt-2 mb-1">
+            Details
+          </label>
           <ul className="text-xs pb-2 flex flex-col gap-[4px]">
             <li className="flex justify-between items-end">
               <label>Feels like</label>
