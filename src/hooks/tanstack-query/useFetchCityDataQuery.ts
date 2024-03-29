@@ -15,6 +15,6 @@ export const useFetchCityDataQuery = (coordinates: CoordinatesWeatherApi | null)
       });
       return zodParseResult(response.data, WeatherSchema);
     },
-    enabled: false,
+    // enabled: false,
   });
 };

@@ -1,10 +1,36 @@
-import { BaseWeatherResponseData } from '../schemas/BaseWeatherSchema';
+import { useAuth } from '../context/user-context';
+import { useFetchCityDataQuery } from '../hooks/tanstack-query/useFetchCityDataQuery';
+import { useTrackedLocationMutate } from '../hooks/tanstack-query/useTrackedLocationMutate';
 import { formatTimezoneOffset, formatUnixTimestamp } from '../utils/formatters';
 
-type WeatherLocationCardProps = { weatherData: BaseWeatherResponseData };
-export const WeatherLocationCard = ({ weatherData }: WeatherLocationCardProps) => {
+import { Tooltip } from './UI/Tooltip';
+
+type WeatherLocationCardProps = {
+  coords: { lon: number; lat: number };
+  id?: string;
+};
+export const WeatherLocationCard = ({ coords, id }: WeatherLocationCardProps) => {
+  const { isLoggedIn } = useAuth();
+
+  const { data: weatherData } = useFetchCityDataQuery({
+    lon: coords?.lon!,
+    lat: coords?.lat!,
+  });
+  const { mutate } = useTrackedLocationMutate();
+  if (!weatherData) return;
+
+  const onAddLocation = () => {
+    let data = {
+      lat: weatherData.coord.lat,
+      lon: weatherData.coord.lon,
+      country: weatherData.sys.country,
+      city: weatherData.name,
+    };
+    mutate(data);
+  };
+
   return (
-    <li className="w-80 min-h-64 shadow-md rounded">
+    <li className="w-80 min-w-80 min-h-64 shadow-md rounded relative">
       <div className="rounded-t flex justify-between items-center min-h-20 px-4 bg-gradient-to-r from-amber-500 to-amber-400">
         <div className="flex flex-col py-4">
           <h2 className="text-2xl font-bold">{`${weatherData.name}, ${weatherData.sys.country}`}</h2>
@@ -45,15 +71,15 @@ export const WeatherLocationCard = ({ weatherData }: WeatherLocationCardProps) =
               <label className="font-bold text-[13px]">{weatherData.main.humidity}%</label>
             </li>
             <li className="flex justify-between items-end">
-              <label>Min Temp</label>
+              <label>Sunrise</label>
               <label className="font-bold text-[13px]">
-                {Math.round(weatherData.main.temp_min)}°C
+                {formatUnixTimestamp(weatherData.sys?.sunrise, weatherData.timezone, true)}
               </label>
             </li>
             <li className="flex justify-between items-end">
-              <label>Max Temp</label>
+              <label>Sunset</label>
               <label className="font-bold text-[13px]">
-                {Math.round(weatherData.main.temp_max)}°C
+                {formatUnixTimestamp(weatherData.sys?.sunset, weatherData.timezone, true)}
               </label>
             </li>
           </ul>
@@ -65,6 +91,27 @@ export const WeatherLocationCard = ({ weatherData }: WeatherLocationCardProps) =
           {formatTimezoneOffset(weatherData.timezone)}
         </label>
       </div>
+      {isLoggedIn && (
+        <div className=" absolute top-0 right-0">
+          {!id && (
+            <Tooltip content="Add to tracked locations">
+              <button
+                onClick={onAddLocation}
+                className="px-1 py-0 font-semibold text-2xl enabled:hover:bg-amber-300 transition-all"
+              >
+                +
+              </button>
+            </Tooltip>
+          )}
+          {id && (
+            <Tooltip content="Remove from tracked locations">
+              <button className="px-1 py-0 font-extrabold text-md text-red-600 enabled:hover:bg-amber-300 transition-all">
+                &#10005;
+              </button>
+            </Tooltip>
+          )}
+        </div>
+      )}
     </li>
   );
 };

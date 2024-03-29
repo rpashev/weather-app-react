@@ -9,17 +9,23 @@ const optionsDate: Intl.DateTimeFormatOptions = {
   day: '2-digit',
 };
 
-export const formatUnixTimestamp = (timestamp: number, timezoneOffset: number = 0): string => {
+export const formatUnixTimestamp = (
+  timestamp: number,
+  timezoneOffset: number = 0,
+  onlyTime = false
+): string | undefined => {
+  if (!timestamp) return;
+
   const defaultTimezoneOffset = new Date().getTimezoneOffset() * 60;
   const adjustedTimestamp = (timestamp + timezoneOffset + defaultTimezoneOffset) * 1000;
 
   const date = new Date(adjustedTimestamp);
   const formattedTime = new Intl.DateTimeFormat('en-US', optionsTime).format(date);
   const formattedDate = new Intl.DateTimeFormat('en-US', optionsDate).format(date);
-
-  const formattedDateTime = `${formattedTime}, ${formattedDate}`;
-
-  return formattedDateTime;
+  if (onlyTime) {
+    return formattedTime;
+  }
+  return `${formattedTime}, ${formattedDate}`;
 };
 
 export const formatTimezoneOffset = (offsetSeconds: number): string => {

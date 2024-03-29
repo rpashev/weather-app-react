@@ -63,7 +63,7 @@ export const BaseLayout = () => {
     <div className="flex min-h-screen flex-col items-center bg-cyan-800">
       <BaseHeader localCityData={localCityData || null} />
 
-      <main className="max-container py-4 flex flex-1 justify-center">
+      <main className="max-container w-full py-4 flex flex-1 justify-center">
         <Outlet />
       </main>
       <BaseFooter />
