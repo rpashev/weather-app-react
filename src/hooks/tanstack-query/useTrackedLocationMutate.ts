@@ -21,7 +21,7 @@ export const useTrackedLocationMutate = () => {
     TrackedLocationInputData
   >({
     mutationFn: locationsService.saveTrackedLocation,
-    onSuccess: (res: AxiosResponse<TrackedLocationResponseData>) => {
+    onSuccess: () => {
       showSnackbar('Successfully added location', 'success');
       queryClient.invalidateQueries({ queryKey: ['fetch-tracked-locations'] });
     },
