@@ -8,6 +8,6 @@ export default {
     return http.post(`${import.meta.env.VITE_APP_BASE_URL}weather-api/locations`, body);
   },
   deleteTrackedLocation(locationId: string) {
-    return http.get(`${import.meta.env.VITE_APP_BASE_URL}weather-api/locations/${locationId}`);
+    return http.delete(`${import.meta.env.VITE_APP_BASE_URL}weather-api/locations/${locationId}`);
   },
 };

@@ -13,3 +13,4 @@ export const TrackedLocationListSchema = z.object({
 });
 
 export type TrackedLocationsType = z.infer<typeof TrackedLocationListSchema>;
+export type TrackedSingleLocationType = z.infer<typeof SingleTrackedLocationSchema>;

@@ -21,10 +21,13 @@ export const BaseLayout = () => {
   const { showSnackbar } = useSnackbar();
   const { hideSpinner, showSpinner } = useSpinnerContext();
 
-  const { data: localCityData, refetch: fetchLocalCityData } = useFetchCityDataQuery({
-    lon: userLocation?.longitude!,
-    lat: userLocation?.latitude!,
-  });
+  const { data: localCityData, refetch: fetchLocalCityData } = useFetchCityDataQuery(
+    {
+      lon: userLocation?.longitude!,
+      lat: userLocation?.latitude!,
+    },
+    false
+  );
 
   useEffect(() => {
     const getUserLocation = async () => {

@@ -5,19 +5,26 @@ import { useTrackedLocationMutate } from '../hooks/tanstack-query/useTrackedLoca
 import { formatTimezoneOffset, formatUnixTimestamp } from '../utils/formatters';
 
 import { Tooltip } from './UI/Tooltip';
+import { useDeleteTrackedLocationMutate } from '../hooks/tanstack-query/useDeleteTrackedLocationMutate';
 
 type WeatherLocationCardProps = {
   coords: { lon: number; lat: number };
   id?: string;
+  locationAlreadyTracked?: boolean;
 };
-export const WeatherLocationCard = ({ coords, id }: WeatherLocationCardProps) => {
+export const WeatherLocationCard = ({
+  coords,
+  id,
+  locationAlreadyTracked,
+}: WeatherLocationCardProps) => {
   const { isLoggedIn } = useAuth();
 
   const { data: weatherData } = useFetchCityDataQuery({
     lon: coords?.lon!,
     lat: coords?.lat!,
   });
-  const { mutate } = useTrackedLocationMutate();
+  const { mutate: saveLocation } = useTrackedLocationMutate();
+  const { mutate: deleteLocation } = useDeleteTrackedLocationMutate();
 
   const [disableParentTooltip, setDisableParentTooltip] = useState(false);
   const toggleParentTooltip = () => {
@@ -28,12 +35,16 @@ export const WeatherLocationCard = ({ coords, id }: WeatherLocationCardProps) =>
 
   const onAddLocation = () => {
     let data = {
-      lat: weatherData.coord.lat,
-      lon: weatherData.coord.lon,
+      lat: coords.lat,
+      lon: coords.lon,
       country: weatherData.sys.country,
       city: weatherData.name,
     };
-    mutate(data);
+    saveLocation(data);
+  };
+
+  const onDeleteLocation = () => {
+    deleteLocation(id!);
   };
 
   return (
@@ -101,7 +112,7 @@ export const WeatherLocationCard = ({ coords, id }: WeatherLocationCardProps) =>
         </div>
         {isLoggedIn && (
           <div className=" absolute top-0 right-0">
-            {!id && (
+            {!id && !locationAlreadyTracked && (
               <Tooltip content="Add to tracked locations">
                 <button
                   onMouseEnter={toggleParentTooltip}
@@ -119,6 +130,7 @@ export const WeatherLocationCard = ({ coords, id }: WeatherLocationCardProps) =>
                   className="px-1 py-0 font-extrabold text-md text-red-600 enabled:hover:bg-amber-300 transition-all"
                   onMouseEnter={toggleParentTooltip}
                   onMouseLeave={toggleParentTooltip}
+                  onClick={onDeleteLocation}
                 >
                   &#10005;
                 </button>
