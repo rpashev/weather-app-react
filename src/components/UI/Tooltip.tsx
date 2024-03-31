@@ -23,7 +23,10 @@ export const Tooltip = ({ children, content, disable }: TooltipProps) => {
         {children}
       </div>
       {showTooltip && !disable && (
-        <div className="absolute z-10 px-2 py-1 bg-gray-800 text-white text-xs rounded shadow whitespace-nowrap">
+        <div
+          className="animate-fade absolute -top-8 z-10 px-2 py-1 bg-gray-800 text-white text-xs rounded shadow whitespace-nowrap"
+          style={{ opacity: 1, transition: 'opacity 0.3s ease' }}
+        >
           {content}
         </div>
       )}

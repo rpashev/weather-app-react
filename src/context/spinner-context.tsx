@@ -2,10 +2,10 @@ import { createContext, useContext, useState } from 'react';
 import { Spinner } from '../components/UI/Spinner';
 import { Backdrop } from '../components/UI/Backdrop';
 
-interface SpinnerContextType {
+type SpinnerContextType = {
   showSpinner: () => void;
   hideSpinner: () => void;
-}
+};
 
 const SpinnerContext = createContext<SpinnerContextType>({
   showSpinner: () => {},
