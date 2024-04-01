@@ -40,7 +40,8 @@ export const WeatherLocationCard = ({
 
   if (!weatherData) return;
 
-  const onAddLocation = () => {
+  const onAddLocation = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
     let data = {
       lat: coords.lat,
       lon: coords.lon,
@@ -50,7 +51,8 @@ export const WeatherLocationCard = ({
     saveLocation(data);
   };
 
-  const onDeleteLocation = () => {
+  const onDeleteLocation = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
     deleteLocation(id!);
   };
 

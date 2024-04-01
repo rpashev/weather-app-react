@@ -3,7 +3,7 @@ import { Backdrop } from './UI/Backdrop';
 import { calculateDailyForecast } from '../utils/format-weather-forcast-data';
 import { BaseWeatherResponseData } from '../schemas/BaseWeatherSchema';
 
-type WeatherDetailsDialogProps = {
+type PropsType = {
   setDetailsDialogIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   coords: { lon: number; lat: number };
   currentWeatherData: BaseWeatherResponseData;
@@ -12,7 +12,7 @@ export const WeatherDetailsDialog = ({
   setDetailsDialogIsOpen,
   coords,
   currentWeatherData,
-}: WeatherDetailsDialogProps) => {
+}: PropsType) => {
   const closeDialog = () => setDetailsDialogIsOpen(false);
 
   const { data: weatherForecastData } = useFetchWeatherForecastQuery({
@@ -30,7 +30,7 @@ export const WeatherDetailsDialog = ({
       <Backdrop onClickBackdrop={closeDialog} />
       <dialog
         open
-        className="z-50 flex flex-col tw-fixed-center bg-red w-[900px] h-[500px] mx-auto "
+        className="z-50 flex flex-col tw-fixed-center bg-red w-[900px] max-w-[95%] h-[500px] mx-auto "
       >
         <header className="relative flex justify-between items-center tw-gradient-main py-3 px-4 text-xl font-bold">
           <h2>Weather for {`${currentWeatherData.name}, ${currentWeatherData.sys.country}`}</h2>
