@@ -124,11 +124,13 @@ label:after {
   .tw-text-input {
     @apply h-10 rounded border-2 px-2 py-3 text-slate-800 focus:border-cyan-300 focus:outline-none focus:ring-1;
   }
-
   .tw-fixed-center-x {
     @apply fixed left-1/2 transform -translate-x-1/2;
   }
   .tw-fixed-center {
     @apply fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2;
+  }
+  .tw-gradient-main {
+    @apply bg-gradient-to-r from-amber-500 to-amber-400;
   }
 }

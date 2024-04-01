@@ -1,15 +1,17 @@
 import { useFetchWeatherForecastQuery } from '../hooks/tanstack-query/useFetchWeatherForecastQuery';
 import { Backdrop } from './UI/Backdrop';
-import { dummyData } from '../utils/dummyForecast';
-import { getDate, getDayOfWeek, groupBy } from '../utils/formatters';
+import { calculateDailyForecast } from '../utils/format-weather-forcast-data';
+import { BaseWeatherResponseData } from '../schemas/BaseWeatherSchema';
 
 type WeatherDetailsDialogProps = {
   setDetailsDialogIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   coords: { lon: number; lat: number };
+  currentWeatherData: BaseWeatherResponseData;
 };
 export const WeatherDetailsDialog = ({
   setDetailsDialogIsOpen,
   coords,
+  currentWeatherData,
 }: WeatherDetailsDialogProps) => {
   const closeDialog = () => setDetailsDialogIsOpen(false);
 
@@ -19,115 +21,49 @@ export const WeatherDetailsDialog = ({
   });
   if (!weatherForecastData) return;
 
-  const groupedByDate = groupBy(dummyData.list, (item) => {
-    return item.dt_txt.split(' ')[0];
-  });
-
-  const keys = Object.keys(groupedByDate);
-
-  // Remove the last key (last day) if it exists
-  if (keys.length > 0) {
-    delete groupedByDate[keys[keys.length - 1]];
-  }
-
-  interface WeatherForecast {
-    dt: number;
-    main: {
-      temp: number;
-    };
-    weather: {
-      description: string;
-      icon: string;
-    }[];
-  }
-
-  type GroupedForecast = Record<string, WeatherForecast[]>;
-
-  type DailyForecast = {
-    avgTempDay: number;
-    avgTempNight: number;
-    minTempDay: number;
-    minTempNight: number;
-    maxTempDay: number;
-    maxTempNight: number;
-    avgDescriptionDay: string;
-    mostCommonIconDay: string;
-    day: string;
-    date: string;
-  };
-
-  type DailyForecastData = Record<string, DailyForecast>;
-
-  function calculateDailyForecast(groupedData: GroupedForecast): DailyForecastData {
-    const dailyForecastData: DailyForecastData = {};
-
-    for (const [dateString, dailyData] of Object.entries(groupedData)) {
-      const dayOfWeek = getDayOfWeek(dateString);
-      const tempDaytimeArray: number[] = [];
-      const tempNighttimeArray: number[] = [];
-      const weatherDaytimeDescriptions: string[] = [];
-      const weatherDaytimeIcons: string[] = [];
-
-      for (const forecast of dailyData) {
-        const hour = new Date(forecast.dt * 1000).getHours();
-        const isDaytime = hour >= 6 && hour <= 18;
-        if (isDaytime) {
-          tempDaytimeArray.push(forecast.main.temp);
-          weatherDaytimeDescriptions.push(forecast.weather[0].description);
-          weatherDaytimeIcons.push(forecast.weather[0].icon);
-        } else {
-          tempNighttimeArray.push(forecast.main.temp);
-        }
-      }
-
-      const avgTempDay = Math.round(
-        tempDaytimeArray.reduce((a, b) => a + b, 0) / tempDaytimeArray.length
-      );
-      const avgTempNight = Math.round(
-        tempNighttimeArray.reduce((a, b) => a + b, 0) / tempNighttimeArray.length
-      );
-      const minTempDay = Math.round(Math.min(...tempDaytimeArray));
-      const minTempNight = Math.round(Math.min(...tempNighttimeArray));
-      const maxTempDay = Math.round(Math.max(...tempDaytimeArray));
-      const maxTempNight = Math.round(Math.max(...tempNighttimeArray));
-      const avgDescriptionDay = getMostFrequentItem(weatherDaytimeDescriptions);
-      const mostCommonIconDay = getMostFrequentItem(weatherDaytimeIcons);
-
-      dailyForecastData[dateString] = {
-        avgTempDay,
-        avgTempNight,
-        minTempDay,
-        minTempNight,
-        avgDescriptionDay,
-        mostCommonIconDay,
-        maxTempDay,
-        maxTempNight,
-        day: dayOfWeek,
-        date: getDate(dateString),
-      };
-    }
-
-    return dailyForecastData;
-  }
-
-  function getMostFrequentItem<T>(arr: T[]): T {
-    return arr.reduce(
-      (acc, val) =>
-        arr.filter((v) => v === acc).length > arr.filter((v) => v === val).length ? acc : val,
-      arr[0]
-    );
-  }
-
-  const dailyForecastData = calculateDailyForecast(groupedByDate);
+  const dailyForecastData = calculateDailyForecast(weatherForecastData.list);
   console.log(dailyForecastData);
+  console.log(currentWeatherData);
 
   return (
     <>
       <Backdrop onClickBackdrop={closeDialog} />
-      <dialog open className="z-50 tw-fixed-center bg-red w-[900px] h-[500px] mx-auto ">
-        <button onClick={closeDialog}>Close</button>
-        <div>WeatherDetailsDialog</div>
-        <div>{JSON.stringify(weatherForecastData)}</div>
+      <dialog
+        open
+        className="z-50 flex flex-col tw-fixed-center bg-red w-[900px] h-[500px] mx-auto "
+      >
+        <header className="relative flex justify-between items-center tw-gradient-main py-3 px-4 text-xl font-bold">
+          <h2>Weather for {`${currentWeatherData.name}, ${currentWeatherData.sys.country}`}</h2>
+          <button
+            className="px-1 py-0 font-extrabold text-2xl text-grey-600 enabled:hover:bg-amber-300 transition-all"
+            onClick={closeDialog}
+          >
+            &#10005;
+          </button>
+        </header>
+        <div className="flex justify-between gap-5">
+          <div>left - first timestamp temp, icon + details(wind, feels like, pop)</div>
+          <div>
+            right - 'Weather' title, day name + local timestamp if hourly below, description below{' '}
+          </div>
+        </div>
+        <div className="flex justify-between gap-5">
+          clickable graph with hourly temperatures and timestamps - on click changes upper section.
+          Maybe toggle graph for wind
+        </div>
+        <div className="flex justify-between gap-5">
+          list of clickable 5 days with min/max day/night, dayname and icon. On click it changes
+          data above
+        </div>
+
+        <div className="flex justify-end items-center mt-auto px-4 py-3">
+          <button
+            className="bg-slate-200 hover:bg-slate-300 transition-all text-slate-600 px-4 py-2 rounded"
+            onClick={closeDialog}
+          >
+            Close
+          </button>
+        </div>
       </dialog>
     </>
   );

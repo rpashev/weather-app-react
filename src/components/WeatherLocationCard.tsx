@@ -61,7 +61,7 @@ export const WeatherLocationCard = ({
           onClick={openDetailsDialog}
           className="w-80 min-w-80 min-h-64 shadow-md rounded relative cursor-pointer"
         >
-          <div className="rounded-t flex justify-between items-center min-h-20 px-4 bg-gradient-to-r from-amber-500 to-amber-400">
+          <div className="rounded-t flex justify-between items-center min-h-20 px-4 tw-gradient-main">
             <div className="flex flex-col py-4">
               <h2 className="text-2xl font-bold">{`${weatherData.name}, ${weatherData.sys.country}`}</h2>
               <label className="text-sm text-gray-700 font-medium">
@@ -118,7 +118,7 @@ export const WeatherLocationCard = ({
               </ul>
             </div>
           </div>
-          <div className="rounded-b text-xs h-8 bg-gradient-to-r from-amber-500 to-amber-400 flex justify-end items-center p-2">
+          <div className="rounded-b text-xs h-8 tw-gradient-main flex justify-end items-center p-2">
             <label className="text-[12px]">
               {formatUnixTimestamp(weatherData.dt, weatherData.timezone)}, &nbsp;
               {formatTimezoneOffset(weatherData.timezone)}
@@ -155,7 +155,11 @@ export const WeatherLocationCard = ({
         </li>
       </Tooltip>
       {detailsDialogIsOpen && (
-        <WeatherDetailsDialog coords={coords} setDetailsDialogIsOpen={setDetailsDialogIsOpen} />
+        <WeatherDetailsDialog
+          coords={coords}
+          setDetailsDialogIsOpen={setDetailsDialogIsOpen}
+          currentWeatherData={weatherData}
+        />
       )}
     </>
   );

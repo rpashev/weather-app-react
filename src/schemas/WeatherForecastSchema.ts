@@ -35,7 +35,11 @@ const ForecastSchema = z.object({
   wind: WindSchema,
   clouds: CloudsSchema,
   sys: SysSchema,
+  dt_txt: z.string(),
+  pop: z.number(),
 });
+
+const WeatherForecastHourlyListSchema = z.array(ForecastSchema);
 
 export const WeatherForecastSchema = z.object({
   cod: z.string(),
@@ -58,3 +62,4 @@ export const WeatherForecastSchema = z.object({
 });
 
 export type WeatherForecastResponseData = z.infer<typeof WeatherForecastSchema>;
+export type WeatherForecastHourlyListType = z.infer<typeof WeatherForecastHourlyListSchema>;
