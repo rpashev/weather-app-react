@@ -36,3 +36,36 @@ export const formatTimezoneOffset = (offsetSeconds: number): string => {
   const minutes = Math.floor((absoluteOffsetHours - hours) * 60);
   return `GMT${sign}${hours}:${String(minutes).padStart(2, '0')}`;
 };
+
+type Grouped<T, K extends string | number> = Record<K, T[]>;
+
+export function groupBy<T, K extends string | number>(
+  arr: T[],
+  getKey: (item: T) => K
+): Grouped<T, K> {
+  return arr.reduce(
+    (acc, item) => {
+      const key = getKey(item);
+      if (!acc[key]) {
+        acc[key] = [];
+      }
+      acc[key].push(item);
+      return acc;
+    },
+    {} as Grouped<T, K>
+  );
+}
+
+export const getDayOfWeek = (dateString: string): string => {
+  const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const date = new Date(dateString);
+  const dayIndex = date.getDay();
+  return daysOfWeek[dayIndex];
+};
+
+export const getDate = (dateString: string): string => {
+  const date = new Date(dateString);
+  const month = date.toLocaleString('default', { month: 'long' });
+  const day = date.getDate();
+  return `${month} ${day}`;
+};

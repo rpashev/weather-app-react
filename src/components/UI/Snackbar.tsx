@@ -35,7 +35,7 @@ export const Snackbar = ({ mode, message }: Props) => {
 
   return (
     <p
-      className={`tw-fixed-center bottom-16 ${showSnackbar ? 'translate-y-0 opacity-100' : '-translate-y-8 opacity-0'} w-full font-semibold rounded px-4 py-3 text-center tracking-wider
+      className={`tw-fixed-center-x bottom-16 ${showSnackbar ? 'translate-y-0 opacity-100' : '-translate-y-8 opacity-0'} w-full font-semibold rounded px-4 py-3 text-center tracking-wider
        text-white transition-all duration-300 sm:w-[500px] ${getBackgroundColor()}`}
     >
       {message}
