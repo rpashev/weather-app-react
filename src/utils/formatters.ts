@@ -69,3 +69,15 @@ export const getDate = (dateString: string): string => {
   const day = date.getDate();
   return `${month} ${day}`;
 };
+
+export const getAdjustedTimestamp = (timestamp: number, timezoneOffset: number): number => {
+  // Adjust the timestamp by adding the timezone offset
+  const adjustedTimestamp = timestamp + timezoneOffset;
+
+  return adjustedTimestamp;
+};
+
+export const getDateFromTimezone = (timestamp: number, timezoneOffset: number): string => {
+  const date = new Date(getAdjustedTimestamp(timestamp, timezoneOffset) * 1000);
+  return date.toISOString().split('T')[0];
+};

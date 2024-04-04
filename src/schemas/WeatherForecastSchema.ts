@@ -63,3 +63,4 @@ export const WeatherForecastSchema = z.object({
 
 export type WeatherForecastResponseData = z.infer<typeof WeatherForecastSchema>;
 export type WeatherForecastHourlyListType = z.infer<typeof WeatherForecastHourlyListSchema>;
+export type HourlyForecastType = z.infer<typeof ForecastSchema>;
