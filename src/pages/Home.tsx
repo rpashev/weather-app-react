@@ -56,7 +56,7 @@ export const Home = () => {
                 Edit
               </button>
             </h2>
-            <ul className="w-full grid grid-cols-[repeat(auto-fit,minmax(320px,1fr))] gap-10 mt-6 justify-items-center">
+            <ul className="w-full flex gap-12 mt-6 place-items-center place-content-center flex-wrap">
               {trackedLocationList &&
                 trackedLocationList.locations?.length &&
                 trackedLocationList.locations.map((location) => {

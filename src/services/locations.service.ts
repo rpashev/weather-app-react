@@ -10,4 +10,7 @@ export default {
   deleteTrackedLocation(locationId: string) {
     return http.delete(`${import.meta.env.VITE_APP_BASE_URL}weather-api/locations/${locationId}`);
   },
+  replaceTrackedLocations(body: { locations: string[] }) {
+    return http.post(`${import.meta.env.VITE_APP_BASE_URL}weather-api/locations/all`, body);
+  },
 };

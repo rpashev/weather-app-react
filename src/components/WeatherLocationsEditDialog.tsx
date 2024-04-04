@@ -1,73 +1,23 @@
 import { TrackedLocationsType } from '../schemas/TrackedLocationsSchema';
 import { Backdrop } from './UI/Backdrop';
 import { DndContext, MouseSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
-import { useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { SortableContext } from '@dnd-kit/sortable';
-import { useCallback, useEffect, useState } from 'react';
-import { Tooltip } from './UI/Tooltip';
-
-type SortableItemProps = {
-  id: string;
-  city: string;
-  country: string;
-  setLocations: React.Dispatch<
-    React.SetStateAction<
-      {
-        lat: number;
-        lon: number;
-        country: string;
-        city: string;
-        id: string;
-      }[]
-    >
-  >;
-};
-
-const SortableItem = ({ id, city, country, setLocations }: SortableItemProps) => {
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
-    id,
-  });
-  const onDeleteLocation = () => {
-    setLocations((prevLocations) => prevLocations.filter((item) => item.id !== id));
-  };
-
-  return (
-    <li
-      ref={setNodeRef}
-      style={{
-        transform: transform ? `translate(${transform.x}px, ${transform.y}px)` : undefined,
-        transition,
-      }}
-      {...attributes}
-      {...listeners}
-      key={id}
-      className="p-2 border-2 border-b-0 last:border-b-2 border-slate-200"
-    >
-      <div className="flex justify-between items-center">
-        <span>
-          {city}, {country}
-        </span>
-        <Tooltip content="Remove from tracked locations">
-          <button
-            onClick={onDeleteLocation}
-            className="px-1 py-0 font-extrabold text-md text-red-600 enabled:hover:bg-amber-300 transition-all"
-          >
-            &#10005;
-          </button>
-        </Tooltip>
-      </div>
-    </li>
-  );
-};
+import { useCallback, useState } from 'react';
+import { useReplaceTrackedLocationsMutate } from '../hooks/tanstack-query/useReplaceTrackedLocationsMutate.';
+import { SortableItem } from './WeatherLocationSortableItem';
 
 type PropsType = {
   setLocationsEditDialogIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   trackedLocationList: TrackedLocationsType;
 };
+
 export const WeatherLocationsEditDialog = ({
   trackedLocationList,
   setLocationsEditDialogIsOpen,
 }: PropsType) => {
+  const { mutate, isError } = useReplaceTrackedLocationsMutate();
+
   const [locations, setLocations] = useState(trackedLocationList.locations);
   const closeDialog = () => setLocationsEditDialogIsOpen(false);
 
@@ -79,11 +29,6 @@ export const WeatherLocationsEditDialog = ({
     }),
     useSensor(MouseSensor)
   );
-
-  useEffect(() => {
-    console.log(locations);
-    console.log(locations.map((item) => item.id));
-  }, [locations]);
 
   const handleDragEnd = useCallback(
     ({ active, over }: { active: any; over: any }) => {
@@ -98,6 +43,14 @@ export const WeatherLocationsEditDialog = ({
     },
     [locations]
   );
+
+  const onSubmit = () => {
+    let payload = { locations: locations.map((item) => item.id) };
+    mutate(payload);
+    if (!isError) {
+      closeDialog();
+    }
+  };
 
   return (
     <>
@@ -143,6 +96,7 @@ export const WeatherLocationsEditDialog = ({
             Close
           </button>
           <button
+            onClick={onSubmit}
             className="rounded bg-cyan-600 px-4 py-2 tracking-wider text-slate-100
              transition-all enabled:hover:bg-cyan-500
              disabled:cursor-not-allowed disabled:opacity-70"
