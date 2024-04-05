@@ -4,6 +4,9 @@ import { calculateDailyForecast } from '../utils/format-weather-forcast-data';
 import { BaseWeatherResponseData } from '../schemas/BaseWeatherSchema';
 import { useEffect, useState } from 'react';
 import { formatUnixTimestamp, getDateFromTimezone } from '../utils/formatters';
+import { LineChart } from './UI/LineChart';
+import { HourlyForecastType } from '../schemas/WeatherForecastSchema';
+import { WeatherChartFilterType } from '../common/types';
 
 type PropsType = {
   setDetailsDialogIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -19,6 +22,7 @@ export const WeatherDetailsDialog = ({
 
   const [activeTimestamp, setActiveTimestamp] = useState<string | null>(null);
   const [activeDay, setActiveDay] = useState<string | null>(null);
+  const [activeFilter, setActiveFilter] = useState<WeatherChartFilterType>('Temp');
 
   const { data: weatherForecastData } = useFetchWeatherForecastQuery({
     lon: coords?.lon!,
@@ -31,9 +35,11 @@ export const WeatherDetailsDialog = ({
   };
   useEffect(() => {
     if (weatherForecastData) {
-      setActiveDay(
-        getDateFromTimezone(weatherForecastData.list[0].dt, currentWeatherData.timezone)
+      let defaultActiveDay = getDateFromTimezone(
+        weatherForecastData.list[0].dt,
+        currentWeatherData.timezone
       );
+      setActiveDay(defaultActiveDay);
     }
   }, [weatherForecastData]);
 
@@ -44,12 +50,55 @@ export const WeatherDetailsDialog = ({
     weatherForecastData.city.timezone
   );
 
+  let dateKeys = Object.keys(dailyForecastData);
+
+  const mapFilteredHourlyDataForChart = (
+    data: HourlyForecastType,
+    filter: WeatherChartFilterType
+  ) => {
+    if (filter === 'Temp') {
+      return Math.round(data.main.temp);
+    }
+    if (filter === 'Rain') {
+      return Math.round(data.pop * 100);
+    }
+    if (filter === 'Wind') {
+      return Math.round(data.wind.speed);
+    }
+  };
+
+  const getdefaultActiveHourlyChartData = () => {
+    let defaultActiveHourlyChartData = Object.values(dailyForecastData[activeDay]?.hourlyData).map(
+      (data) => mapFilteredHourlyDataForChart(data, activeFilter)
+    );
+
+    if (defaultActiveHourlyChartData.length !== 8) {
+      defaultActiveHourlyChartData = defaultActiveHourlyChartData.concat(
+        Object.values(dailyForecastData[dateKeys[1]]?.hourlyData)
+          .map((data) => mapFilteredHourlyDataForChart(data, activeFilter))
+          .slice(0, 8 - defaultActiveHourlyChartData.length)
+      );
+    }
+
+    return defaultActiveHourlyChartData;
+  };
+
+  const getAdditionalTimestampsFromNextDay = () => {
+    if (Object.keys(dailyForecastData[activeDay]?.hourlyData).length !== 8) {
+      return Object.keys(dailyForecastData[dateKeys[1]]?.hourlyData)?.slice(
+        0,
+        8 - Object.keys(dailyForecastData[activeDay]?.hourlyData).length
+      );
+    }
+    return;
+  };
+
   return (
     <>
       <Backdrop onClickBackdrop={closeDialog} />
       <dialog
         open
-        className="z-50 flex flex-col tw-fixed-center bg-red w-[900px] max-w-[95%] h-[700px] mx-auto "
+        className="z-50 flex flex-col tw-fixed-center bg-red w-[850px] max-w-[95%] h-[800px] mx-auto "
       >
         <header className="relative flex justify-between items-center tw-gradient-main py-3 px-4 text-xl font-bold">
           <h2>Weather for {`${currentWeatherData.name}, ${currentWeatherData.sys.country}`}</h2>
@@ -80,7 +129,7 @@ export const WeatherDetailsDialog = ({
             <div style={{ fontFamily: 'Arial' }} className="text-5xl tracking-tight font-bold">
               {activeTimestamp &&
                 Math.round(dailyForecastData[activeDay]?.hourlyData[activeTimestamp]?.main?.temp)}
-              {!activeTimestamp && Math.round(dailyForecastData[activeDay]?.avgTemp || 0)}
+              {!activeTimestamp && Math.round(dailyForecastData[activeDay]?.maxTemp || 0)}
               °C
             </div>
           </div>
@@ -95,6 +144,36 @@ export const WeatherDetailsDialog = ({
             </div>
           </div>
         </div>
+        <div className="flex gap-4 px-6 mx-auto">
+          <div
+            onClick={() => setActiveFilter('Temp')}
+            className={`flex flex-col
+                   items-center rounded
+                   hover:bg-slate-200 cursor-pointer p-2 transition-all ${activeFilter === 'Temp' && 'bg-slate-200'}`}
+          >
+            Temperature
+          </div>
+          <div
+            onClick={() => setActiveFilter('Wind')}
+            className={`flex flex-col
+                   items-center rounded
+                   hover:bg-slate-200 cursor-pointer p-2 transition-all ${activeFilter === 'Wind' && 'bg-slate-200'}`}
+          >
+            Wind
+          </div>
+          <div
+            onClick={() => setActiveFilter('Rain')}
+            className={`flex flex-col
+                   items-center rounded
+                   hover:bg-slate-200 cursor-pointer p-2 transition-all ${activeFilter === 'Rain' && 'bg-slate-200'}`}
+          >
+            Precipitation
+          </div>
+        </div>
+
+        {getdefaultActiveHourlyChartData() && (
+          <LineChart datasetValues={getdefaultActiveHourlyChartData()} mode={activeFilter} />
+        )}
         {/* <div className="flex justify-between gap-5">
           clickable graph with hourly temperatures and timestamps - on click changes upper section.
           Maybe toggle graph for wind
@@ -104,7 +183,7 @@ export const WeatherDetailsDialog = ({
           data above
         </div> */}
         <div className="flex justify-between flex-col gap-10 px-6 mt-6">
-          <div className="flex items-center gap-10">
+          <div className="flex items-center justify-between gap-10">
             {Object.keys(dailyForecastData[activeDay]?.hourlyData)?.map((timestamp) => {
               return (
                 <div
@@ -118,8 +197,27 @@ export const WeatherDetailsDialog = ({
                 </div>
               );
             })}
+            {getAdditionalTimestampsFromNextDay() &&
+              getAdditionalTimestampsFromNextDay()
+                ?.slice(0, 8 - Object.keys(dailyForecastData[activeDay]?.hourlyData).length)
+                .map((timestamp) => {
+                  return (
+                    <div
+                      key={timestamp}
+                      onClick={() => {
+                        setActiveTimestamp(timestamp);
+                        setActiveDay(dateKeys[1]);
+                      }}
+                      className={`flex flex-col
+                   items-center rounded
+                   hover:bg-slate-200 cursor-pointer p-2 transition-all ${activeTimestamp === timestamp && 'bg-slate-200'}`}
+                    >
+                      {formatUnixTimestamp(+timestamp, 0, true)}
+                    </div>
+                  );
+                })}
           </div>
-          <div className="flex gap-6">
+          <div className="flex justify-between">
             {Object.keys(dailyForecastData).map((date) => {
               return (
                 <div

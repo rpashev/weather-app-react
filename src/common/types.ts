@@ -66,3 +66,5 @@ export type BaseSingleLocationWeather = TrackedLocationInputData & {
   descriptionWeather: string;
   weatherIcon: string;
 };
+
+export type WeatherChartFilterType = 'Temp' | 'Wind' | 'Rain';

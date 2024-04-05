@@ -30,7 +30,6 @@ export const getForecastByDates = (data: WeatherForecastHourlyListType, timezone
   if (keys.length > 0) {
     delete groupedByDate[keys[keys.length - 1]];
   }
-  console.log(groupedByDate);
   return groupedByDate;
 };
 
@@ -40,7 +39,6 @@ export const calculateDailyForecast = (
 ): DailyForecastData => {
   const dailyForecastData: DailyForecastData = {};
   const groupedData = getForecastByDates(data, timezone);
-  console.log(data);
   for (const [dateString, dailyData] of Object.entries(groupedData)) {
     const dayOfWeek = getDayOfWeek(dateString);
     const tempArray: number[] = [];
@@ -58,15 +56,10 @@ export const calculateDailyForecast = (
 
     for (const forecast of dailyData) {
       const hour = new Date(getAdjustedTimestamp(forecast.dt, timezone) * 1000).getHours();
-      if (dailyData.length < 5) {
-        console.log(hour);
-      }
+
       const isDaytime = hour >= 6 && hour <= 18;
 
       if (isDaytime) {
-        if (dailyData.length < 5) {
-          console.log(forecast.weather[0].icon);
-        }
         weatherDaytimeDescriptions.push(forecast.weather[0].description);
         weatherDaytimeIcons.push(forecast.weather[0].icon);
       } else {
