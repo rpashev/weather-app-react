@@ -5,14 +5,11 @@ import {
 import { getAdjustedTimestamp, getDate, getDayOfWeek, groupBy } from './formatters';
 
 type DailyForecast = {
-  avgTempDay: number | null;
-  avgTempNight: number | null;
-  minTempDay: number | null;
-  minTempNight: number | null;
-  maxTempDay: number | null;
-  maxTempNight: number | null;
-  avgDescriptionDay: string;
-  mostCommonIconDay: string;
+  avgTemp: number;
+  maxTemp: number;
+  minTemp: number;
+  avgDescription: string;
+  mostCommonIcon: string;
   day: string;
   date: string;
   hourlyData: HourlyForecastData;
@@ -46,8 +43,7 @@ export const calculateDailyForecast = (
   console.log(data);
   for (const [dateString, dailyData] of Object.entries(groupedData)) {
     const dayOfWeek = getDayOfWeek(dateString);
-    const tempDaytimeArray: number[] = [];
-    const tempNighttimeArray: number[] = [];
+    const tempArray: number[] = [];
     const weatherDaytimeDescriptions: string[] = [];
     const weatherNighttimeDescriptions: string[] = [];
     const weatherDaytimeIcons: string[] = [];
@@ -71,42 +67,33 @@ export const calculateDailyForecast = (
         if (dailyData.length < 5) {
           console.log(forecast.weather[0].icon);
         }
-        tempDaytimeArray.push(forecast.main.temp);
         weatherDaytimeDescriptions.push(forecast.weather[0].description);
         weatherDaytimeIcons.push(forecast.weather[0].icon);
       } else {
-        tempNighttimeArray.push(forecast.main.temp);
         weatherNighttimeDescriptions.push(forecast.weather[0].description);
-        weatherNighttimeIcons.push(forecast.weather[0].description);
+        weatherNighttimeIcons.push(forecast.weather[0].icon);
       }
+      tempArray.push(forecast.main.temp);
     }
 
-    const avgTempDay =
-      (tempDaytimeArray.length &&
-        Math.round(tempDaytimeArray.reduce((a, b) => a + b, 0) / tempDaytimeArray.length)) ||
-      null;
-    const avgTempNight = Math.round(
-      tempNighttimeArray.reduce((a, b) => a + b, 0) / tempNighttimeArray.length
-    );
-    const minTempDay = Math.round(Math.min(...tempDaytimeArray));
-    const minTempNight = Math.round(Math.min(...tempNighttimeArray));
-    const maxTempDay = Math.round(Math.max(...tempDaytimeArray));
-    const maxTempNight = Math.round(Math.max(...tempNighttimeArray));
-    const avgDescriptionDay =
-      getMostFrequentItem(weatherDaytimeDescriptions) ||
-      getMostFrequentItem(weatherNighttimeDescriptions);
-    const mostCommonIconDay =
-      getMostFrequentItem(weatherDaytimeIcons) || getMostFrequentItem(weatherNighttimeIcons);
+    const avgTemp =
+      tempArray.length && Math.round(tempArray.reduce((a, b) => a + b, 0) / tempArray.length);
 
+    const minTemp = Math.round(Math.min(...tempArray));
+    const maxTemp = Math.round(Math.max(...tempArray));
+    const avgDescription = weatherDaytimeDescriptions.length
+      ? getMostFrequentItem(weatherDaytimeDescriptions)
+      : getMostFrequentItem(weatherNighttimeDescriptions);
+
+    const mostCommonIcon = weatherDaytimeIcons.length
+      ? getMostFrequentItem(weatherDaytimeIcons)
+      : getMostFrequentItem(weatherNighttimeIcons);
     dailyForecastData[dateString] = {
-      avgTempDay,
-      avgTempNight,
-      minTempDay,
-      minTempNight,
-      avgDescriptionDay,
-      mostCommonIconDay,
-      maxTempDay,
-      maxTempNight,
+      maxTemp,
+      avgTemp,
+      minTemp,
+      avgDescription,
+      mostCommonIcon,
       day: dayOfWeek,
       date: getDate(dateString),
       hourlyData,

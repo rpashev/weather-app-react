@@ -67,7 +67,7 @@ export const WeatherDetailsDialog = ({
               {!activeTimestamp && (
                 <img
                   className="w-full h-full object-cover"
-                  src={`https://openweathermap.org/img/wn/${dailyForecastData[activeDay]?.mostCommonIconDay}@2x.png`}
+                  src={`https://openweathermap.org/img/wn/${dailyForecastData[activeDay]?.mostCommonIcon}@2x.png`}
                 />
               )}
               {activeTimestamp && (
@@ -80,7 +80,7 @@ export const WeatherDetailsDialog = ({
             <div style={{ fontFamily: 'Arial' }} className="text-5xl tracking-tight font-bold">
               {activeTimestamp &&
                 Math.round(dailyForecastData[activeDay]?.hourlyData[activeTimestamp]?.main?.temp)}
-              {!activeTimestamp && Math.round(dailyForecastData[activeDay]?.avgTempDay || 0)}
+              {!activeTimestamp && Math.round(dailyForecastData[activeDay]?.avgTemp || 0)}
               °C
             </div>
           </div>
@@ -89,7 +89,7 @@ export const WeatherDetailsDialog = ({
             <div>{`${dailyForecastData[activeDay]?.day} ${(activeTimestamp && formatUnixTimestamp(dailyForecastData[activeDay].hourlyData[activeTimestamp].dt, 0, true)) || ''}`}</div>
 
             <div>
-              {!activeTimestamp && dailyForecastData[activeDay]?.avgDescriptionDay}
+              {!activeTimestamp && dailyForecastData[activeDay]?.avgDescription}
               {activeTimestamp &&
                 dailyForecastData[activeDay].hourlyData[activeTimestamp].weather[0].description}
             </div>
@@ -133,16 +133,16 @@ export const WeatherDetailsDialog = ({
                   <div className="w-24 h-auto">
                     <img
                       className="w-full h-full object-cover"
-                      src={`https://openweathermap.org/img/wn/${dailyForecastData[date].mostCommonIconDay}@2x.png`}
+                      src={`https://openweathermap.org/img/wn/${dailyForecastData[date].mostCommonIcon}@2x.png`}
                     />
                   </div>
                   <div>
                     <span className="text-red-600 font-semibold">
-                      {dailyForecastData[date].maxTempDay}°
+                      {dailyForecastData[date].maxTemp}°
                     </span>
                     <span> | </span>
                     <span className="text-blue-600 font-semibold">
-                      {dailyForecastData[date].minTempNight}°
+                      {dailyForecastData[date].minTemp}°
                     </span>
                   </div>
                 </div>
