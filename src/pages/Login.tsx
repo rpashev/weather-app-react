@@ -32,7 +32,7 @@ export const Login = () => {
   };
 
   return (
-    <div className="mt-8 flex items-start justify-center">
+    <div className="mt-8 py-4 flex items-start justify-center max-container">
       <form
         onSubmit={submitHandler}
         className="w-full rounded-lg bg-white px-5 py-4 pb-6 text-slate-100 sm:w-[25rem] dark:bg-slate-800"

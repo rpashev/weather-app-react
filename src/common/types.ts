@@ -68,3 +68,4 @@ export type BaseSingleLocationWeather = TrackedLocationInputData & {
 };
 
 export type WeatherChartFilterType = 'Temp' | 'Wind' | 'Rain';
+export type WeatherMapLayerType = 'temp' | 'wind' | 'precipitation' | 'clouds' | 'pressure';

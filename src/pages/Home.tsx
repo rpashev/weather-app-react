@@ -34,7 +34,7 @@ export const Home = () => {
   };
 
   return (
-    <>
+    <div className="max-container py-4">
       <section className="w-full">
         <section className="max-w-80 flex flex-col justify-center mx-auto">
           <WeatherSearchLocationInput setSelectedCity={setSelectedCity} />
@@ -81,6 +81,6 @@ export const Home = () => {
           trackedLocationList={trackedLocationList}
         />
       )}
-    </>
+    </div>
   );
 };
