@@ -61,7 +61,7 @@ export const WeatherLocationCard = ({
       <Tooltip content="View details" disable={disableParentTooltip}>
         <li
           onClick={openDetailsDialog}
-          className="mx-auto w-80 min-h-64 max-w-[90%] sm:max-w-full shadow-md rounded relative cursor-pointer"
+          className="mx-auto w-80 min-h-64 max-w-[90%] sm:max-w-full shadow-md rounded relative cursor-pointer hover:translate-y-[-8px] transition-all duration-200"
         >
           <div className="rounded-t flex justify-between items-center min-h-20 px-4 tw-gradient-main">
             <div className="flex flex-col py-4">

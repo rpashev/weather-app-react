@@ -120,6 +120,25 @@ label:after {
   transform: translateX(26px);
 }
 
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(155, 155, 155, 0.5) rgba(0, 0, 0, 0);
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(155, 155, 155, 0.5);
+  border-radius: 4px;
+  border: rgba(0, 0, 0, 0);
+}
+
 @layer components {
   .tw-text-input {
     @apply h-10 rounded border-2 px-2 py-3 text-slate-800 focus:border-cyan-300 focus:outline-none focus:ring-1;
