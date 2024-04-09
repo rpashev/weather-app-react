@@ -2,9 +2,9 @@ import 'leaflet/dist/leaflet.css';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import { WeatherMapLayerType } from '../common/types';
 
-import 'leaflet/dist/leaflet.css';
 import { WeatherMapPopup } from './WeatherMapPopup';
 import { useEffect } from 'react';
+import L, { LatLngBounds } from 'leaflet';
 
 const markersData = [
   { lat: 35.6895, lon: 139.6917, city: 'Tokyo', country: 'JP' },
@@ -38,10 +38,8 @@ export const WeatherMapComponent = ({ weatherLayer }: MapProps) => {
     const map = useMap();
 
     useEffect(() => {
-      console.log('here');
-      map.invalidateSize();
+      map.setMaxBounds(initialBounds);
     }, [map]);
-    // do something with map, in a useEffect hook, for example.
 
     return <></>;
   };
@@ -63,22 +61,33 @@ export const WeatherMapComponent = ({ weatherLayer }: MapProps) => {
     }
   };
 
+  const initialBounds = new LatLngBounds(
+    [-90, -180], // Southwest coordinates
+    [90, 180] // Northeast coordinates
+  );
+
   if (!weatherLayer) return;
 
   return (
     <MapContainer
-      center={[0, 0]}
-      zoom={2}
-      minZoom={2}
+      center={[45, 45]}
+      zoom={2.5}
+      minZoom={2.5}
       style={{ height: '100%', width: '100%' }}
-      className="!w-full !h-full"
-      dragging={false}
+      bounds={initialBounds}
+      boundsOptions={{ padding: [50, 50] }}
+      maxBoundsViscosity={1}
+      crs={L.CRS.EPSG3857}
     >
+      <TileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        maxZoom={18}
+      />
       <TileLayer
         url={`https://tile.openweathermap.org/map/${getLayerName(weatherLayer)}/{z}/{x}/{y}.png?appid=${import.meta.env.VITE_WEATHER_API_KEY}`}
         attribution='Weather data © <a href="https://openweathermap.org">OpenWeatherMap</a>'
         maxZoom={18}
-        noWrap={true}
       />
       {markersData.map(({ lat, lon, city }) => (
         <Marker key={city} position={[lat, lon]}>
@@ -87,6 +96,7 @@ export const WeatherMapComponent = ({ weatherLayer }: MapProps) => {
           </Popup>
         </Marker>
       ))}
+
       <MapController />
     </MapContainer>
   );

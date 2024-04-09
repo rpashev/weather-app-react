@@ -139,7 +139,7 @@ label:after {
   border: rgba(0, 0, 0, 0);
 }
 
-.legend-temp-gradient {
+.legend-gradient-temp {
   background-image: linear-gradient(
     to right,
     rgb(159, 85, 181) 0%,
@@ -162,7 +162,7 @@ label:after {
   );
 }
 
-.legend-wind-gradient {
+.legend-gradient-wind {
   background: linear-gradient(
     to left,
     rgb(158, 128, 177),
@@ -176,7 +176,7 @@ label:after {
   );
 }
 
-.legend-rain-gradient {
+.legend-gradient-rain {
   background: linear-gradient(
     to left,
     rgb(170, 43, 195),
@@ -196,7 +196,7 @@ label:after {
   );
 }
 
-.linear-gradient-pressure {
+.legend-gradient-pressure {
   background-image: linear-gradient(
     to right,
     rgb(0, 115, 255) 0%,
@@ -211,7 +211,7 @@ label:after {
   );
 }
 
-.linear-gradient-clouds {
+.legend-gradient-clouds {
   background-image: linear-gradient(
     to right,
     rgba(247, 247, 255, 0) 0%,
@@ -227,10 +227,6 @@ label:after {
     rgb(210, 210, 210) 95%,
     rgb(183, 183, 183) 100%
   );
-}
-
-.leaflet-tile-container {
-  width: 100px !important;
 }
 
 @layer components {

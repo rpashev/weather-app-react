@@ -13,27 +13,37 @@ const cloudsLegendData = [0, 25, 50, 75, 100];
 export const WeatherMapLegend = ({ weatherLayer }: PropsType) => {
   let activeLegendData: number[] = [];
   let legendLabel: string = '';
+  let gradientClass: string = '';
 
   switch (weatherLayer) {
     case 'precipitation':
       activeLegendData = rainLegendData;
       legendLabel = 'Precipitation, mm/h';
+      gradientClass = 'legend-gradient-rain';
       break;
     case 'wind':
       activeLegendData = windLegendData;
       legendLabel = 'Wind speed, m/s';
+      gradientClass = 'legend-gradient-wind';
+
       break;
     case 'temp':
       activeLegendData = tempLegendData;
       legendLabel = "'Temperature, °C";
+      gradientClass = 'legend-gradient-temp';
+
       break;
     case 'clouds':
       activeLegendData = cloudsLegendData;
       legendLabel = 'Clouds in %';
+      gradientClass = 'legend-gradient-clouds';
+
       break;
     case 'pressure':
       activeLegendData = pressureLegendData;
       legendLabel = 'Pressure, hPa';
+      gradientClass = 'legend-gradient-pressure';
+
       break;
   }
 
@@ -51,8 +61,8 @@ export const WeatherMapLegend = ({ weatherLayer }: PropsType) => {
             </label>
           ))}
         </div>
-        <div className="w-[260px] bg-white rounded-b">
-          <div className="h-[6px] w-full legend-rain-gradient"></div>
+        <div className="w-[260px] rounded-b">
+          <div className={`h-[6px] w-full ${gradientClass}`}></div>
         </div>
       </div>
     </div>
