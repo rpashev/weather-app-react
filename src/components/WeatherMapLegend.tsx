@@ -38,7 +38,10 @@ export const WeatherMapLegend = ({ weatherLayer }: PropsType) => {
   }
 
   return (
-    <div className="absolute bottom-0 right-0 z-50 w-[390px] flex bg-white items-center p-1 rounded">
+    <div
+      className="absolute bottom-0 left-0 z-50 w-[390px] flex bg-white items-center p-1 rounded"
+      style={{ zIndex: 1000 }}
+    >
       <div className="text-[11px] font-medium ml-1 w-44">{legendLabel}</div>
       <div className="flex flex-col w-full">
         <div className="flex items-center justify-between bg-white text-slate-600 rounded-t">

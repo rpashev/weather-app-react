@@ -7,7 +7,10 @@ export const WeatherMap = () => {
   const [weatherLayer, setWeatherLayer] = useState<WeatherMapLayerType>('temp');
   return (
     <div className="w-screen relative">
-      <div className="absolute top-0 right-0 w-[200px] z-50 bg-white opacity-85">
+      <div
+        className="absolute top-0 right-0 w-[200px] z-50 bg-white opacity-85"
+        style={{ zIndex: 1000 }}
+      >
         <div
           onClick={() => setWeatherLayer('temp')}
           className={`flex flex-col

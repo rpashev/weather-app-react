@@ -228,6 +228,11 @@ label:after {
     rgb(183, 183, 183) 100%
   );
 }
+
+.leaflet-tile-container {
+  width: 100px !important;
+}
+
 @layer components {
   .tw-text-input {
     @apply h-10 rounded border-2 px-2 py-3 text-slate-800 focus:border-cyan-300 focus:outline-none focus:ring-1;
