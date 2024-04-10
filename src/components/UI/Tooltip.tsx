@@ -8,6 +8,9 @@ type TooltipProps = {
 
 export const Tooltip = ({ children, content, disable }: TooltipProps) => {
   const [showTooltip, setShowTooltip] = useState(false);
+  console.log(showTooltip, 'show');
+  console.log(disable, 'disabled');
+  console.log(showTooltip && !disable, 'show && !disable');
 
   const handleMouseEnter = () => {
     setShowTooltip(true);

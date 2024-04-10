@@ -98,7 +98,8 @@ export const WeatherDetailsDialog = ({
       <Backdrop onClickBackdrop={closeDialog} />
       <dialog
         open
-        className="overflow-y-auto z-50 flex flex-col tw-fixed-center bg-red w-[850px] max-w-[95%] h-[800px] mx-auto "
+        className="overflow-y-auto flex flex-col tw-fixed-center bg-red w-[850px] max-w-[95%] h-[780px] mx-auto"
+        style={{ zIndex: 2000 }}
       >
         <header className="relative flex justify-between items-center tw-gradient-main py-3 px-4 text-xl font-bold">
           <h2>Weather for {`${currentWeatherData.name}, ${currentWeatherData.sys.country}`}</h2>

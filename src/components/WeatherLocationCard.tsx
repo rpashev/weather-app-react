@@ -127,7 +127,7 @@ export const WeatherLocationCard = ({
             </label>
           </div>
           {isLoggedIn && (
-            <div className=" absolute top-0 right-0">
+            <div className="absolute top-0 right-0">
               {!id && !locationAlreadyTracked && (
                 <Tooltip content="Add to tracked locations">
                   <button
