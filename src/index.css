@@ -259,6 +259,11 @@ label:after {
   );
 }
 
+.cursor-pointer-children label,
+.cursor-pointer-children span {
+  cursor: pointer;
+}
+
 @layer components {
   .tw-text-input {
     @apply h-10 rounded border-2 px-2 py-3 text-slate-800 focus:border-cyan-300 focus:outline-none focus:ring-1;

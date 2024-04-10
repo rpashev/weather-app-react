@@ -40,7 +40,7 @@ export const WeatherLocationMapPopup = ({ coords }: PropsType) => {
       <Tooltip content="View details" disable={disableParentTooltip}>
         <li
           onClick={openDetailsDialog}
-          className="mx-auto w-60 min-h-48 max-w-[90%] sm:max-w-full shadow-md rounded relative cursor-pointer"
+          className="mx-auto w-60 min-h-44 max-w-[90%] sm:max-w-full shadow-lg rounded relative cursor-pointer cursor-pointer-children flex-col flex"
         >
           <div className="popup-arrow"></div>
           <div className="rounded-t flex justify-between items-center min-h-10 px-2 tw-gradient-main">
@@ -57,14 +57,14 @@ export const WeatherLocationMapPopup = ({ coords }: PropsType) => {
               />
             </div>
           </div>
-          <div className="bg-white min-h-18 flex items-start gap-10 px-2">
+          <div className="bg-white flex items-start gap-10 px-2 flex-1 rounded-b">
             <div
               style={{ fontFamily: 'Arial' }}
               className="text-3xl font-bold tracking-tight w-2/5 mt-6"
             >
               {Math.round(weatherData.main.temp)}°C
             </div>
-            <div className="w-3/5">
+            <div className="w-3/5 mt-1">
               <label className="font-bold w-full border-b-2 border-gray-400 block mt-2 mb-1">
                 Details
               </label>
