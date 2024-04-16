@@ -8,8 +8,9 @@ import L, { LatLngBounds, Icon } from 'leaflet';
 import iconUrl from 'leaflet/dist/images/marker-icon.png';
 import iconShadowUrl from 'leaflet/dist/images/marker-shadow.png';
 import { WeatherLocationMapPopup } from './WeatherLocationMapPopup';
+import { TrackedLocationsType } from '../schemas/TrackedLocationsSchema';
 
-const markersData = [
+const markersDataHardocedList = [
   { lat: 35.6895, lon: 139.6917, city: 'Tokyo', country: 'JP' },
   { lat: 41.8781, lon: -87.6298, city: 'Chicago', country: 'US' },
   { lat: 40.7128, lon: -74.006, city: 'New York', country: 'US' },
@@ -34,9 +35,17 @@ const markersData = [
 
 type MapProps = {
   weatherLayer: WeatherMapLayerType;
+  locations: TrackedLocationsType;
+  showOnlyTrackedLocations: boolean;
 };
 
-export const WeatherMapComponent = ({ weatherLayer }: MapProps) => {
+export const WeatherMapComponent = ({
+  weatherLayer,
+  locations,
+  showOnlyTrackedLocations,
+}: MapProps) => {
+  const markersData = showOnlyTrackedLocations ? locations.locations : markersDataHardocedList;
+
   const defaultIcon = new Icon({
     iconUrl,
     iconSize: [25, 41], // Default Leaflet marker icon size
