@@ -23,6 +23,7 @@ export const SpinnerProvider = ({ children }: SpinnerProviderProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const show = () => setIsLoading(true);
+
   const hide = () => setIsLoading(false);
 
   const value: SpinnerContextType = {

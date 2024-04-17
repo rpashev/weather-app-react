@@ -1,14 +1,13 @@
 import 'leaflet/dist/leaflet.css';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap, Tooltip } from 'react-leaflet';
 import { WeatherMapLayerType } from '../common/types';
 
 import { useEffect } from 'react';
-import L, { LatLngBounds, Icon } from 'leaflet';
+import L, { LatLngBounds, Icon, divIcon, DivIconOptions, point, DivIcon } from 'leaflet';
 
-import iconUrl from 'leaflet/dist/images/marker-icon.png';
-import iconShadowUrl from 'leaflet/dist/images/marker-shadow.png';
 import { WeatherLocationMapPopup } from './WeatherLocationMapPopup';
 import { TrackedLocationsType } from '../schemas/TrackedLocationsSchema';
+import MarkerClusterGroup from 'react-leaflet-cluster';
 
 const markersDataHardocedList = [
   { lat: 35.6895, lon: 139.6917, city: 'Tokyo', country: 'JP' },
@@ -39,22 +38,27 @@ type MapProps = {
   showOnlyTrackedLocations: boolean;
 };
 
+const defaultIcon = new Icon({
+  iconUrl: '/location-pin-svgrepo-com.svg',
+  iconSize: [32, 32],
+  iconAnchor: [16, 32],
+  popupAnchor: [0, -28],
+});
+
+const createClusterCustomIcon = (cluster: any): DivIcon => {
+  const iconOptions: DivIconOptions = {
+    html: `<div class="cluster-icon">${cluster.getChildCount()}</div>`,
+    iconSize: point(33, 33, true),
+  };
+  return divIcon(iconOptions);
+};
+
 export const WeatherMapComponent = ({
   weatherLayer,
   locations,
   showOnlyTrackedLocations,
 }: MapProps) => {
-  const markersData = showOnlyTrackedLocations ? locations.locations : markersDataHardocedList;
-
-  const defaultIcon = new Icon({
-    iconUrl,
-    iconSize: [25, 41], // Default Leaflet marker icon size
-    iconAnchor: [12, 41], // Default Leaflet marker icon anchor
-    popupAnchor: [1, -34], // Default Leaflet marker popup anchor
-    shadowUrl: iconShadowUrl,
-    shadowSize: [41, 41], // Default Leaflet marker shadow size
-    shadowAnchor: [13, 41], // Default Leaflet marker shadow anchor
-  });
+  const markersData = showOnlyTrackedLocations ? locations?.locations : markersDataHardocedList;
 
   const MapController = () => {
     const map = useMap();
@@ -111,16 +115,19 @@ export const WeatherMapComponent = ({
         attribution='Weather data © <a href="https://openweathermap.org">OpenWeatherMap</a>'
         maxZoom={18}
       />
-      {markersData.map(({ lat, lon, city }) => (
-        <Marker key={city} position={[lat, lon]} icon={defaultIcon}>
-          <Popup className="w-60 z-50" autoPan autoPanPaddingTopLeft={[0, 50]}>
-            <ul className="w-full">
-              <WeatherLocationMapPopup coords={{ lat, lon }} />
-            </ul>
-          </Popup>
-          ,
-        </Marker>
-      ))}
+      <MarkerClusterGroup iconCreateFunction={createClusterCustomIcon}>
+        {markersData?.map(({ lat, lon, city, country }) => (
+          <Marker key={city} position={[lat, lon]} icon={defaultIcon}>
+            <Tooltip direction="top" offset={[0, -32]}>{`${city}, ${country}`}</Tooltip>
+            <Popup className="w-60 z-50" autoPan autoPanPaddingTopLeft={[0, 50]}>
+              <ul className="w-full">
+                <WeatherLocationMapPopup coords={{ lat, lon }} />
+              </ul>
+            </Popup>
+            ,
+          </Marker>
+        ))}
+      </MarkerClusterGroup>
 
       <MapController />
     </MapContainer>

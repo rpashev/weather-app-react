@@ -9,6 +9,7 @@ export const WeatherMap = () => {
 
   const [weatherLayer, setWeatherLayer] = useState<WeatherMapLayerType>('temp');
   const [showOnlyTrackedLocations, setShowOnlyTrackedLocations] = useState(false);
+  if (!trackedLocationList) return;
   return (
     <div className="w-screen relative">
       <div
