@@ -24,14 +24,15 @@ export const BaseHeader = ({ localCityData }: BaseHeaderProps) => {
   const navItems: Links = {
     public: [
       { title: 'Home', path: '/', id: 1 },
-      { title: 'Login', path: '/login', id: 2 },
-      { title: 'Sign Up', path: '/register', id: 3 },
+      { title: 'Weather Map', path: '/weather-map', id: 2 },
+      { title: 'Login', path: '/login', id: 3 },
+      { title: 'Sign Up', path: '/register', id: 4 },
     ],
     user: [
-      { title: 'Home', path: '/', id: 4 },
-      { title: 'Weather Map', path: '/weather-map', id: 5 },
-      { title: 'Profile', path: '/profile', id: 6 },
-      { title: 'Logout', path: '/logout', id: 7 },
+      { title: 'Home', path: '/', id: 5 },
+      { title: 'Weather Map', path: '/weather-map', id: 6 },
+      { title: 'Profile', path: '/profile', id: 7 },
+      { title: 'Logout', path: '/logout', id: 8 },
     ],
   };
 
@@ -66,14 +67,14 @@ export const BaseHeader = ({ localCityData }: BaseHeaderProps) => {
   }, []);
 
   return (
-    <header className="flex w-full relative justify-center bg-slate-800">
+    <header className="flex w-full relative justify-center dark:bg-slate-800 bg-amber-400">
       {localCityData && <WeatherLocalWidget localCityData={localCityData} />}
       <nav className="grid w-full grid-cols-3 p-4">
         <ul className="col-start-2 flex justify-center gap-6 text-slate-100">
           {navLinks.map((link) => (
             <li
               key={link.id}
-              className="rounded px-3 py-1 transition-all hover:bg-slate-500 has-[.active]:bg-slate-500"
+              className="rounded px-3 py-1 transition-all hover:bg-amber-300 hover:dark:bg-slate-600 has-[.active]:bg-amber-300 dark:has-[.active]:bg-slate-600 text-slate-800 dark:text-slate-100"
             >
               <NavLink to={link.path} className="inline-block text-xl leading-normal">
                 {link.title}

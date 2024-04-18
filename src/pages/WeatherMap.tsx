@@ -3,32 +3,38 @@ import { WeatherMapComponent } from '../components/WeatherMapComponent';
 import { WeatherMapLegend } from '../components/WeatherMapLegend';
 import { type WeatherMapLayerType } from '../common/types';
 import { useFetchTrackedLocationsQuery } from '../hooks/tanstack-query/useFetchTrackedLocationsQuery';
+import { useAuth } from '../context/user-context';
 
 export const WeatherMap = () => {
+  const { isLoggedIn } = useAuth();
+
   const { data: trackedLocationList } = useFetchTrackedLocationsQuery();
 
   const [weatherLayer, setWeatherLayer] = useState<WeatherMapLayerType>('temp');
   const [showOnlyTrackedLocations, setShowOnlyTrackedLocations] = useState(false);
-  if (!trackedLocationList) return;
+  if (!trackedLocationList && isLoggedIn) return;
   return (
     <div className="w-screen relative">
       <div
         className="absolute top-0 right-0 z-50 flex items-start opacity-85"
         style={{ zIndex: 1000 }}
       >
-        <label
-          htmlFor="checkboxTracked"
-          className="text-sm bg-white px-2 py-[10px] flex items-center gap-2 rounded-l cursor-pointer cursor-pointer-children mr-1"
-        >
-          <input
-            type="checkbox"
-            id="checkboxTracked"
-            className="h-[14px] w-[14px] accent-blue-500 cursor-pointer"
-            checked={showOnlyTrackedLocations}
-            onChange={() => setShowOnlyTrackedLocations((prev) => !prev)}
-          />
-          Show only tracked locations
-        </label>
+        {isLoggedIn && (
+          <label
+            htmlFor="checkboxTracked"
+            className="text-sm bg-white px-2 py-[10px] flex items-center gap-2 rounded-l cursor-pointer cursor-pointer-children mr-1"
+          >
+            <input
+              type="checkbox"
+              id="checkboxTracked"
+              className="h-[14px] w-[14px] accent-blue-500 cursor-pointer"
+              checked={showOnlyTrackedLocations}
+              onChange={() => setShowOnlyTrackedLocations((prev) => !prev)}
+            />
+            Show only tracked locations
+          </label>
+        )}
+
         <div className="bg-white">
           <div
             onClick={() => setWeatherLayer('temp')}
@@ -73,13 +79,11 @@ export const WeatherMap = () => {
         </div>
       </div>
       <WeatherMapLegend weatherLayer={weatherLayer} />
-      {trackedLocationList?.locations && (
-        <WeatherMapComponent
-          weatherLayer={weatherLayer}
-          locations={trackedLocationList}
-          showOnlyTrackedLocations={showOnlyTrackedLocations}
-        />
-      )}
+      <WeatherMapComponent
+        weatherLayer={weatherLayer}
+        locations={trackedLocationList ? trackedLocationList : undefined}
+        showOnlyTrackedLocations={showOnlyTrackedLocations}
+      />
     </div>
   );
 };

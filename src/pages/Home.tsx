@@ -36,7 +36,7 @@ export const Home = () => {
   return (
     <div className="max-container py-4">
       <section className="w-full">
-        <section className="max-w-80 flex flex-col justify-center mx-auto">
+        <section className="max-w-80 w-80 flex flex-col justify-center mx-auto mt-3">
           <WeatherSearchLocationInput setSelectedCity={setSelectedCity} />
 
           <ul className="my-6">
@@ -50,14 +50,14 @@ export const Home = () => {
         </section>
         {isLoggedIn && (
           <section className="mt-4 mx-auto">
-            <h2 className="text-3xl text-slate-100 text-center flex justify-center">
+            <h2 className="text-3xl dark:text-slate-100 text-slate-800 text-center flex justify-center">
               <span>Tracked locations</span>
               <button onClick={openLocationsEditDialog} className="text-xs block ml-2 -mt-2">
                 Edit
               </button>
             </h2>
-            <ul className="w-full flex gap-12 mt-6 place-items-center place-content-center flex-wrap">
-              {trackedLocationList &&
+            <ul className="w-full flex gap-12 my-6 place-items-center place-content-center flex-wrap">
+              {(trackedLocationList &&
                 trackedLocationList.locations?.length &&
                 trackedLocationList.locations.map((location) => {
                   return (
@@ -67,10 +67,13 @@ export const Home = () => {
                       id={location.id}
                     />
                   );
-                })}
+                })) ||
+                null}
             </ul>
             {!trackedLocationList?.locations?.length && (
-              <p className="text-slate-100 text-center">No tracked locations yet. </p>
+              <p className="dark:text-slate-100 text-slate-800 text-center">
+                No tracked locations yet.{' '}
+              </p>
             )}
           </section>
         )}

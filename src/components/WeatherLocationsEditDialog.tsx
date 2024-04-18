@@ -57,7 +57,8 @@ export const WeatherLocationsEditDialog = ({
       <Backdrop onClickBackdrop={closeDialog} />
       <dialog
         open
-        className="z-50 flex flex-col tw-fixed-center bg-red w-[900px] max-w-[95%] h-[500px] mx-auto "
+        className="flex flex-col tw-fixed-center bg-red w-[900px] max-w-[95%] h-[500px] mx-auto "
+        style={{ zIndex: 2000 }}
       >
         <header className="relative flex justify-between items-center tw-gradient-main py-3 px-4 text-xl font-bold">
           <h2>Your tracked locations</h2>
@@ -97,8 +98,8 @@ export const WeatherLocationsEditDialog = ({
           </button>
           <button
             onClick={onSubmit}
-            className="rounded bg-cyan-600 px-4 py-2 tracking-wider text-slate-100
-             transition-all enabled:hover:bg-cyan-500
+            className="rounded bg-amber-400 px-4 py-2 tracking-wider text-slate-800
+             transition-all enabled:hover:bg-amber-300
              disabled:cursor-not-allowed disabled:opacity-70"
           >
             Submit

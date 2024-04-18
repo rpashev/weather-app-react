@@ -192,6 +192,18 @@ label:after {
   border: rgba(0, 0, 0, 0);
 }
 
+/* overwiting autofill styles from browser on autocomplete */
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition:
+    background-color 600000s 0s,
+    color 600000s 0s;
+}
+input[data-autocompleted] {
+  background-color: transparent !important;
+}
+
 /* gradients for map legend */
 
 .legend-gradient-temp {
@@ -288,7 +300,7 @@ label:after {
 
 @layer components {
   .tw-text-input {
-    @apply h-10 rounded border-2 px-2 py-3 text-slate-800 focus:border-cyan-300 focus:outline-none focus:ring-1;
+    @apply h-10 rounded border-2 border-transparent px-2 py-3 text-slate-800 bg-white focus:border-amber-300 focus:outline-none;
   }
   .tw-fixed-center-x {
     @apply fixed left-1/2 transform -translate-x-1/2;

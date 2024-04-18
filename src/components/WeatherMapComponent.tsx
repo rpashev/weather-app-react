@@ -34,7 +34,7 @@ const markersDataHardocedList = [
 
 type MapProps = {
   weatherLayer: WeatherMapLayerType;
-  locations: TrackedLocationsType;
+  locations?: TrackedLocationsType;
   showOnlyTrackedLocations: boolean;
 };
 
@@ -91,7 +91,7 @@ export const WeatherMapComponent = ({
     [-90, -180], // Southwest coordinates
     [90, 180] // Northeast coordinates
   );
-
+  console.log('here');
   if (!weatherLayer) return;
 
   return (
