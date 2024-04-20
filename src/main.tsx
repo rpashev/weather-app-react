@@ -1,17 +1,23 @@
+// REACT
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+// CSS
+import './index.css';
+// LAYOUT
 import { BaseLayout } from './layouts/BaseLayout';
+// PAGE COMPONENTS
 import { Register } from './pages/Register';
 import { Login } from './pages/Login';
 import { Profile } from './pages/Profile';
 import { WeatherMap } from './pages/WeatherMap';
 import { Home } from './pages/Home';
-import { AuthContextProvider } from './context/user-context';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { SnackbarProvider } from './context/snackbar-context';
 import { Logout } from './pages/Logout';
+// CONTEXT PROVIDERS
+import { AuthContextProvider } from './context/user-context';
+import { SnackbarProvider } from './context/snackbar-context';
 import { SpinnerProvider } from './context/spinner-context';
+// TANSTACK QUERY
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const router = createBrowserRouter([
   {

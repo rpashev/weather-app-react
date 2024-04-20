@@ -1,4 +1,4 @@
-import { BaseWeatherResponseData } from '../schemas/BaseWeatherSchema';
+import { type BaseWeatherResponseData } from '../schemas/BaseWeatherSchema';
 
 type WeatherLocalWidgetProps = {
   localCityData: BaseWeatherResponseData;

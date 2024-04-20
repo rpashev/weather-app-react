@@ -1,13 +1,15 @@
+// REACT
+import { useEffect } from 'react';
+// LEAFLET
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, TileLayer, Marker, Popup, useMap, Tooltip } from 'react-leaflet';
-import { WeatherMapLayerType } from '../common/types';
-
-import { useEffect } from 'react';
 import L, { LatLngBounds, Icon, divIcon, DivIconOptions, point, DivIcon } from 'leaflet';
-
-import { WeatherLocationMapPopup } from './WeatherLocationMapPopup';
-import { TrackedLocationsType } from '../schemas/TrackedLocationsSchema';
 import MarkerClusterGroup from 'react-leaflet-cluster';
+// COMPONENTS
+import { WeatherLocationMapPopup } from './WeatherLocationMapPopup';
+// TYPES
+import { type WeatherMapLayerType } from '../common/types';
+import { type TrackedLocationsType } from '../schemas/TrackedLocationsSchema';
 
 const markersDataHardocedList = [
   { lat: 35.6895, lon: 139.6917, city: 'Tokyo', country: 'JP' },

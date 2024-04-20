@@ -1,6 +1,6 @@
 import {
-  HourlyForecastType,
-  WeatherForecastHourlyListType,
+  type HourlyForecastType,
+  type WeatherForecastHourlyListType,
 } from '../schemas/WeatherForecastSchema';
 import { getAdjustedTimestamp, getDate, getDayOfWeek, groupBy } from './formatters';
 

@@ -1,7 +1,10 @@
+// REACT
 import { Outlet } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+// COMPONENTS
 import { BaseHeader } from '../components/layout/BaseHeader';
 import { BaseFooter } from '../components/layout/BaseFooter';
-import { useState, useEffect } from 'react';
+// HOOKS
 import { useSnackbar } from '../context/snackbar-context';
 import { useFetchCityDataQuery } from '../hooks/tanstack-query/useFetchCityDataQuery';
 import { useSpinnerContext } from '../context/spinner-context';

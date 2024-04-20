@@ -1,11 +1,18 @@
+// HOOKS
 import { useMutation } from '@tanstack/react-query';
-import { AxiosResponse, AxiosError } from 'axios';
-import { LoginResponseData, ApiErrorResponse, RegisterInputData } from '../../common/types';
-import authService from '../../services/auth.service';
 import { useSnackbar } from '../../context/snackbar-context';
 import { useAuth } from '../../context/user-context';
 import { useNavigate } from 'react-router-dom';
 import { useSpinnerContext } from '../../context/spinner-context';
+// SERVICES
+import authService from '../../services/auth.service';
+// TYPES
+import { type AxiosResponse, type AxiosError } from 'axios';
+import {
+  type LoginResponseData,
+  type ApiErrorResponse,
+  type RegisterInputData,
+} from '../../common/types';
 
 export const useRegisterMutate = () => {
   const { login } = useAuth();

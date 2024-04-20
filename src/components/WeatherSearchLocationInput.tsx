@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { CityGeoDataResponse } from '../common/types';
+import { type CityGeoDataResponse } from '../common/types';
 import { useFetchCityListQuery } from '../hooks/tanstack-query/useFetchCityListQuery';
 
 type WeatherSearchLocationInputProps = {

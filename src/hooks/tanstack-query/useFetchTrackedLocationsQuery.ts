@@ -1,15 +1,19 @@
+// HOOKS
 import { useQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
-import { zodParseResult } from '../../utils/zod-parse';
-import locationsService from '../../services/locations.service';
-import {
-  TrackedLocationListSchema,
-  TrackedLocationsType,
-} from '../../schemas/TrackedLocationsSchema';
 import { useAuth } from '../../context/user-context';
 import { useSpinnerContext } from '../../context/spinner-context';
 import { useSnackbar } from '../../context/snackbar-context';
-import { ApiErrorResponse } from '../../common/types';
+// TYPES & SCHEMAS
+import { type AxiosError } from 'axios';
+import {
+  TrackedLocationListSchema,
+  type TrackedLocationsType,
+} from '../../schemas/TrackedLocationsSchema';
+import { type ApiErrorResponse } from '../../common/types';
+// SERVICES
+import locationsService from '../../services/locations.service';
+// UTILS
+import { zodParseResult } from '../../utils/zod-parse';
 
 export const useFetchTrackedLocationsQuery = () => {
   const { isLoggedIn } = useAuth();

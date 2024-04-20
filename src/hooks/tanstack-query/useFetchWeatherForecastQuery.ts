@@ -1,14 +1,18 @@
+// HOOKS
 import { useQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
-import weatherApiService from '../../services/weather-api.service';
-import { CoordinatesWeatherApi } from '../../common/types';
-import { zodParseResult } from '../../utils/zod-parse';
 import { useSpinnerContext } from '../../context/spinner-context';
 import { useSnackbar } from '../../context/snackbar-context';
+// SERVICES
+import weatherApiService from '../../services/weather-api.service';
+// TYPES & SCHEMAS
+import { type AxiosError } from 'axios';
+import { type CoordinatesWeatherApi } from '../../common/types';
 import {
   WeatherForecastSchema,
-  WeatherForecastResponseData,
+  type WeatherForecastResponseData,
 } from '../../schemas/WeatherForecastSchema';
+// UTILS
+import { zodParseResult } from '../../utils/zod-parse';
 
 export const useFetchWeatherForecastQuery = (coordinates: CoordinatesWeatherApi | null) => {
   const { hideSpinner, showSpinner } = useSpinnerContext();

@@ -1,9 +1,12 @@
+// REACT
 import { useEffect, useMemo, useState } from 'react';
 import { useAuth } from '../../context/user-context';
 import { NavLink } from 'react-router-dom';
+// COMPONENTS
 import { ThemeToggle } from '../UI/ThemeToggle';
-import { type BaseWeatherResponseData } from '../../schemas/BaseWeatherSchema';
 import { WeatherLocalWidget } from '../WeatherLocalWidget';
+// TYPES
+import { type BaseWeatherResponseData } from '../../schemas/BaseWeatherSchema';
 
 type BaseHeaderProps = {
   localCityData: BaseWeatherResponseData | null;

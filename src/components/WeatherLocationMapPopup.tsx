@@ -1,11 +1,15 @@
+// REACT
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
+// HOOKS
 import { useFetchCityDataQuery } from '../hooks/tanstack-query/useFetchCityDataQuery';
-import { formatTimezoneOffset, formatUnixTimestamp } from '../utils/formatters';
-
+// COMPONENTS
 import { Tooltip } from './UI/Tooltip';
 import { WeatherDetailsDialog } from './WeatherDetailsDialog';
-import { createPortal } from 'react-dom';
+// LEAFLET
 import { useMap } from 'react-leaflet';
+// UTILS
+import { formatTimezoneOffset, formatUnixTimestamp } from '../utils/formatters';
 
 type PropsType = {
   coords: { lon: number; lat: number };

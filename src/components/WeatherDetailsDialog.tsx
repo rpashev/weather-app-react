@@ -1,12 +1,17 @@
-import { useFetchWeatherForecastQuery } from '../hooks/tanstack-query/useFetchWeatherForecastQuery';
-import { Backdrop } from './UI/Backdrop';
-import { calculateDailyForecast } from '../utils/format-weather-forcast-data';
-import { BaseWeatherResponseData } from '../schemas/BaseWeatherSchema';
+// REACT
 import { useEffect, useState } from 'react';
-import { formatUnixTimestamp, getDateFromTimezone } from '../utils/formatters';
+// HOOKS
+import { useFetchWeatherForecastQuery } from '../hooks/tanstack-query/useFetchWeatherForecastQuery';
+// COMPONENTS
+import { Backdrop } from './UI/Backdrop';
 import { LineChart } from './UI/LineChart';
-import { HourlyForecastType } from '../schemas/WeatherForecastSchema';
-import { WeatherChartFilterType } from '../common/types';
+// TYPES
+import { type HourlyForecastType } from '../schemas/WeatherForecastSchema';
+import { type WeatherChartFilterType } from '../common/types';
+import { type BaseWeatherResponseData } from '../schemas/BaseWeatherSchema';
+// UTILS
+import { formatUnixTimestamp, getDateFromTimezone } from '../utils/formatters';
+import { calculateDailyForecast } from '../utils/format-weather-forcast-data';
 
 type PropsType = {
   setDetailsDialogIsOpen: React.Dispatch<React.SetStateAction<boolean>>;

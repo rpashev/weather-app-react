@@ -1,12 +1,16 @@
+// HOOKS
 import { useQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
-import weatherApiService from '../../services/weather-api.service';
+import { useSnackbar } from '../../context/snackbar-context';
+// TYPES & SCHEMAS
+import { type AxiosError } from 'axios';
 import {
   CityListWeatherApiResponseSchema,
-  CityListWeatherApiResponseData,
+  type CityListWeatherApiResponseData,
 } from '../../schemas/CityListWeatherApiSchema';
+// SERVICES
+import weatherApiService from '../../services/weather-api.service';
+// UTILS
 import { zodParseResult } from '../../utils/zod-parse';
-import { useSnackbar } from '../../context/snackbar-context';
 
 export const useFetchCityListQuery = (searchTerm: string) => {
   const { showSnackbar } = useSnackbar();

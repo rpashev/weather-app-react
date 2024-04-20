@@ -1,9 +1,13 @@
+// REACT
 import { useState } from 'react';
+// COMPONENTS
 import { WeatherMapComponent } from '../components/WeatherMapComponent';
 import { WeatherMapLegend } from '../components/WeatherMapLegend';
-import { type WeatherMapLayerType } from '../common/types';
+// HOOKS
 import { useFetchTrackedLocationsQuery } from '../hooks/tanstack-query/useFetchTrackedLocationsQuery';
 import { useAuth } from '../context/user-context';
+// TYPES
+import { type WeatherMapLayerType } from '../common/types';
 
 export const WeatherMap = () => {
   const { isLoggedIn } = useAuth();

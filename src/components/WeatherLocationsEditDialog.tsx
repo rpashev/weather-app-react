@@ -1,11 +1,15 @@
-import { TrackedLocationsType } from '../schemas/TrackedLocationsSchema';
-import { Backdrop } from './UI/Backdrop';
-import { DndContext, MouseSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
-import { verticalListSortingStrategy } from '@dnd-kit/sortable';
-import { SortableContext } from '@dnd-kit/sortable';
+// REACT
 import { useCallback, useState } from 'react';
-import { useReplaceTrackedLocationsMutate } from '../hooks/tanstack-query/useReplaceTrackedLocationsMutate.';
+// COMPONENTS
+import { Backdrop } from './UI/Backdrop';
 import { SortableItem } from './WeatherLocationSortableItem';
+// HOOKS
+import { useReplaceTrackedLocationsMutate } from '../hooks/tanstack-query/useReplaceTrackedLocationsMutate.';
+// DND-KIT
+import { DndContext, MouseSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+// TYPES
+import { type TrackedLocationsType } from '../schemas/TrackedLocationsSchema';
 
 type PropsType = {
   setLocationsEditDialogIsOpen: React.Dispatch<React.SetStateAction<boolean>>;

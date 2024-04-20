@@ -1,12 +1,15 @@
+// REACT
 import { useState } from 'react';
+// HOOKS
 import { useAuth } from '../context/user-context';
 import { useFetchCityDataQuery } from '../hooks/tanstack-query/useFetchCityDataQuery';
 import { useTrackedLocationMutate } from '../hooks/tanstack-query/useTrackedLocationMutate';
-import { formatTimezoneOffset, formatUnixTimestamp } from '../utils/formatters';
-
-import { Tooltip } from './UI/Tooltip';
 import { useDeleteTrackedLocationMutate } from '../hooks/tanstack-query/useDeleteTrackedLocationMutate';
+// COMPONENTS
+import { Tooltip } from './UI/Tooltip';
 import { WeatherDetailsDialog } from './WeatherDetailsDialog';
+// UTILS
+import { formatTimezoneOffset, formatUnixTimestamp } from '../utils/formatters';
 
 type WeatherLocationCardProps = {
   coords: { lon: number; lat: number };

@@ -1,10 +1,14 @@
+// REACT
 import { useEffect, useState } from 'react';
-import { CityGeoDataResponse } from '../common/types';
+// COMPONENTS
 import { WeatherLocationCard } from '../components/WeatherLocationCard';
 import { WeatherSearchLocationInput } from '../components/WeatherSearchLocationInput';
+import { WeatherLocationsEditDialog } from '../components/WeatherLocationsEditDialog';
+// HOOKS
 import { useFetchTrackedLocationsQuery } from '../hooks/tanstack-query/useFetchTrackedLocationsQuery';
 import { useAuth } from '../context/user-context';
-import { WeatherLocationsEditDialog } from '../components/WeatherLocationsEditDialog';
+// TYPES
+import { type CityGeoDataResponse } from '../common/types';
 
 export const Home = () => {
   const { isLoggedIn } = useAuth();

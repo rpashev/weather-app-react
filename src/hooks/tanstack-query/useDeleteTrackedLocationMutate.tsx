@@ -1,9 +1,12 @@
+// HOOKS
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { AxiosResponse, AxiosError } from 'axios';
-import { ApiErrorResponse } from '../../common/types';
 import { useSnackbar } from '../../context/snackbar-context';
 import { useSpinnerContext } from '../../context/spinner-context';
+// SERVICES
 import locationsService from '../../services/locations.service';
+// TYPES
+import { type AxiosResponse, type AxiosError } from 'axios';
+import { type ApiErrorResponse } from '../../common/types';
 
 export const useDeleteTrackedLocationMutate = () => {
   const { showSnackbar } = useSnackbar();
