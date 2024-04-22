@@ -5,7 +5,7 @@ type Props = {
 
 export const ThemeToggle = ({ onThemeChanged, isDarkMode }: Props) => {
   return (
-    <div className="flex h-full items-center justify-center">
+    <div className="flex h-full w-14 items-center justify-center">
       <button
         onClick={onThemeChanged}
         className={`relative h-7 w-12 rounded-full transition-colors duration-300 ease-in-out ${

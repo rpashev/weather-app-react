@@ -68,7 +68,6 @@ export const BaseLayout = () => {
   return (
     <div className="flex min-h-screen flex-col items-center dark:bg-slate-600 bg-white">
       <BaseHeader localCityData={localCityData || null} />
-
       <main className="w-full flex flex-1 justify-center">
         <Outlet />
       </main>
