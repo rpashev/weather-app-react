@@ -8,7 +8,7 @@ import { BaseLayout } from './layouts/BaseLayout';
 // PAGE COMPONENTS
 import { Register } from './pages/Register';
 import { Login } from './pages/Login';
-import { Profile } from './pages/Profile';
+import { Settings } from './pages/Settings';
 import { WeatherMap } from './pages/WeatherMap';
 import { Home } from './pages/Home';
 import { Logout } from './pages/Logout';
@@ -38,8 +38,8 @@ const router = createBrowserRouter([
         element: <Logout />,
       },
       {
-        path: 'profile',
-        element: <Profile />,
+        path: 'settings',
+        element: <Settings />,
       },
       {
         path: 'weather-map',

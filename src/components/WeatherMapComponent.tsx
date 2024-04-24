@@ -107,14 +107,9 @@ export const WeatherMapComponent = ({
       maxBoundsViscosity={1}
       crs={L.CRS.EPSG3857}
     >
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        maxZoom={18}
-      />
+      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" maxZoom={18} />
       <TileLayer
         url={`https://tile.openweathermap.org/map/${getLayerName(weatherLayer)}/{z}/{x}/{y}.png?appid=${import.meta.env.VITE_WEATHER_API_KEY}`}
-        attribution='Weather data © <a href="https://openweathermap.org">OpenWeatherMap</a>'
         maxZoom={18}
       />
       <MarkerClusterGroup iconCreateFunction={createClusterCustomIcon}>

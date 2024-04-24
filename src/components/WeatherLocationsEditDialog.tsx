@@ -6,7 +6,14 @@ import { SortableItem } from './WeatherLocationSortableItem';
 // HOOKS
 import { useReplaceTrackedLocationsMutate } from '../hooks/tanstack-query/useReplaceTrackedLocationsMutate.';
 // DND-KIT
-import { DndContext, MouseSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import {
+  DndContext,
+  MouseSensor,
+  PointerSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 // TYPES
 import { type TrackedLocationsType } from '../schemas/TrackedLocationsSchema';
@@ -31,7 +38,8 @@ export const WeatherLocationsEditDialog = ({
         distance: 10,
       },
     }),
-    useSensor(MouseSensor)
+    useSensor(MouseSensor),
+    useSensor(TouchSensor)
   );
 
   const handleDragEnd = useCallback(
@@ -62,7 +70,7 @@ export const WeatherLocationsEditDialog = ({
       <dialog
         open
         className="flex flex-col tw-fixed-center bg-red w-[900px] max-w-[95%] h-[500px] mx-auto "
-        style={{ zIndex: 2000 }}
+        style={{ zIndex: 3000 }}
       >
         <header className="relative flex justify-between items-center tw-gradient-main py-3 px-4 text-xl font-bold">
           <h2>Your tracked locations</h2>
