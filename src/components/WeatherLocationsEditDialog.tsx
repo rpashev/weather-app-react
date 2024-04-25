@@ -69,7 +69,7 @@ export const WeatherLocationsEditDialog = ({
       <Backdrop onClickBackdrop={closeDialog} />
       <dialog
         open
-        className="flex flex-col tw-fixed-center bg-red w-[900px] max-w-[95%] h-[500px] mx-auto "
+        className="flex flex-col tw-fixed-center bg-red w-[900px] max-w-[95%] h-[500px] mx-auto no-doc-scroll"
         style={{ zIndex: 3000 }}
       >
         <header className="relative flex justify-between items-center tw-gradient-main py-3 px-4 text-xl font-bold">
@@ -87,7 +87,7 @@ export const WeatherLocationsEditDialog = ({
               items={locations.map((item) => item.id)}
               strategy={verticalListSortingStrategy}
             >
-              <ul className="flex flex-col">
+              <ul className="flex flex-col touch-none">
                 {locations.map((item) => (
                   <SortableItem
                     key={item.id}

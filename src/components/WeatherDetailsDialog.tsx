@@ -103,7 +103,7 @@ export const WeatherDetailsDialog = ({
       <Backdrop onClickBackdrop={closeDialog} />
       <dialog
         open
-        className="overflow-y-auto flex flex-col tw-fixed-center w-[850px] max-w-[100%] sm:max-w-[95%] md:h-[780px] h-screen mx-auto"
+        className="overflow-y-auto flex flex-col tw-fixed-center w-[850px] max-w-[100%] sm:max-w-[95%] md:h-[780px] h-screen mx-auto no-doc-scroll"
         style={{ zIndex: 3000 }}
       >
         <header className="relative flex justify-between items-center tw-gradient-main py-3 px-4 text-xl font-bold">
