@@ -13,6 +13,7 @@ import {
 } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { WeatherChartFilterType } from '../../common/types';
+import { useEffect, useState } from 'react';
 
 type PropsType = {
   datasetValues: any[];
@@ -31,6 +32,22 @@ export const LineChart = ({ datasetValues, mode }: PropsType) => {
     Legend,
     Filler
   );
+
+  const [padding, setPadding] = useState<{ left: number; right: number }>({ left: 32, right: 32 });
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setPadding({ left: 20, right: 20 });
+      } else {
+        setPadding({ left: 32, right: 32 });
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const labels = datasetValues.map(toString);
   const min = Math.min(...datasetValues);
@@ -55,10 +72,7 @@ export const LineChart = ({ datasetValues, mode }: PropsType) => {
     responsive: true,
     maintainAspectRatio: false,
     layout: {
-      padding: {
-        left: 32,
-        right: 32,
-      },
+      padding,
     },
     scales: {
       x: {
@@ -111,7 +125,7 @@ export const LineChart = ({ datasetValues, mode }: PropsType) => {
   };
 
   return (
-    <div className="min-h-[200px]">
+    <div className="min-h-[200px] px-0">
       <Line data={data} options={options} />
     </div>
   );

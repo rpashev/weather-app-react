@@ -5,7 +5,6 @@ import { useState, useEffect } from 'react';
 import { BaseHeader } from '../components/layout/BaseHeader';
 import { BaseFooter } from '../components/layout/BaseFooter';
 // HOOKS
-import { useSnackbar } from '../context/snackbar-context';
 import { useFetchCityDataQuery } from '../hooks/tanstack-query/useFetchCityDataQuery';
 import { useSpinnerContext } from '../context/spinner-context';
 
@@ -21,7 +20,6 @@ type Position = {
 export const BaseLayout = () => {
   const [userLocation, setUserLocation] = useState<CoordinatesGeoBrowser | null>(null);
 
-  const { showSnackbar } = useSnackbar();
   const { hideSpinner, showSpinner } = useSpinnerContext();
 
   const { data: localCityData, refetch: fetchLocalCityData } = useFetchCityDataQuery(
@@ -52,7 +50,7 @@ export const BaseLayout = () => {
         );
         setUserLocation(coords);
       } catch (error) {
-        showSnackbar('Error getting location!', 'error');
+        // showSnackbar('Error getting location!', 'error');
       }
     };
 

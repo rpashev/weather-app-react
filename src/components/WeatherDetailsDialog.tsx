@@ -103,7 +103,7 @@ export const WeatherDetailsDialog = ({
       <Backdrop onClickBackdrop={closeDialog} />
       <dialog
         open
-        className="overflow-y-auto flex flex-col tw-fixed-center bg-red w-[850px] max-w-[95%] h-[780px] mx-auto"
+        className="overflow-y-auto flex flex-col tw-fixed-center w-[850px] max-w-[100%] sm:max-w-[95%] md:h-[780px] h-screen mx-auto"
         style={{ zIndex: 3000 }}
       >
         <header className="relative flex justify-between items-center tw-gradient-main py-3 px-4 text-xl font-bold">
@@ -115,10 +115,10 @@ export const WeatherDetailsDialog = ({
             &#10005;
           </button>
         </header>
-        <div className="flex  justify-between items-center flex-wrap gap-5 px-6">
-          <div className="flex items-center flex-wrap gap-6">
-            <div className="flex gap-2 items-center">
-              <div className="w-24 h-auto">
+        <div className="flex  justify-between items-center flex-wrap gap-5 px-2 md:px-6">
+          <div className="flex items-center flex-wrap gap-6  justify-between w-full md:w-auto pr-2 md:pr-none">
+            <div className="flex md:gap-2 gap-1 items-center">
+              <div className="md:w-24 w-16 h-auto">
                 {!activeTimestamp && (
                   <img
                     className="w-full h-full object-cover"
@@ -132,7 +132,10 @@ export const WeatherDetailsDialog = ({
                   />
                 )}
               </div>
-              <div style={{ fontFamily: 'Arial' }} className="text-5xl tracking-tight font-bold">
+              <div
+                style={{ fontFamily: 'Arial' }}
+                className="md:text-5xl text-3xl tracking-tight font-bold"
+              >
                 {activeTimestamp &&
                   Math.round(dailyForecastData[activeDay]?.hourlyData[activeTimestamp]?.main?.temp)}
                 {!activeTimestamp && Math.round(dailyForecastData[activeDay]?.maxTemp || 0)}
@@ -140,8 +143,8 @@ export const WeatherDetailsDialog = ({
               </div>
             </div>
             {activeTimestamp && (
-              <ul className="text-xs pb-2 flex flex-col gap-[4px]">
-                <li className="flex justify-between items-end gap-6">
+              <ul className="text-xs pb-2 pt-2 md:pt-none flex flex-col gap-[4px]">
+                <li className="flex justify-between items-end gap-4">
                   <label>Feels like</label>
                   <label className="font-bold text-[13px]">
                     {Math.round(
@@ -152,7 +155,7 @@ export const WeatherDetailsDialog = ({
                     °C
                   </label>
                 </li>
-                <li className="flex justify-between items-end">
+                <li className="flex justify-between items-end gap-4">
                   <label>Wind</label>
                   <label className="font-bold text-[13px]">
                     {Math.round(
@@ -161,7 +164,7 @@ export const WeatherDetailsDialog = ({
                     m/s
                   </label>
                 </li>
-                <li className="flex justify-between items-end">
+                <li className="flex justify-between items-end gap-4">
                   <label>Precipitation</label>
                   <label className="font-bold text-[13px]">
                     {Math.round(
@@ -174,22 +177,22 @@ export const WeatherDetailsDialog = ({
             )}
 
             {!activeTimestamp && (
-              <ul className="text-xs pb-2 flex flex-col gap-[4px]">
-                <li className="flex justify-between items-end">
+              <ul className="text-xs pb-2 pt-2 md:pt-none flex flex-col gap-[4px]">
+                <li className="flex justify-between items-end gap-4">
                   <label>Max Temp</label>
                   <label className="font-bold text-[13px]">
                     {dailyForecastData[activeDay]?.maxTemp}
                     °C
                   </label>
                 </li>
-                <li className="flex justify-between items-end">
+                <li className="flex justify-between items-end gap-4">
                   <label>Min Temp</label>
                   <label className="font-bold text-[13px]">
                     {dailyForecastData[activeDay]?.minTemp}
                     °C
                   </label>
                 </li>
-                <li className="flex justify-between items-end gap-6">
+                <li className="flex justify-between items-end gap-4">
                   <label>Avg Temp</label>
                   <label className="font-bold text-[13px]">
                     {dailyForecastData[activeDay]?.avgTemp}
@@ -200,18 +203,18 @@ export const WeatherDetailsDialog = ({
             )}
           </div>
 
-          <div className="min-w-32">
-            <h2 className="text-xl">Weather</h2>
-            <div>{`${dailyForecastData[activeDay]?.day} ${(activeTimestamp && formatUnixTimestamp(dailyForecastData[activeDay].hourlyData[activeTimestamp].dt, 0, true)) || ''}`}</div>
+          <div className="min-w-32 mb-4 md:mb-none pl-4 md:pl-none">
+            <h2 className="md:text-xl text-md">Weather</h2>
+            <div className="md:text-md text-xs">{`${dailyForecastData[activeDay]?.day} ${(activeTimestamp && formatUnixTimestamp(dailyForecastData[activeDay].hourlyData[activeTimestamp].dt, 0, true)) || ''}`}</div>
 
-            <div>
+            <div className="md:text-md text-xs">
               {!activeTimestamp && dailyForecastData[activeDay]?.avgDescription}
               {activeTimestamp &&
                 dailyForecastData[activeDay].hourlyData[activeTimestamp].weather[0].description}
             </div>
           </div>
         </div>
-        <div className="flex gap-4 px-6 mx-auto flex-wrap">
+        <div className="flex gap-2 md:gap-4 md:px-6 px-3 mx-auto flex-wrap text-sm md:text-md">
           <div
             onClick={() => setActiveFilter('Temp')}
             className={`flex flex-col
@@ -242,16 +245,16 @@ export const WeatherDetailsDialog = ({
           <LineChart datasetValues={getdefaultActiveHourlyChartData()} mode={activeFilter} />
         )}
 
-        <div className="flex justify-between flex-col gap-10 px-6 mt-6">
-          <div className="flex items-center justify-between gap-10 flex-wrap">
+        <div className="flex justify-between flex-col gap-10 md:px-6 px-4 mt-6">
+          <div className="flex items-center justify-between md:gap-6 lg:gap-10 flex-wrap">
             {Object.keys(dailyForecastData[activeDay]?.hourlyData)?.map((timestamp) => {
               return (
                 <div
                   key={timestamp}
                   onClick={() => setActiveTimestamp(timestamp)}
                   className={`flex flex-col
-                   items-center rounded
-                   hover:bg-slate-200 cursor-pointer p-2 transition-all ${activeTimestamp === timestamp && 'bg-slate-200'}`}
+                   items-center rounded text-[10px] sm:text-sm
+                   hover:bg-slate-200 cursor-pointer p-1 sm:p-2 transition-all ${activeTimestamp === timestamp && 'bg-slate-200'}`}
                 >
                   {formatUnixTimestamp(+timestamp, 0, true)}
                 </div>
@@ -269,8 +272,8 @@ export const WeatherDetailsDialog = ({
                         setActiveDay(dateKeys[1]);
                       }}
                       className={`flex flex-col
-                   items-center rounded
-                   hover:bg-slate-200 cursor-pointer p-2 transition-all ${activeTimestamp === timestamp && 'bg-slate-200'}`}
+                   items-center rounded text-[10px] sm:text-sm
+                   hover:bg-slate-200 cursor-pointer p-1 sm:p-2 transition-all ${activeTimestamp === timestamp && 'bg-slate-200'}`}
                     >
                       {formatUnixTimestamp(+timestamp, 0, true)}
                     </div>
@@ -284,22 +287,22 @@ export const WeatherDetailsDialog = ({
                   key={date}
                   className={`flex flex-col
                    items-center 
-                   hover:bg-slate-200 cursor-pointer p-2 transition-all rounded ${activeDay === date && 'bg-slate-200'}`}
+                   hover:bg-slate-200 cursor-pointer mb-8 md:mb-none p-1 md:p-2 transition-all rounded ${activeDay === date && 'bg-slate-200'}`}
                   onClick={() => onClickDay(date)}
                 >
                   <div>{dailyForecastData[date].day.substring(0, 3)}</div>
-                  <div className="w-24 h-auto">
+                  <div className="md:w-24 w-12 h-auto">
                     <img
                       className="w-full h-full object-cover"
                       src={`https://openweathermap.org/img/wn/${dailyForecastData[date].mostCommonIcon}@2x.png`}
                     />
                   </div>
                   <div>
-                    <span className="text-red-600 font-semibold">
+                    <span className="text-red-600 text-sm md:text-md font-semibold">
                       {dailyForecastData[date].maxTemp}°
                     </span>
                     <span> | </span>
-                    <span className="text-blue-600 font-semibold">
+                    <span className="text-blue-600 text-sm md:text-md font-semibold">
                       {dailyForecastData[date].minTemp}°
                     </span>
                   </div>
