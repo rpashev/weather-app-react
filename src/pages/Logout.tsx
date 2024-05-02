@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/user-context';
-import { useSnackbar } from '../context/snackbar-context';
+import { useAuthContext } from '../context/user-context';
+import { useSnackbarContext } from '../context/snackbar-context';
 
 export const Logout = () => {
-  const { showSnackbar: show } = useSnackbar();
-  const { logout } = useAuth();
+  const { showSnackbar: show } = useSnackbarContext();
+  const { logout } = useAuthContext();
 
   const navigate = useNavigate();
 

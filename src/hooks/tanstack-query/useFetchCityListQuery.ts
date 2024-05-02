@@ -1,6 +1,6 @@
 // HOOKS
 import { useQuery } from '@tanstack/react-query';
-import { useSnackbar } from '../../context/snackbar-context';
+import { useSnackbarContext } from '../../context/snackbar-context';
 // TYPES & SCHEMAS
 import { type AxiosError } from 'axios';
 import {
@@ -13,7 +13,7 @@ import weatherApiService from '../../services/weather-api.service';
 import { zodParseResult } from '../../utils/zod-parse';
 
 export const useFetchCityListQuery = (searchTerm: string) => {
-  const { showSnackbar } = useSnackbar();
+  const { showSnackbar } = useSnackbarContext();
 
   return useQuery<CityListWeatherApiResponseData, AxiosError>({
     queryKey: ['search-city', searchTerm],

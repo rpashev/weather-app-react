@@ -1,6 +1,6 @@
 // HOOKS
 import { useQuery } from '@tanstack/react-query';
-import { useSnackbar } from '../../context/snackbar-context';
+import { useSnackbarContext } from '../../context/snackbar-context';
 // SERVICES
 import weatherApiService from '../../services/weather-api.service';
 // TYPES & SCHEMAS
@@ -14,7 +14,7 @@ export const useFetchCityDataQuery = (
   coordinates: CoordinatesWeatherApi | null,
   enabled = true
 ) => {
-  const { showSnackbar } = useSnackbar();
+  const { showSnackbar } = useSnackbarContext();
 
   return useQuery<BaseWeatherResponseData, AxiosError>({
     queryKey: ['selected-city', { lon: coordinates?.lon!, lat: coordinates?.lat! }],

@@ -20,7 +20,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-export const useAuth = () => {
+export const useAuthContext = () => {
   return useContext(AuthContext);
 };
 

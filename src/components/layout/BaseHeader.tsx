@@ -1,6 +1,6 @@
 // REACT
-import { useEffect, useMemo, useState } from 'react';
-import { useAuth } from '../../context/user-context';
+import { useState } from 'react';
+import { useAuthContext } from '../../context/user-context';
 import { NavLink } from 'react-router-dom';
 // COMPONENTS
 import { ThemeToggle } from '../UI/ThemeToggle';
@@ -9,6 +9,7 @@ import { MobileNavigation } from './MobileNavigation';
 
 // TYPES
 import { type BaseWeatherResponseData } from '../../schemas/BaseWeatherSchema';
+import { useSettingsContext } from '../../context/settings-context';
 
 type BaseHeaderProps = {
   localCityData: BaseWeatherResponseData | null;
@@ -41,47 +42,18 @@ export const navItems: Links = {
 };
 
 export const BaseHeader = ({ localCityData }: BaseHeaderProps) => {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn } = useAuthContext();
+  const { settings } = useSettingsContext();
+  const isDarkTheme = settings.theme === 'dark';
   const navLinks = isLoggedIn ? navItems.user : navItems.public;
 
-  const [themeChanged, setThemeChanged] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-
-  const theme = useMemo(() => {
-    return localStorage.getItem('color-theme');
-  }, [themeChanged]);
-
-  const toggleTheme = () => {
-    setThemeChanged((prev) => !prev);
-    if (theme === 'light') {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('color-theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('color-theme', 'light');
-    }
-  };
-
-  useEffect(() => {
-    if (!theme || theme === 'dark') {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('color-theme', 'dark');
-    } else if (theme === 'light') {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('color-theme', 'light');
-    }
-  }, []);
 
   return (
     <header className="w-full min-h-[70px] grid relative  grid-cols-3 dark:bg-slate-800 bg-amber-400">
       {localCityData && <WeatherLocalWidget localCityData={localCityData} />}
 
-      <MobileNavigation
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        isDarkMode={theme === 'dark'}
-        toggleTheme={toggleTheme}
-      />
+      <MobileNavigation isOpen={isOpen} setIsOpen={setIsOpen} />
 
       <nav className="p-4 md:flex flex-1 justify-center hidden col-start-2">
         <ul className="flex justify-center gap-6 text-slate-100">
@@ -150,12 +122,12 @@ export const BaseHeader = ({ localCityData }: BaseHeaderProps) => {
         </div>
         <div className="hover:bg-amber-300 hidden md:flex hover:dark:bg-slate-600 has-[.active]:bg-amber-300 dark:has-[.active]:bg-slate-600 w-10 h-10 p-1 ">
           <NavLink to="/settings">
-            {(theme === 'dark' || !theme) && <img src="/cog-configure-gear-svgrepo-com.svg" />}
-            {theme === 'light' && <img src="/cog-configure-gear-svgrepo-com-dark.svg" />}
+            {isDarkTheme && <img src="/cog-configure-gear-svgrepo-com.svg" />}
+            {!isDarkTheme && <img src="/cog-configure-gear-svgrepo-com-dark.svg" />}
           </NavLink>
         </div>
         <div className="hidden md:flex">
-          <ThemeToggle onThemeChanged={toggleTheme} isDarkMode={theme === 'dark'} />
+          <ThemeToggle />
         </div>
       </div>
     </header>

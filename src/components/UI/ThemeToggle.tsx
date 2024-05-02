@@ -1,13 +1,12 @@
-type Props = {
-  onThemeChanged: () => void;
-  isDarkMode: boolean;
-};
+import { useSettingsContext } from '../../context/settings-context';
 
-export const ThemeToggle = ({ onThemeChanged, isDarkMode }: Props) => {
+export const ThemeToggle = () => {
+  const { toggleDarkMode, settings } = useSettingsContext();
+  const isDarkMode = settings.theme === 'dark';
   return (
     <div className="flex h-full w-14 items-center justify-center">
       <button
-        onClick={onThemeChanged}
+        onClick={toggleDarkMode}
         className={`relative h-7 w-12 rounded-full transition-colors duration-300 ease-in-out ${
           !isDarkMode ? 'bg-gray-600' : 'bg-gray-600'
         }`}

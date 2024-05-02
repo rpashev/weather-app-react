@@ -13,7 +13,7 @@ const SnackbarContext = createContext<SnackbarContextType>({
 });
 
 // Custom hook to access the Snackbar context
-export const useSnackbar = () => {
+export const useSnackbarContext = () => {
   return useContext(SnackbarContext);
 };
 // Snackbar provider component

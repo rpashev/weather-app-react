@@ -1,17 +1,15 @@
 import { NavLink } from 'react-router-dom';
 import { Backdrop } from '../UI/Backdrop';
 import { navItems } from './BaseHeader';
-import { useAuth } from '../../context/user-context';
+import { useAuthContext } from '../../context/user-context';
 import { ThemeToggle } from '../UI/ThemeToggle';
 type PropsType = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  isDarkMode: boolean;
-  toggleTheme: () => void;
 };
 
-export const MobileNavigation = ({ isOpen, setIsOpen, isDarkMode, toggleTheme }: PropsType) => {
-  const { isLoggedIn } = useAuth();
+export const MobileNavigation = ({ isOpen, setIsOpen }: PropsType) => {
+  const { isLoggedIn } = useAuthContext();
   const navLinks = isLoggedIn ? navItems.user : navItems.public;
 
   return (
@@ -35,7 +33,7 @@ export const MobileNavigation = ({ isOpen, setIsOpen, isDarkMode, toggleTheme }:
               </li>
             ))}
             <li className="pt-6 px-3 absolute top-0 left-0">
-              <ThemeToggle onThemeChanged={toggleTheme} isDarkMode={isDarkMode} />
+              <ThemeToggle />
             </li>
           </ul>
         )}

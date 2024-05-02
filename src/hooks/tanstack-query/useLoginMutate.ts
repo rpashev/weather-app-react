@@ -1,7 +1,7 @@
 // HOOKS
 import { useMutation } from '@tanstack/react-query';
-import { useSnackbar } from '../../context/snackbar-context';
-import { useAuth } from '../../context/user-context';
+import { useSnackbarContext } from '../../context/snackbar-context';
+import { useAuthContext } from '../../context/user-context';
 import { useNavigate } from 'react-router-dom';
 import { useSpinnerContext } from '../../context/spinner-context';
 // SERVICES
@@ -15,8 +15,8 @@ import {
 } from '../../common/types';
 
 export const useLoginMutate = () => {
-  const { login } = useAuth();
-  const { showSnackbar } = useSnackbar();
+  const { login } = useAuthContext();
+  const { showSnackbar } = useSnackbarContext();
   const navigate = useNavigate();
   const { hideSpinner, showSpinner } = useSpinnerContext();
 

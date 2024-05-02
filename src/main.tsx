@@ -18,6 +18,7 @@ import { SnackbarProvider } from './context/snackbar-context';
 import { SpinnerProvider } from './context/spinner-context';
 // TANSTACK QUERY
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { SettingsProvider } from './context/settings-context';
 
 const router = createBrowserRouter([
   {
@@ -54,13 +55,15 @@ const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(
-  <SnackbarProvider>
-    <SpinnerProvider>
-      <AuthContextProvider>
-        <QueryClientProvider client={queryClient}>
-          <RouterProvider router={router} />
-        </QueryClientProvider>
-      </AuthContextProvider>
-    </SpinnerProvider>
-  </SnackbarProvider>
+  <SettingsProvider>
+    <SnackbarProvider>
+      <SpinnerProvider>
+        <AuthContextProvider>
+          <QueryClientProvider client={queryClient}>
+            <RouterProvider router={router} />
+          </QueryClientProvider>
+        </AuthContextProvider>
+      </SpinnerProvider>
+    </SnackbarProvider>
+  </SettingsProvider>
 );

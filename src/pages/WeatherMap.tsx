@@ -5,12 +5,12 @@ import { WeatherMapComponent } from '../components/WeatherMapComponent';
 import { WeatherMapLegend } from '../components/WeatherMapLegend';
 // HOOKS
 import { useFetchTrackedLocationsQuery } from '../hooks/tanstack-query/useFetchTrackedLocationsQuery';
-import { useAuth } from '../context/user-context';
+import { useAuthContext } from '../context/user-context';
 // TYPES
 import { type WeatherMapLayerType } from '../common/types';
 
 export const WeatherMap = () => {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn } = useAuthContext();
 
   const { data: trackedLocationList } = useFetchTrackedLocationsQuery();
 

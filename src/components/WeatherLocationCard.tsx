@@ -1,7 +1,7 @@
 // REACT
 import { useState } from 'react';
 // HOOKS
-import { useAuth } from '../context/user-context';
+import { useAuthContext } from '../context/user-context';
 import { useFetchCityDataQuery } from '../hooks/tanstack-query/useFetchCityDataQuery';
 import { useTrackedLocationMutate } from '../hooks/tanstack-query/useTrackedLocationMutate';
 import { useDeleteTrackedLocationMutate } from '../hooks/tanstack-query/useDeleteTrackedLocationMutate';
@@ -21,7 +21,7 @@ export const WeatherLocationCard = ({
   id,
   locationAlreadyTracked,
 }: WeatherLocationCardProps) => {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn } = useAuthContext();
 
   const { data: weatherData } = useFetchCityDataQuery({
     lon: coords?.lon!,

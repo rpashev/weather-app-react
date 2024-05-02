@@ -1,7 +1,7 @@
 // HOOKS
 import { useQuery } from '@tanstack/react-query';
 import { useSpinnerContext } from '../../context/spinner-context';
-import { useSnackbar } from '../../context/snackbar-context';
+import { useSnackbarContext } from '../../context/snackbar-context';
 // SERVICES
 import weatherApiService from '../../services/weather-api.service';
 // TYPES & SCHEMAS
@@ -16,7 +16,7 @@ import { zodParseResult } from '../../utils/zod-parse';
 
 export const useFetchWeatherForecastQuery = (coordinates: CoordinatesWeatherApi | null) => {
   const { hideSpinner, showSpinner } = useSpinnerContext();
-  const { showSnackbar } = useSnackbar();
+  const { showSnackbar } = useSnackbarContext();
 
   return useQuery<WeatherForecastResponseData, AxiosError>({
     queryKey: ['forecast-city', { lon: coordinates?.lon!, lat: coordinates?.lat! }],

@@ -6,12 +6,12 @@ import { WeatherSearchLocationInput } from '../components/WeatherSearchLocationI
 import { WeatherLocationsEditDialog } from '../components/WeatherLocationsEditDialog';
 // HOOKS
 import { useFetchTrackedLocationsQuery } from '../hooks/tanstack-query/useFetchTrackedLocationsQuery';
-import { useAuth } from '../context/user-context';
+import { useAuthContext } from '../context/user-context';
 // TYPES
 import { type CityGeoDataResponse } from '../common/types';
 
 export const Home = () => {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn } = useAuthContext();
 
   const [selectedCity, setSelectedCity] = useState<CityGeoDataResponse | null>(null);
 

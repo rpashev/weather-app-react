@@ -1,6 +1,6 @@
 // HOOKS
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useSnackbar } from '../../context/snackbar-context';
+import { useSnackbarContext } from '../../context/snackbar-context';
 import { useSpinnerContext } from '../../context/spinner-context';
 // SERVICES
 import locationsService from '../../services/locations.service';
@@ -13,7 +13,7 @@ import {
 } from '../../common/types';
 
 export const useTrackedLocationMutate = () => {
-  const { showSnackbar } = useSnackbar();
+  const { showSnackbar } = useSnackbarContext();
   const { hideSpinner, showSpinner } = useSpinnerContext();
 
   const queryClient = useQueryClient();
