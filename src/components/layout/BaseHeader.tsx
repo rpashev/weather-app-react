@@ -10,13 +10,14 @@ import { MobileNavigation } from './MobileNavigation';
 // TYPES
 import { type BaseWeatherResponseData } from '../../schemas/BaseWeatherSchema';
 import { useSettingsContext } from '../../context/settings-context';
+import { linkTitleType } from '../../common/languages/en';
 
 type BaseHeaderProps = {
   localCityData: BaseWeatherResponseData | null;
 };
 
 type Link = {
-  title: string;
+  title: linkTitleType;
   path: string;
   id: number;
 };
@@ -43,20 +44,19 @@ export const navItems: Links = {
 
 export const BaseHeader = ({ localCityData }: BaseHeaderProps) => {
   const { isLoggedIn } = useAuthContext();
-  const { settings } = useSettingsContext();
+  const { settings, translations } = useSettingsContext();
   const isDarkTheme = settings.theme === 'dark';
   const navLinks = isLoggedIn ? navItems.user : navItems.public;
-
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="w-full min-h-[70px] grid relative  grid-cols-3 dark:bg-slate-800 bg-amber-400">
+    <header className="w-full min-h-[70px] grid relative grid-cols-[1fr_3fr_1fr] dark:bg-slate-800 bg-amber-400">
       {localCityData && <WeatherLocalWidget localCityData={localCityData} />}
 
       <MobileNavigation isOpen={isOpen} setIsOpen={setIsOpen} />
 
       <nav className="p-4 md:flex flex-1 justify-center hidden col-start-2">
-        <ul className="flex justify-center gap-6 text-slate-100">
+        <ul className="flex justify-center gap-2 text-slate-100">
           {navLinks.map(
             (link) =>
               link.title !== 'Settings' && (
@@ -65,7 +65,7 @@ export const BaseHeader = ({ localCityData }: BaseHeaderProps) => {
                   className="rounded px-3 py-1 transition-all hover:bg-amber-300 hover:dark:bg-slate-600 has-[.active]:bg-amber-300 dark:has-[.active]:bg-slate-600 text-slate-800 dark:text-slate-100"
                 >
                   <NavLink to={link.path} className="inline-block text-xl leading-normal">
-                    {link.title}
+                    {translations?.linkTitles[link.title]}
                   </NavLink>
                 </li>
               )

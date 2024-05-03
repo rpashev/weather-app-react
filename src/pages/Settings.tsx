@@ -1,9 +1,9 @@
-import { useState } from 'react';
 import { BaseToggle } from '../components/UI/BaseToggle';
 import { ThemeToggle } from '../components/UI/ThemeToggle';
+import { useSettingsContext } from '../context/settings-context';
 
 export const Settings = () => {
-  const [isCelsius, setIsCelsius] = useState(false);
+  const { settings, onChangeLanguage, onChangeUnits } = useSettingsContext();
   return (
     <div className="mt-8 py-4 max-container ">
       <div className="w-full rounded-lg px-5 py-4 pb-6 dark:text-slate-100 text-slate-800 sm:w-[25rem] bg-slate-100 dark:bg-slate-800">
@@ -12,7 +12,7 @@ export const Settings = () => {
           <li className="flex items-center justify-between w-full gap-6">
             <label className="text-lg text-slate-800 dark:text-slate-100">Imperial units</label>
             <div>
-              <BaseToggle isChecked={isCelsius} setIsChecked={setIsCelsius} />
+              <BaseToggle isChecked={settings.units === 'metric'} setIsChecked={onChangeUnits} />
             </div>
           </li>
           <li className="flex items-center w-full justify-between gap-6">
@@ -20,14 +20,21 @@ export const Settings = () => {
               Language
             </label>
             <div className="w-40 h-full">
-              <select id="language" className="tw-text-input w-full h-full cursor-pointer">
-                <option>English</option>
-                <option>German</option>
-                <option>Bulgarian</option>
-                <option>Spanish</option>
-                <option>French</option>
-                <option>Chinese</option>
-                <option>Russian</option>
+              <select
+                value={settings.language}
+                onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
+                  onChangeLanguage(event.target.value)
+                }
+                id="language"
+                className="tw-text-input w-full h-full cursor-pointer"
+              >
+                <option value="en">English</option>
+                <option value="de">German</option>
+                <option value="bg">Bulgarian</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+                <option value="cn">Chinese</option>
+                <option value="ru">Russian</option>
               </select>
             </div>
           </li>
@@ -39,7 +46,14 @@ export const Settings = () => {
           </li>
           <li className="flex items-center justify-between w-full gap-6">
             <label className="text-lg text-slate-800 dark:text-slate-100">Change location</label>
-            <div></div>
+            <div>
+              <button
+                className="rounded bg-amber-400 px-4 py-2 text-md font-semibold tracking-wider text-slate-800
+             transition-all hover:bg-amber-300"
+              >
+                Detect location
+              </button>
+            </div>
           </li>
         </ul>
       </div>

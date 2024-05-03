@@ -1,5 +1,5 @@
 type Props = {
-  setIsChecked: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsChecked: React.Dispatch<React.SetStateAction<boolean>> | ((val: boolean) => void);
   isChecked: boolean;
 };
 
@@ -13,7 +13,7 @@ export const BaseToggle = ({ setIsChecked, isChecked }: Props) => {
         <div
           className={`absolute top-1/2 h-6 w-6 rounded-full shadow-md transition-transform duration-300 ease-in-out ${
             isChecked
-              ? '-translate-y-1/2 translate-x-full transform bg-amber-400'
+              ? '-translate-y-1/2 translate-x-full transform bg-orange-500'
               : '-translate-y-1/2 dark:bg-slate-500 bg-slate-200'
           }`}
         ></div>

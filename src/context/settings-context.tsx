@@ -1,4 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import { type LanguageMapType } from '../common/languages/en';
+import { en, de, ru, bg, fr, es, cn } from '../common/languages/index.ts';
+const languageMaps: { [key: string]: LanguageMapType } = { en, de, ru, cn, bg, fr, es };
 
 type SettingsStateType = {
   language: string;
@@ -9,6 +12,9 @@ type SettingsStateType = {
 type SettingsContextType = {
   settings: SettingsStateType;
   toggleDarkMode: () => void;
+  onChangeUnits: (val: boolean) => void;
+  onChangeLanguage: (val: string) => void;
+  translations?: LanguageMapType;
 };
 
 const initialContext: SettingsContextType = {
@@ -18,6 +24,9 @@ const initialContext: SettingsContextType = {
     units: 'metric',
   },
   toggleDarkMode: () => {},
+  onChangeUnits: () => {},
+  onChangeLanguage: () => {},
+  translations: languageMaps.en,
 };
 
 const getInitialSettingsState = (): SettingsStateType => {
@@ -46,9 +55,24 @@ export const SettingsProvider = ({ children }: SettingsProviderProps) => {
     });
   };
 
+  const onChangeLanguage = (val: string) => {
+    setSettingsState((prevState) => {
+      return { ...prevState, language: val };
+    });
+  };
+
+  const onChangeUnits = (val: boolean) => {
+    setSettingsState((prevState) => {
+      return { ...prevState, units: val ? 'metric' : 'imperial' };
+    });
+  };
+
   const value = {
     settings: settingsState,
+    translations: languageMaps[settingsState.language],
     toggleDarkMode,
+    onChangeLanguage,
+    onChangeUnits,
   };
 
   useEffect(() => {
