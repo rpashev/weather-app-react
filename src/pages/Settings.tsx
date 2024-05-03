@@ -3,7 +3,8 @@ import { ThemeToggle } from '../components/UI/ThemeToggle';
 import { useSettingsContext } from '../context/settings-context';
 
 export const Settings = () => {
-  const { settings, onChangeLanguage, onChangeUnits } = useSettingsContext();
+  const { settings, onChangeLanguage, onChangeUnits, getUserLocation } = useSettingsContext();
+
   return (
     <div className="mt-8 py-4 max-container ">
       <div className="w-full rounded-lg px-5 py-4 pb-6 dark:text-slate-100 text-slate-800 sm:w-[25rem] bg-slate-100 dark:bg-slate-800">
@@ -48,6 +49,7 @@ export const Settings = () => {
             <label className="text-lg text-slate-800 dark:text-slate-100">Change location</label>
             <div>
               <button
+                onClick={getUserLocation}
                 className="rounded bg-amber-400 px-4 py-2 text-md font-semibold tracking-wider text-slate-800
              transition-all hover:bg-amber-300"
               >

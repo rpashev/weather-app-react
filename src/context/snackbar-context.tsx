@@ -7,16 +7,14 @@ type SnackbarContextType = {
   showSnackbar: (message: string, mode: SnackbarMode) => void;
 };
 
-// Create the Snackbar context
 const SnackbarContext = createContext<SnackbarContextType>({
   showSnackbar: () => {},
 });
 
-// Custom hook to access the Snackbar context
 export const useSnackbarContext = () => {
   return useContext(SnackbarContext);
 };
-// Snackbar provider component
+
 type SnackbarProviderProps = {
   children: React.ReactNode;
 };

@@ -1,68 +1,31 @@
 // REACT
 import { Outlet } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 // COMPONENTS
 import { BaseHeader } from '../components/layout/BaseHeader';
 import { BaseFooter } from '../components/layout/BaseFooter';
 // HOOKS
 import { useFetchCityDataQuery } from '../hooks/tanstack-query/useFetchCityDataQuery';
 import { useSpinnerContext } from '../context/spinner-context';
-
-type CoordinatesGeoBrowser = {
-  latitude: number;
-  longitude: number;
-};
-
-type Position = {
-  coords: CoordinatesGeoBrowser;
-};
+import { useSettingsContext } from '../context/settings-context';
 
 export const BaseLayout = () => {
-  const [userLocation, setUserLocation] = useState<CoordinatesGeoBrowser | null>(null);
-
   const { hideSpinner, showSpinner } = useSpinnerContext();
-
+  const { settings } = useSettingsContext();
   const { data: localCityData, refetch: fetchLocalCityData } = useFetchCityDataQuery(
     {
-      lon: userLocation?.longitude!,
-      lat: userLocation?.latitude!,
+      lon: settings?.userLocation?.longitude!,
+      lat: settings?.userLocation?.latitude!,
     },
     false
   );
 
   useEffect(() => {
-    const getUserLocation = async () => {
-      try {
-        const savedLocation = localStorage.getItem('userLocation');
-        if (savedLocation) {
-          setUserLocation(JSON.parse(savedLocation));
-          return;
-        }
-        const position = await new Promise<Position>((resolve, reject) => {
-          navigator.geolocation.getCurrentPosition(resolve, reject);
-        });
-
-        const { coords } = position;
-
-        localStorage.setItem(
-          'userLocation',
-          JSON.stringify({ latitude: coords.latitude, longitude: coords.longitude })
-        );
-        setUserLocation(coords);
-      } catch (error) {
-        // showSnackbar('Error getting location!', 'error');
-      }
-    };
-
-    getUserLocation();
-  }, []);
-
-  useEffect(() => {
-    if (userLocation) {
+    if (settings.userLocation) {
       showSpinner();
       fetchLocalCityData().finally(() => hideSpinner());
     }
-  }, [userLocation]);
+  }, [settings.userLocation]);
   return (
     <div className="flex min-h-screen flex-col items-center dark:bg-slate-600 bg-white">
       <BaseHeader localCityData={localCityData || null} />

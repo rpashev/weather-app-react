@@ -1,6 +1,8 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { type LanguageMapType } from '../common/languages/en';
 import { en, de, ru, bg, fr, es, cn } from '../common/languages/index.ts';
+import { useSnackbarContext } from './snackbar-context.tsx';
+
 const languageMaps: { [key: string]: LanguageMapType } = { en, de, ru, cn, bg, fr, es };
 
 type SettingsStateType = {
@@ -11,10 +13,24 @@ type SettingsStateType = {
 };
 type SettingsContextType = {
   settings: SettingsStateType;
+  translations?: LanguageMapType;
   toggleDarkMode: () => void;
   onChangeUnits: (val: boolean) => void;
   onChangeLanguage: (val: string) => void;
-  translations?: LanguageMapType;
+  getUserLocation: () => void;
+};
+
+type SettingsProviderProps = {
+  children: React.ReactNode;
+};
+
+type CoordinatesGeoBrowser = {
+  latitude: number;
+  longitude: number;
+};
+
+type Position = {
+  coords: CoordinatesGeoBrowser;
 };
 
 const initialContext: SettingsContextType = {
@@ -26,6 +42,7 @@ const initialContext: SettingsContextType = {
   toggleDarkMode: () => {},
   onChangeUnits: () => {},
   onChangeLanguage: () => {},
+  getUserLocation: () => {},
   translations: languageMaps.en,
 };
 
@@ -43,11 +60,10 @@ const SettingsContext = createContext<SettingsContextType>(initialContext);
 export const useSettingsContext = () => {
   return useContext(SettingsContext);
 };
-type SettingsProviderProps = {
-  children: React.ReactNode;
-};
+
 export const SettingsProvider = ({ children }: SettingsProviderProps) => {
   const [settingsState, setSettingsState] = useState<SettingsStateType>(getInitialSettingsState());
+  const { showSnackbar } = useSnackbarContext();
 
   const toggleDarkMode = () => {
     setSettingsState((prevState) => {
@@ -67,12 +83,38 @@ export const SettingsProvider = ({ children }: SettingsProviderProps) => {
     });
   };
 
+  const getUserLocation = async () => {
+    try {
+      let permissions = await navigator.permissions.query({ name: 'geolocation' });
+      if (permissions.state === 'denied') {
+        return showSnackbar(
+          'User denied Geolocation! You can reset the permission from the icon left of the URL.',
+          'error'
+        );
+      }
+      const position = await new Promise<Position>((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject);
+      });
+      const { coords } = position;
+
+      setSettingsState((prevState) => {
+        return {
+          ...prevState,
+          userLocation: { latitude: coords.latitude, longitude: coords.longitude },
+        };
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const value = {
     settings: settingsState,
     translations: languageMaps[settingsState.language],
     toggleDarkMode,
     onChangeLanguage,
     onChangeUnits,
+    getUserLocation,
   };
 
   useEffect(() => {
@@ -83,6 +125,10 @@ export const SettingsProvider = ({ children }: SettingsProviderProps) => {
       document.documentElement.classList.remove('dark');
     }
   }, [settingsState]);
+
+  useEffect(() => {
+    getUserLocation();
+  }, []);
 
   return <SettingsContext.Provider value={value}>{children}</SettingsContext.Provider>;
 };

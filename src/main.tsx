@@ -55,8 +55,8 @@ const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(
-  <SettingsProvider>
-    <SnackbarProvider>
+  <SnackbarProvider>
+    <SettingsProvider>
       <SpinnerProvider>
         <AuthContextProvider>
           <QueryClientProvider client={queryClient}>
@@ -64,6 +64,6 @@ root.render(
           </QueryClientProvider>
         </AuthContextProvider>
       </SpinnerProvider>
-    </SnackbarProvider>
-  </SettingsProvider>
+    </SettingsProvider>
+  </SnackbarProvider>
 );
