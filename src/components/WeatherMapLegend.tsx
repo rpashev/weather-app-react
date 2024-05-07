@@ -1,4 +1,5 @@
 import { type WeatherMapLayerType } from '../common/types';
+import { useSettingsContext } from '../context/settings-context';
 
 type PropsType = {
   weatherLayer: WeatherMapLayerType;
@@ -11,6 +12,8 @@ const pressureLegendData = [950, 980, 1010, 1040, 1070];
 const cloudsLegendData = [0, 25, 50, 75, 100];
 
 export const WeatherMapLegend = ({ weatherLayer }: PropsType) => {
+  const { translations } = useSettingsContext();
+
   let activeLegendData: number[] = [];
   let legendLabel: string = '';
   let gradientClass: string = '';
@@ -18,30 +21,30 @@ export const WeatherMapLegend = ({ weatherLayer }: PropsType) => {
   switch (weatherLayer) {
     case 'precipitation':
       activeLegendData = rainLegendData;
-      legendLabel = 'Precipitation, mm/h';
+      legendLabel = translations?.pages.map.legPrecip + ', mm/h';
       gradientClass = 'legend-gradient-rain';
       break;
     case 'wind':
       activeLegendData = windLegendData;
-      legendLabel = 'Wind speed, m/s';
+      legendLabel = translations?.pages.map.legWind + ', m/s';
       gradientClass = 'legend-gradient-wind';
 
       break;
     case 'temp':
       activeLegendData = tempLegendData;
-      legendLabel = "'Temperature, °C";
+      legendLabel = translations?.pages.map.legTemp + ', °C';
       gradientClass = 'legend-gradient-temp';
 
       break;
     case 'clouds':
       activeLegendData = cloudsLegendData;
-      legendLabel = 'Clouds in %';
+      legendLabel = translations?.pages.map.legClouds + ' %';
       gradientClass = 'legend-gradient-clouds';
 
       break;
     case 'pressure':
       activeLegendData = pressureLegendData;
-      legendLabel = 'Pressure, hPa';
+      legendLabel = translations?.pages.map.legPressure + ', hPa';
       gradientClass = 'legend-gradient-pressure';
 
       break;

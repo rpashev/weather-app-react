@@ -1,8 +1,11 @@
 import { useInput } from '../hooks/useInput';
 import { useLoginMutate } from '../hooks/tanstack-query/useLoginMutate';
 import { validateEmail } from '../utils/validations';
+import { useSettingsContext } from '../context/settings-context';
 
 export const Login = () => {
+  const { translations } = useSettingsContext();
+
   const {
     value: email,
     hasError: emailError,
@@ -37,7 +40,7 @@ export const Login = () => {
         onSubmit={submitHandler}
         className="w-full rounded-lg px-5 py-4 pb-6 dark:text-slate-100 text-slate-800 sm:w-[25rem] bg-slate-100 dark:bg-slate-800"
       >
-        <h2 className="mb-5 text-center text-3xl">Login</h2>
+        <h2 className="mb-5 text-center text-3xl">{translations?.pages.login?.title}</h2>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
             <label htmlFor="email">Email</label>

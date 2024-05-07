@@ -12,6 +12,7 @@ import { type BaseWeatherResponseData } from '../schemas/BaseWeatherSchema';
 // UTILS
 import { formatUnixTimestamp, getDateFromTimezone } from '../utils/formatters';
 import { calculateDailyForecast } from '../utils/format-weather-forcast-data';
+import { useSettingsContext } from '../context/settings-context';
 
 type PropsType = {
   setDetailsDialogIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -23,6 +24,7 @@ export const WeatherDetailsDialog = ({
   coords,
   currentWeatherData,
 }: PropsType) => {
+  const { translations } = useSettingsContext();
   const closeDialog = () => setDetailsDialogIsOpen(false);
 
   const [activeTimestamp, setActiveTimestamp] = useState<string | null>(null);
@@ -107,7 +109,10 @@ export const WeatherDetailsDialog = ({
         style={{ zIndex: 3000 }}
       >
         <header className="relative flex justify-between items-center tw-gradient-main py-3 px-4 text-xl font-bold">
-          <h2>Weather for {`${currentWeatherData.name}, ${currentWeatherData.sys.country}`}</h2>
+          <h2>
+            {translations?.detDialog.title}{' '}
+            {`${currentWeatherData.name}, ${currentWeatherData.sys.country}`}
+          </h2>
           <button
             className="px-1 py-0 font-extrabold text-2xl text-grey-600 enabled:hover:bg-amber-300 transition-all"
             onClick={closeDialog}
@@ -145,7 +150,7 @@ export const WeatherDetailsDialog = ({
             {activeTimestamp && (
               <ul className="text-xs pb-2 pt-2 md:pt-none flex flex-col gap-[4px]">
                 <li className="flex justify-between items-end gap-4">
-                  <label>Feels like</label>
+                  <label>{translations?.detDialog.feelsLike}</label>
                   <label className="font-bold text-[13px]">
                     {Math.round(
                       Math.round(
@@ -156,7 +161,7 @@ export const WeatherDetailsDialog = ({
                   </label>
                 </li>
                 <li className="flex justify-between items-end gap-4">
-                  <label>Wind</label>
+                  <label>{translations?.detDialog.wind}</label>
                   <label className="font-bold text-[13px]">
                     {Math.round(
                       dailyForecastData[activeDay]?.hourlyData[activeTimestamp].wind.speed
@@ -165,7 +170,7 @@ export const WeatherDetailsDialog = ({
                   </label>
                 </li>
                 <li className="flex justify-between items-end gap-4">
-                  <label>Precipitation</label>
+                  <label>{translations?.detDialog.precipitation}</label>
                   <label className="font-bold text-[13px]">
                     {Math.round(
                       dailyForecastData[activeDay]?.hourlyData[activeTimestamp].pop * 100
@@ -179,21 +184,21 @@ export const WeatherDetailsDialog = ({
             {!activeTimestamp && (
               <ul className="text-xs pb-2 pt-2 md:pt-none flex flex-col gap-[4px]">
                 <li className="flex justify-between items-end gap-4">
-                  <label>Max Temp</label>
+                  <label>{translations?.detDialog.maxTemp}</label>
                   <label className="font-bold text-[13px]">
                     {dailyForecastData[activeDay]?.maxTemp}
                     °C
                   </label>
                 </li>
                 <li className="flex justify-between items-end gap-4">
-                  <label>Min Temp</label>
+                  <label>{translations?.detDialog.minTemp}</label>
                   <label className="font-bold text-[13px]">
                     {dailyForecastData[activeDay]?.minTemp}
                     °C
                   </label>
                 </li>
                 <li className="flex justify-between items-end gap-4">
-                  <label>Avg Temp</label>
+                  <label>{translations?.detDialog.avgTemp}</label>
                   <label className="font-bold text-[13px]">
                     {dailyForecastData[activeDay]?.avgTemp}
                     °C
@@ -204,7 +209,7 @@ export const WeatherDetailsDialog = ({
           </div>
 
           <div className="min-w-32 mb-4 md:mb-none pl-4 md:pl-none">
-            <h2 className="md:text-xl text-md">Weather</h2>
+            <h2 className="md:text-xl text-md">{translations?.detDialog.weather}</h2>
             <div className="md:text-md text-xs">{`${dailyForecastData[activeDay]?.day} ${(activeTimestamp && formatUnixTimestamp(dailyForecastData[activeDay].hourlyData[activeTimestamp].dt, 0, true)) || ''}`}</div>
 
             <div className="md:text-md text-xs">
@@ -221,7 +226,7 @@ export const WeatherDetailsDialog = ({
                    items-center rounded
                    hover:bg-slate-200 cursor-pointer p-2 transition-all ${activeFilter === 'Temp' && 'bg-slate-200'}`}
           >
-            Temperature
+            {translations?.detDialog.filtTemp}
           </div>
           <div
             onClick={() => setActiveFilter('Wind')}
@@ -229,7 +234,7 @@ export const WeatherDetailsDialog = ({
                    items-center rounded
                    hover:bg-slate-200 cursor-pointer p-2 transition-all ${activeFilter === 'Wind' && 'bg-slate-200'}`}
           >
-            Wind
+            {translations?.detDialog.wind}
           </div>
           <div
             onClick={() => setActiveFilter('Rain')}
@@ -237,7 +242,7 @@ export const WeatherDetailsDialog = ({
                    items-center rounded
                    hover:bg-slate-200 cursor-pointer p-2 transition-all ${activeFilter === 'Rain' && 'bg-slate-200'}`}
           >
-            Precipitation
+            {translations?.detDialog.precipitation}
           </div>
         </div>
 
@@ -317,7 +322,7 @@ export const WeatherDetailsDialog = ({
             className="bg-slate-200 hover:bg-slate-300 transition-all text-slate-600 px-4 py-2 rounded"
             onClick={closeDialog}
           >
-            Close
+            {translations?.detDialog.closeBtn}
           </button>
         </div>
       </dialog>

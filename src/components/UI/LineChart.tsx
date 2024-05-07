@@ -14,6 +14,7 @@ import {
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { WeatherChartFilterType } from '../../common/types';
 import { useEffect, useState } from 'react';
+import { useSettingsContext } from '../../context/settings-context';
 
 type PropsType = {
   datasetValues: any[];
@@ -21,6 +22,8 @@ type PropsType = {
 };
 
 export const LineChart = ({ datasetValues, mode }: PropsType) => {
+  const { translations } = useSettingsContext();
+
   ChartJS.register(
     LinearScale,
     CategoryScale,
@@ -99,10 +102,10 @@ export const LineChart = ({ datasetValues, mode }: PropsType) => {
       title: {
         text:
           mode === 'Wind'
-            ? 'Wind measured in m/s'
+            ? translations?.detDialog.chartWind
             : mode === 'Temp'
-              ? 'Temperature measured in Celsius'
-              : 'Probability of rainfall in %',
+              ? translations?.detDialog.chartTemp
+              : translations?.detDialog.chartRain,
         display: true,
         padding: {
           top: 32,

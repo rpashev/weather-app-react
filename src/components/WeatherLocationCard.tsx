@@ -10,6 +10,7 @@ import { Tooltip } from './UI/Tooltip';
 import { WeatherDetailsDialog } from './WeatherDetailsDialog';
 // UTILS
 import { formatTimezoneOffset, formatUnixTimestamp } from '../utils/formatters';
+import { useSettingsContext } from '../context/settings-context';
 
 type WeatherLocationCardProps = {
   coords: { lon: number; lat: number };
@@ -22,6 +23,7 @@ export const WeatherLocationCard = ({
   locationAlreadyTracked,
 }: WeatherLocationCardProps) => {
   const { isLoggedIn } = useAuthContext();
+  const { translations } = useSettingsContext();
 
   const { data: weatherData } = useFetchCityDataQuery({
     lon: coords?.lon!,
@@ -89,33 +91,33 @@ export const WeatherLocationCard = ({
             </div>
             <div className="w-1/2">
               <label className="font-bold w-full border-b-2 border-gray-400 block mt-2 mb-1">
-                Details
+                {translations?.locCard?.details}
               </label>
               <ul className="text-xs pb-2 flex flex-col gap-[4px]">
                 <li className="flex justify-between items-end">
-                  <label>Feels like</label>
+                  <label> {translations?.locCard?.feelsLike}</label>
                   <label className="font-bold text-[13px]">
                     {Math.round(weatherData.main.feels_like)}°C
                   </label>
                 </li>
                 <li className="flex justify-between items-end">
-                  <label>Wind</label>
+                  <label>{translations?.locCard?.wind}</label>
                   <label className="font-bold text-[13px]">
                     {Math.round(weatherData.wind.speed)}m/s
                   </label>
                 </li>
                 <li className="flex justify-between items-end">
-                  <label>Humidity</label>
+                  <label>{translations?.locCard?.humidity}</label>
                   <label className="font-bold text-[13px]">{weatherData.main.humidity}%</label>
                 </li>
                 <li className="flex justify-between items-end">
-                  <label>Sunrise</label>
+                  <label>{translations?.locCard?.sunrise}</label>
                   <label className="font-bold text-[13px]">
                     {formatUnixTimestamp(weatherData.sys?.sunrise, weatherData.timezone, true)}
                   </label>
                 </li>
                 <li className="flex justify-between items-end">
-                  <label>Sunset</label>
+                  <label>{translations?.locCard?.sunset}</label>
                   <label className="font-bold text-[13px]">
                     {formatUnixTimestamp(weatherData.sys?.sunset, weatherData.timezone, true)}
                   </label>
@@ -132,7 +134,7 @@ export const WeatherLocationCard = ({
           {isLoggedIn && (
             <div className="absolute top-0 right-0">
               {!id && !locationAlreadyTracked && (
-                <Tooltip content="Add to tracked locations">
+                <Tooltip content={translations!.locCard?.addTooltip}>
                   <button
                     onMouseEnter={toggleParentTooltip}
                     onMouseLeave={toggleParentTooltip}
@@ -144,7 +146,7 @@ export const WeatherLocationCard = ({
                 </Tooltip>
               )}
               {id && (
-                <Tooltip content="Remove from tracked locations">
+                <Tooltip content={translations!.locCard?.removeTooltip}>
                   <button
                     className="px-1 py-0 font-extrabold text-md text-red-600 enabled:hover:bg-amber-300 transition-all"
                     onMouseEnter={toggleParentTooltip}

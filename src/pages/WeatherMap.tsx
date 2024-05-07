@@ -8,8 +8,10 @@ import { useFetchTrackedLocationsQuery } from '../hooks/tanstack-query/useFetchT
 import { useAuthContext } from '../context/user-context';
 // TYPES
 import { type WeatherMapLayerType } from '../common/types';
+import { useSettingsContext } from '../context/settings-context';
 
 export const WeatherMap = () => {
+  const { translations } = useSettingsContext();
   const { isLoggedIn } = useAuthContext();
 
   const { data: trackedLocationList } = useFetchTrackedLocationsQuery();
@@ -32,7 +34,7 @@ export const WeatherMap = () => {
                    items-center rounded-t
                    hover:bg-slate-200 cursor-pointer p-2 transition-all ${weatherLayer === 'temp' && 'bg-slate-200'}`}
             >
-              Temperature
+              {translations?.pages.map.legTemp}
             </div>
             <div
               onClick={() => setWeatherLayer('wind')}
@@ -40,7 +42,7 @@ export const WeatherMap = () => {
                    items-center 
                    hover:bg-slate-200 cursor-pointer p-2 transition-all ${weatherLayer === 'wind' && 'bg-slate-200'}`}
             >
-              Wind
+              {translations?.pages.map.filtWind}
             </div>
             <div
               onClick={() => setWeatherLayer('precipitation')}
@@ -48,7 +50,7 @@ export const WeatherMap = () => {
                    items-center 
                    hover:bg-slate-200 cursor-pointer p-2 transition-all ${weatherLayer === 'precipitation' && 'bg-slate-200'}`}
             >
-              Precipitation
+              {translations?.pages.map.legPrecip}
             </div>
             <div
               onClick={() => setWeatherLayer('pressure')}
@@ -56,7 +58,7 @@ export const WeatherMap = () => {
                    items-center 
                    hover:bg-slate-200 cursor-pointer p-2 transition-all ${weatherLayer === 'pressure' && 'bg-slate-200'}`}
             >
-              Pressure
+              {translations?.pages.map.legPressure}
             </div>
             <div
               onClick={() => setWeatherLayer('clouds')}
@@ -64,7 +66,7 @@ export const WeatherMap = () => {
                    items-center
                    hover:bg-slate-200 cursor-pointer p-2 transition-all ${weatherLayer === 'clouds' && 'bg-slate-200'}`}
             >
-              Clouds
+              {translations?.pages.map.filtClouds}
             </div>
             {isLoggedIn && (
               <label
@@ -78,7 +80,7 @@ export const WeatherMap = () => {
                   checked={showOnlyTrackedLocations}
                   onChange={() => setShowOnlyTrackedLocations((prev) => !prev)}
                 />
-                Show tracked locations
+                {translations?.pages.map.checkbox}
               </label>
             )}
           </div>

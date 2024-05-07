@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { type CityGeoDataResponse } from '../common/types';
 import { useFetchCityListQuery } from '../hooks/tanstack-query/useFetchCityListQuery';
+import { useSettingsContext } from '../context/settings-context';
 
 type WeatherSearchLocationInputProps = {
   setSelectedCity: React.Dispatch<React.SetStateAction<CityGeoDataResponse | null>>;
@@ -9,6 +10,8 @@ type WeatherSearchLocationInputProps = {
 export const WeatherSearchLocationInput = ({
   setSelectedCity,
 }: WeatherSearchLocationInputProps) => {
+  const { translations } = useSettingsContext();
+
   const [searchTerm, setSearchTerm] = useState('');
   const debounceTimerRef = useRef<number | null>(null);
   const [selectedIndex, setSelectedIndex] = useState<number>(-1);
@@ -75,7 +78,7 @@ export const WeatherSearchLocationInput = ({
           onChange={handleChangeSearchTerm}
           className="tw-text-input border-slate-200"
           autoComplete="off"
-          placeholder="Search location..."
+          placeholder={translations?.pages.home?.searchPlaceholder}
           onKeyDown={handleKeyDown}
         />
         {cityListData && cityListData.length > 0 && (
@@ -95,7 +98,7 @@ export const WeatherSearchLocationInput = ({
         )}
       </div>
       {cityListData?.length === 0 && (
-        <p className="text-slate-100 text-sm mt-1">No results found!</p>
+        <p className="text-slate-100 text-sm mt-1">{translations?.pages.home?.noResultsLabel}</p>
       )}
     </>
   );

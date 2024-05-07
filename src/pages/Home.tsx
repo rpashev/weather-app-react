@@ -9,10 +9,11 @@ import { useFetchTrackedLocationsQuery } from '../hooks/tanstack-query/useFetchT
 import { useAuthContext } from '../context/user-context';
 // TYPES
 import { type CityGeoDataResponse } from '../common/types';
+import { useSettingsContext } from '../context/settings-context';
 
 export const Home = () => {
   const { isLoggedIn } = useAuthContext();
-
+  const { translations } = useSettingsContext();
   const [selectedCity, setSelectedCity] = useState<CityGeoDataResponse | null>(null);
 
   const { data: trackedLocationList } = useFetchTrackedLocationsQuery();
@@ -55,7 +56,7 @@ export const Home = () => {
         {isLoggedIn && (
           <section className="mt-4 mx-auto">
             <h2 className="text-3xl dark:text-slate-100 text-slate-800 text-center flex justify-center">
-              <span>Tracked locations</span>
+              <span>{translations?.pages.home?.titleTracked}</span>
               <button onClick={openLocationsEditDialog} className="text-xs block ml-2 -mt-2">
                 Edit
               </button>
@@ -76,7 +77,7 @@ export const Home = () => {
             </ul>
             {!trackedLocationList?.locations?.length && (
               <p className="dark:text-slate-100 text-slate-800 text-center">
-                No tracked locations yet.{' '}
+                {translations?.pages.home?.noTrackedLocationsLabel}
               </p>
             )}
           </section>
