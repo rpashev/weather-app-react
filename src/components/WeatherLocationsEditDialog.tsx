@@ -17,6 +17,7 @@ import {
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 // TYPES
 import { type TrackedLocationsType } from '../schemas/TrackedLocationsSchema';
+import { useSettingsContext } from '../context/settings-context';
 
 type PropsType = {
   setLocationsEditDialogIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -28,6 +29,8 @@ export const WeatherLocationsEditDialog = ({
   setLocationsEditDialogIsOpen,
 }: PropsType) => {
   const { mutate, isError } = useReplaceTrackedLocationsMutate();
+
+  const { translations } = useSettingsContext();
 
   const [locations, setLocations] = useState(trackedLocationList.locations);
   const closeDialog = () => setLocationsEditDialogIsOpen(false);
@@ -73,7 +76,7 @@ export const WeatherLocationsEditDialog = ({
         style={{ zIndex: 3000 }}
       >
         <header className="relative flex justify-between items-center tw-gradient-main py-3 px-4 text-xl font-bold">
-          <h2>Your tracked locations</h2>
+          <h2>{translations?.weatherLocEditDialog.title}</h2>
           <button
             className="px-1 py-0 font-extrabold text-2xl text-grey-600 enabled:hover:bg-amber-300 transition-all"
             onClick={closeDialog}
@@ -95,18 +98,20 @@ export const WeatherLocationsEditDialog = ({
                     city={item.city}
                     country={item.country}
                     setLocations={setLocations}
+                    tooltipLabel={translations?.weatherLocEditDialog.removeTooltip!}
                   />
                 ))}
               </ul>
             </SortableContext>
           </DndContext>
         </section>
+        <p className="text-xs px-4">{translations?.weatherLocEditDialog.hint}</p>
         <div className="flex justify-end items-center gap-2 mt-auto px-4 py-3">
           <button
             className="bg-slate-200 hover:bg-slate-300  transition-all tracking-wider text-slate-600 px-4 py-2 rounded"
             onClick={closeDialog}
           >
-            Close
+            {translations?.weatherLocEditDialog.close}
           </button>
           <button
             onClick={onSubmit}
@@ -114,7 +119,7 @@ export const WeatherLocationsEditDialog = ({
              transition-all enabled:hover:bg-amber-300
              disabled:cursor-not-allowed disabled:opacity-70"
           >
-            Submit
+            {translations?.weatherLocEditDialog.submitBtn}
           </button>
         </div>
       </dialog>

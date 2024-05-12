@@ -5,6 +5,7 @@ type PropsType = {
   id: string;
   city: string;
   country: string;
+  tooltipLabel: string;
   setLocations: React.Dispatch<
     React.SetStateAction<
       {
@@ -18,7 +19,7 @@ type PropsType = {
   >;
 };
 
-export const SortableItem = ({ id, city, country, setLocations }: PropsType) => {
+export const SortableItem = ({ id, city, country, tooltipLabel, setLocations }: PropsType) => {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
     id,
   });
@@ -42,7 +43,7 @@ export const SortableItem = ({ id, city, country, setLocations }: PropsType) => 
         <span>
           {city}, {country}
         </span>
-        <Tooltip content="Remove from tracked locations">
+        <Tooltip content={tooltipLabel}>
           <button
             onClick={onDeleteLocation}
             className="px-1 py-0 font-extrabold text-md text-red-600 enabled:hover:bg-amber-300 transition-all"

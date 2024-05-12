@@ -43,7 +43,7 @@ export const Login = () => {
         <h2 className="mb-5 text-center text-3xl">{translations?.pages.login?.title}</h2>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">{translations?.pages.login?.email}</label>
             <input
               type="email"
               id="email"
@@ -53,11 +53,13 @@ export const Login = () => {
               className="tw-text-input"
             />
             {showEmailError && (
-              <p className="text-[14px] tracking-wide text-red-400">Please enter a valid email!</p>
+              <p className="text-[14px] tracking-wide text-red-400">
+                {translations?.pages.login?.errorEmail}
+              </p>
             )}
           </div>
           <div className="flex flex-col gap-2">
-            <label htmlFor="email">Password</label>
+            <label htmlFor="email">{translations?.pages.login?.password}</label>
             <input
               type="password"
               id="password"
@@ -68,7 +70,7 @@ export const Login = () => {
             />
             {showPasswordError && (
               <p className="text-[14px] tracking-wide text-red-400">
-                Password should be at least 6 symbols!
+                {translations?.pages.login?.errorPassword}
               </p>
             )}
           </div>
@@ -79,7 +81,7 @@ export const Login = () => {
              transition-all enabled:hover:bg-amber-300 sm:w-[40%] 
              disabled:cursor-not-allowed disabled:opacity-70"
           >
-            Submit
+            {translations?.pages.login?.submitBtn}
           </button>
         </div>
       </form>

@@ -11,10 +11,12 @@ import {
   type TrackedLocationInputData,
   type TrackedLocationResponseData,
 } from '../../common/types';
+import { useSettingsContext } from '../../context/settings-context';
 
 export const useTrackedLocationMutate = () => {
   const { showSnackbar } = useSnackbarContext();
   const { hideSpinner, showSpinner } = useSpinnerContext();
+  const { translations } = useSettingsContext();
 
   const queryClient = useQueryClient();
 
@@ -26,11 +28,11 @@ export const useTrackedLocationMutate = () => {
     mutationFn: locationsService.saveTrackedLocation,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['fetch-tracked-locations'] });
-      showSnackbar('Successfully added location', 'success');
+      showSnackbar(translations?.messages.successAddLocation!, 'success');
     },
     onError: (error) => {
       let err = error.response?.data as ApiErrorResponse;
-      showSnackbar(err?.message || 'Could not add location!', 'error');
+      showSnackbar(err?.message || translations?.messages.errAddLocation!, 'error');
     },
     onMutate: () => {
       showSpinner();

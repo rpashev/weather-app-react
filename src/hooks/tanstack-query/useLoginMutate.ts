@@ -13,10 +13,12 @@ import {
   type LoginInputData,
   type ApiErrorResponse,
 } from '../../common/types';
+import { useSettingsContext } from '../../context/settings-context';
 
 export const useLoginMutate = () => {
   const { login } = useAuthContext();
   const { showSnackbar } = useSnackbarContext();
+  const { translations } = useSettingsContext();
   const navigate = useNavigate();
   const { hideSpinner, showSpinner } = useSpinnerContext();
 
@@ -24,12 +26,12 @@ export const useLoginMutate = () => {
     mutationFn: authService.login,
     onSuccess: (res: AxiosResponse<LoginResponseData>) => {
       login(res.data.token, res.data.userId);
-      showSnackbar('Succesfully logged in', 'success');
+      showSnackbar(translations?.messages.successLogin!, 'success');
       navigate('/');
     },
     onError: (error) => {
       let err = error.response?.data as ApiErrorResponse;
-      showSnackbar(err?.message || 'Could not log in!', 'error');
+      showSnackbar(err?.message || translations?.messages.errLogin!, 'error');
     },
     onMutate: () => {
       showSpinner();

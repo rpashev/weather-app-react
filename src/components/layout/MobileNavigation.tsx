@@ -3,12 +3,15 @@ import { Backdrop } from '../UI/Backdrop';
 import { navItems } from './BaseHeader';
 import { useAuthContext } from '../../context/user-context';
 import { ThemeToggle } from '../UI/ThemeToggle';
+import { type LanguageMapType } from '../../common/languages/en';
+
 type PropsType = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  translations: LanguageMapType;
 };
 
-export const MobileNavigation = ({ isOpen, setIsOpen }: PropsType) => {
+export const MobileNavigation = ({ isOpen, setIsOpen, translations }: PropsType) => {
   const { isLoggedIn } = useAuthContext();
   const navLinks = isLoggedIn ? navItems.user : navItems.public;
 
@@ -28,7 +31,7 @@ export const MobileNavigation = ({ isOpen, setIsOpen }: PropsType) => {
                 className="p-4 transition-all hover:bg-amber-300 hover:dark:bg-slate-600 has-[.active]:bg-amber-300 dark:has-[.active]:bg-slate-600 text-black dark:text-slate-100"
               >
                 <NavLink to={link.path} className="inline-block w-full text-xl leading-normal">
-                  {link.title}
+                  {translations?.linkTitles[link.title]}
                 </NavLink>
               </li>
             ))}

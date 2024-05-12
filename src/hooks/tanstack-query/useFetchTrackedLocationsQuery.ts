@@ -14,11 +14,13 @@ import { type ApiErrorResponse } from '../../common/types';
 import locationsService from '../../services/locations.service';
 // UTILS
 import { zodParseResult } from '../../utils/zod-parse';
+import { useSettingsContext } from '../../context/settings-context';
 
 export const useFetchTrackedLocationsQuery = () => {
   const { isLoggedIn } = useAuthContext();
   const { hideSpinner, showSpinner } = useSpinnerContext();
   const { showSnackbar } = useSnackbarContext();
+  const { translations } = useSettingsContext();
 
   return useQuery<TrackedLocationsType, AxiosError>({
     queryKey: ['fetch-tracked-locations'],
@@ -29,7 +31,7 @@ export const useFetchTrackedLocationsQuery = () => {
         return zodParseResult(response.data, TrackedLocationListSchema);
       } catch (error: any) {
         let err = error.response?.data as ApiErrorResponse;
-        showSnackbar(err?.message || 'Could not fetch locations!', 'error');
+        showSnackbar(err?.message || translations?.messages.errFetchLocations!, 'error');
       } finally {
         hideSpinner();
       }

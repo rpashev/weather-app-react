@@ -53,7 +53,7 @@ export const BaseHeader = ({ localCityData }: BaseHeaderProps) => {
     <header className="w-full min-h-[70px] grid relative grid-cols-[1fr_3fr_1fr] dark:bg-slate-800 bg-amber-400">
       {localCityData && <WeatherLocalWidget localCityData={localCityData} />}
 
-      <MobileNavigation isOpen={isOpen} setIsOpen={setIsOpen} />
+      <MobileNavigation translations={translations!} isOpen={isOpen} setIsOpen={setIsOpen} />
 
       <nav className="p-4 md:flex flex-1 justify-center hidden col-start-2">
         <ul className="flex justify-center gap-2 text-slate-100">

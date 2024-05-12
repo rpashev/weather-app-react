@@ -1,9 +1,9 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { type LanguageMapType } from '../common/languages/en';
-import { en, de, ru, bg, fr, es, cn } from '../common/languages/index.ts';
+import { en, de, ru, bg, fr, es, cn, hi } from '../common/languages/index.ts';
 import { useSnackbarContext } from './snackbar-context.tsx';
 
-const languageMaps: { [key: string]: LanguageMapType } = { en, de, ru, cn, bg, fr, es };
+const languageMaps: { [key: string]: LanguageMapType } = { en, de, ru, cn, bg, fr, es, hi };
 
 type SettingsStateType = {
   language: string;
@@ -88,7 +88,7 @@ export const SettingsProvider = ({ children }: SettingsProviderProps) => {
       let permissions = await navigator.permissions.query({ name: 'geolocation' });
       if (permissions.state === 'denied') {
         return showSnackbar(
-          'User denied Geolocation! You can reset the permission from the icon left of the URL.',
+          languageMaps[settingsState.language].messages.errGeoPermission,
           'error'
         );
       }

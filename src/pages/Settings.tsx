@@ -39,6 +39,7 @@ export const Settings = () => {
                 <option value="fr">French</option>
                 <option value="cn">Chinese</option>
                 <option value="ru">Russian</option>
+                <option value="hi">Hindi</option>
               </select>
             </div>
           </li>

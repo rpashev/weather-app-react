@@ -64,7 +64,7 @@ export const Register = () => {
         <h2 className="mb-5 text-center text-3xl">{translations?.pages.signUp?.title}</h2>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">{translations?.pages.signUp?.email}</label>
             <input
               type="email"
               id="email"
@@ -74,11 +74,13 @@ export const Register = () => {
               className="tw-text-input"
             />
             {showEmailError && (
-              <p className="text-[14px] tracking-wide text-red-400">Please enter a valid email!</p>
+              <p className="text-[14px] tracking-wide text-red-400">
+                {translations?.pages.signUp?.errorEmail}
+              </p>
             )}
           </div>
           <div className="flex flex-col gap-2">
-            <label htmlFor="email">Password</label>
+            <label htmlFor="email">{translations?.pages.signUp?.password}</label>
             <input
               type="password"
               id="password"
@@ -89,12 +91,12 @@ export const Register = () => {
             />
             {showPasswordError && (
               <p className="text-[14px] tracking-wide text-red-400">
-                Password should be at least 6 symbols!
+                {translations?.pages.signUp?.errorPassword}
               </p>
             )}
           </div>
           <div className="flex flex-col gap-2">
-            <label htmlFor="repeatPassword">Repeat password</label>
+            <label htmlFor="repeatPassword">{translations?.pages.signUp?.repPassword}</label>
             <input
               type="password"
               className="tw-text-input"
@@ -104,7 +106,9 @@ export const Register = () => {
               onBlur={repeatPasswordBlurHandler}
             />
             {showRepeatPasswordError && (
-              <p className="text-[14px] tracking-wide text-red-400">Passwords should match!</p>
+              <p className="text-[14px] tracking-wide text-red-400">
+                {translations?.pages.signUp?.errorRepPassword}
+              </p>
             )}
           </div>
           <button
@@ -113,7 +117,7 @@ export const Register = () => {
              transition-all enabled:hover:bg-amber-300 sm:w-[40%] 
              disabled:cursor-not-allowed disabled:opacity-70"
           >
-            Submit
+            {translations?.pages.signUp?.submitBtn}
           </button>
         </div>
       </form>

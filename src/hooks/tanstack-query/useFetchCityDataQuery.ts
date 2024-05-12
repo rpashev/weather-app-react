@@ -9,12 +9,14 @@ import { type CoordinatesWeatherApi } from '../../common/types';
 import { type AxiosError } from 'axios';
 // UTILS
 import { zodParseResult } from '../../utils/zod-parse';
+import { useSettingsContext } from '../../context/settings-context';
 
 export const useFetchCityDataQuery = (
   coordinates: CoordinatesWeatherApi | null,
   enabled = true
 ) => {
   const { showSnackbar } = useSnackbarContext();
+  const { translations } = useSettingsContext();
 
   return useQuery<BaseWeatherResponseData, AxiosError>({
     queryKey: ['selected-city', { lon: coordinates?.lon!, lat: coordinates?.lat! }],
@@ -26,7 +28,7 @@ export const useFetchCityDataQuery = (
         });
         return zodParseResult(response.data, WeatherSchema);
       } catch (err) {
-        showSnackbar('Failed to load city!', 'error');
+        showSnackbar(translations?.messages.errLoadCity!, 'error');
       } finally {
       }
     },

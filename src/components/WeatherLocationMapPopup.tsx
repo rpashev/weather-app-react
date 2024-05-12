@@ -10,11 +10,13 @@ import { WeatherDetailsDialog } from './WeatherDetailsDialog';
 import { useMap } from 'react-leaflet';
 // UTILS
 import { formatTimezoneOffset, formatUnixTimestamp } from '../utils/formatters';
+import { useSettingsContext } from '../context/settings-context';
 
 type PropsType = {
   coords: { lon: number; lat: number };
 };
 export const WeatherLocationMapPopup = ({ coords }: PropsType) => {
+  const { translations } = useSettingsContext();
   const map = useMap();
   const { data: weatherData } = useFetchCityDataQuery({
     lon: coords?.lon!,
@@ -41,7 +43,7 @@ export const WeatherLocationMapPopup = ({ coords }: PropsType) => {
 
   return (
     <>
-      <Tooltip content="View details" disable={disableParentTooltip}>
+      <Tooltip content={translations?.locCard.viewDet!} disable={disableParentTooltip}>
         <li
           onClick={openDetailsDialog}
           className="mx-auto w-60 min-h-44 max-w-[90%] sm:max-w-full shadow-lg rounded relative cursor-pointer cursor-pointer-children flex-col flex"
@@ -70,33 +72,33 @@ export const WeatherLocationMapPopup = ({ coords }: PropsType) => {
             </div>
             <div className="w-3/5 mt-1">
               <label className="font-bold w-full border-b-2 border-gray-400 block mt-2 mb-1">
-                Details
+                {translations?.locCard.details}
               </label>
               <ul className="text-[11px] pb-2 flex flex-col">
                 <li className="flex justify-between items-end">
-                  <label>Feels like</label>
+                  <label> {translations?.locCard.feelsLike}</label>
                   <label className="font-bold text-[12px]">
                     {Math.round(weatherData.main.feels_like)}°C
                   </label>
                 </li>
                 <li className="flex justify-between items-end">
-                  <label>Wind</label>
+                  <label> {translations?.locCard.wind}</label>
                   <label className="font-bold text-[12px]">
                     {Math.round(weatherData.wind.speed)}m/s
                   </label>
                 </li>
                 <li className="flex justify-between items-end">
-                  <label>Humidity</label>
+                  <label> {translations?.locCard.humidity}</label>
                   <label className="font-bold text-[12px]">{weatherData.main.humidity}%</label>
                 </li>
                 <li className="flex justify-between items-end">
-                  <label>Sunrise</label>
+                  <label> {translations?.locCard.sunrise}</label>
                   <label className="font-bold text-[12px]">
                     {formatUnixTimestamp(weatherData.sys?.sunrise, weatherData.timezone, true)}
                   </label>
                 </li>
                 <li className="flex justify-between items-end">
-                  <label>Sunset</label>
+                  <label> {translations?.locCard.sunset}</label>
                   <label className="font-bold text-[12px]">
                     {formatUnixTimestamp(weatherData.sys?.sunset, weatherData.timezone, true)}
                   </label>
@@ -111,7 +113,7 @@ export const WeatherLocationMapPopup = ({ coords }: PropsType) => {
             </label>
           </div>
           <div className="absolute top-0 right-0">
-            <Tooltip content="Close popup">
+            <Tooltip content={translations?.locCard.closePopup!}>
               <button
                 className="px-1 py-0 font-extrabold text-md text-slate-600 enabled:hover:bg-amber-300 transition-all"
                 onClick={onClosePopup}

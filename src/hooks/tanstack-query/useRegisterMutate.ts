@@ -13,10 +13,12 @@ import {
   type ApiErrorResponse,
   type RegisterInputData,
 } from '../../common/types';
+import { useSettingsContext } from '../../context/settings-context';
 
 export const useRegisterMutate = () => {
   const { login } = useAuthContext();
   const { showSnackbar } = useSnackbarContext();
+  const { translations } = useSettingsContext();
   const navigate = useNavigate();
   const { hideSpinner, showSpinner } = useSpinnerContext();
 
@@ -24,12 +26,12 @@ export const useRegisterMutate = () => {
     mutationFn: authService.register,
     onSuccess: (res: AxiosResponse<LoginResponseData>) => {
       login(res.data.token, res.data.userId);
-      showSnackbar('Succesfully registered', 'success');
+      showSnackbar(translations?.messages.successRegister!, 'success');
       navigate('/');
     },
     onError: (error) => {
       let err = error.response?.data as ApiErrorResponse;
-      showSnackbar(err?.message || 'Could not log in!', 'error');
+      showSnackbar(err?.message || translations?.messages.errRegister!, 'error');
     },
     onMutate: () => {
       showSpinner();

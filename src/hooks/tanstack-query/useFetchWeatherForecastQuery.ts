@@ -13,10 +13,12 @@ import {
 } from '../../schemas/WeatherForecastSchema';
 // UTILS
 import { zodParseResult } from '../../utils/zod-parse';
+import { useSettingsContext } from '../../context/settings-context';
 
 export const useFetchWeatherForecastQuery = (coordinates: CoordinatesWeatherApi | null) => {
   const { hideSpinner, showSpinner } = useSpinnerContext();
   const { showSnackbar } = useSnackbarContext();
+  const { translations } = useSettingsContext();
 
   return useQuery<WeatherForecastResponseData, AxiosError>({
     queryKey: ['forecast-city', { lon: coordinates?.lon!, lat: coordinates?.lat! }],
@@ -29,7 +31,7 @@ export const useFetchWeatherForecastQuery = (coordinates: CoordinatesWeatherApi 
         });
         return zodParseResult(response.data, WeatherForecastSchema);
       } catch (err) {
-        showSnackbar('Failed to load forecast!', 'error');
+        showSnackbar(translations?.messages.errForecast!, 'error');
       } finally {
         hideSpinner();
       }

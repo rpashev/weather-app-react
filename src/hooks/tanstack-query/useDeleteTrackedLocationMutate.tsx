@@ -7,10 +7,12 @@ import locationsService from '../../services/locations.service';
 // TYPES
 import { type AxiosResponse, type AxiosError } from 'axios';
 import { type ApiErrorResponse } from '../../common/types';
+import { useSettingsContext } from '../../context/settings-context';
 
 export const useDeleteTrackedLocationMutate = () => {
   const { showSnackbar } = useSnackbarContext();
   const { hideSpinner, showSpinner } = useSpinnerContext();
+  const { translations } = useSettingsContext();
 
   const queryClient = useQueryClient();
 
@@ -18,11 +20,11 @@ export const useDeleteTrackedLocationMutate = () => {
     mutationFn: locationsService.deleteTrackedLocation,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['fetch-tracked-locations'] });
-      showSnackbar('Successfully removed location.', 'success');
+      showSnackbar(translations?.messages.successRemoveLocaion!, 'success');
     },
     onError: (error) => {
       let err = error.response?.data as ApiErrorResponse;
-      showSnackbar(err?.message || 'Could not remove location!', 'error');
+      showSnackbar(err?.message || translations?.messages.errRemoveLocation!, 'error');
     },
     onMutate: () => {
       showSpinner();

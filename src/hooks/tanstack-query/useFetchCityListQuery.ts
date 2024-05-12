@@ -11,9 +11,11 @@ import {
 import weatherApiService from '../../services/weather-api.service';
 // UTILS
 import { zodParseResult } from '../../utils/zod-parse';
+import { useSettingsContext } from '../../context/settings-context';
 
 export const useFetchCityListQuery = (searchTerm: string) => {
   const { showSnackbar } = useSnackbarContext();
+  const { translations } = useSettingsContext();
 
   return useQuery<CityListWeatherApiResponseData, AxiosError>({
     queryKey: ['search-city', searchTerm],
@@ -22,7 +24,7 @@ export const useFetchCityListQuery = (searchTerm: string) => {
         const response = await weatherApiService.getCitiesList(searchTerm);
         return zodParseResult(response.data, CityListWeatherApiResponseSchema);
       } catch (err) {
-        showSnackbar('Failed to load list!', 'error');
+        showSnackbar(translations?.messages.errLoadList!, 'error');
       }
     },
     enabled: false,
