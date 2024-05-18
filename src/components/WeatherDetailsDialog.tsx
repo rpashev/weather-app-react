@@ -5,6 +5,7 @@ import { useFetchWeatherForecastQuery } from '../hooks/tanstack-query/useFetchWe
 // COMPONENTS
 import { Backdrop } from './UI/Backdrop';
 import { LineChart } from './UI/LineChart';
+import { XMarkIcon } from '@heroicons/react/16/solid';
 // TYPES
 import { type HourlyForecastType } from '../schemas/WeatherForecastSchema';
 import { type WeatherChartFilterType } from '../common/types';
@@ -108,16 +109,13 @@ export const WeatherDetailsDialog = ({
         className=" flex flex-col sm:tw-fixed-center fixed top-0 w-[850px] max-w-[100%] sm:max-w-[95%] md:h-[780px] h-screen mx-auto overflow-y-auto"
         style={{ zIndex: 3000 }}
       >
-        <header className="relative flex justify-between items-center tw-gradient-main py-3 px-4 text-xl font-bold">
+        <header className="relative flex justify-between items-center tw-gradient-main py-3 px-4 pr-1 text-xl font-bold">
           <h2>
             {translations?.detDialog.title}{' '}
             {`${currentWeatherData.name}, ${currentWeatherData.sys.country}`}
           </h2>
-          <button
-            className="px-1 py-0 font-extrabold text-2xl text-grey-600 enabled:hover:bg-amber-300 transition-all"
-            onClick={closeDialog}
-          >
-            &#10005;
+          <button className="enabled:hover:bg-amber-300 transition-all" onClick={closeDialog}>
+            <XMarkIcon className="w-9 text-slate-800" />
           </button>
         </header>
         <div className="flex  justify-between items-center flex-wrap gap-5 px-2 md:px-6">

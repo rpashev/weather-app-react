@@ -33,6 +33,7 @@ export const cn: LanguageMapType = Object.freeze({
       searchPlaceholder: '搜索位置...',
       noResultsLabel: '未找到结果！',
       noTrackedLocationsLabel: '暂无跟踪位置。',
+      editLocationsTooltip: '编辑跟踪的位置',
     },
     settings: {
       title: '设置',

@@ -38,7 +38,7 @@ export const Login = () => {
     <div className="mt-8 py-4 flex items-start justify-center max-container">
       <form
         onSubmit={submitHandler}
-        className="w-full rounded-lg px-5 py-4 pb-6 dark:text-slate-100 text-slate-800 sm:w-[25rem] bg-slate-100 dark:bg-slate-800"
+        className="w-80 rounded-lg px-5 py-4 pb-6 dark:text-slate-100 text-slate-800 sm:w-[25rem] bg-slate-100 dark:bg-slate-800"
       >
         <h2 className="mb-5 text-center text-3xl">{translations?.pages.login?.title}</h2>
         <div className="flex flex-col gap-4">

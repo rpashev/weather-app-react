@@ -33,6 +33,7 @@ export const ru: LanguageMapType = Object.freeze({
       searchPlaceholder: 'Поиск местоположения...',
       noResultsLabel: 'Ничего не найдено!',
       noTrackedLocationsLabel: 'Пока нет отслеживаемых местоположений.',
+      editLocationsTooltip: 'Редактировать отслеживаемые местоположения',
     },
     settings: {
       title: 'Настройки',

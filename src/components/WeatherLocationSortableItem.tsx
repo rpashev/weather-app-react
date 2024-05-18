@@ -1,5 +1,6 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { Tooltip } from './UI/Tooltip';
+import { ArrowsUpDownIcon, XMarkIcon } from '@heroicons/react/16/solid';
 
 type PropsType = {
   id: string;
@@ -39,16 +40,20 @@ export const SortableItem = ({ id, city, country, tooltipLabel, setLocations }: 
       key={id}
       className="p-2 border-2 border-b-0 last:border-b-2 border-slate-200"
     >
-      <div className="flex justify-between items-center">
-        <span>
-          {city}, {country}
-        </span>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-6">
+          <ArrowsUpDownIcon className="w-6 text-slate-600" />
+          <span className="text-slate-600 text-lg">
+            {city}, {country}
+          </span>
+        </div>
+
         <Tooltip content={tooltipLabel}>
           <button
             onClick={onDeleteLocation}
-            className="px-1 py-0 font-extrabold text-md text-red-600 enabled:hover:bg-amber-300 transition-all"
+            className="text-red-600 enabled:hover:bg-amber-300 transition-all"
           >
-            &#10005;
+            <XMarkIcon className="w-7 text-red-600" />
           </button>
         </Tooltip>
       </div>

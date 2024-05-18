@@ -22,6 +22,7 @@ export type LanguageMapType = {
       searchPlaceholder: string;
       noResultsLabel: string;
       noTrackedLocationsLabel: string;
+      editLocationsTooltip: string;
     };
     signUp: {
       title: string;
@@ -140,6 +141,7 @@ export const en: LanguageMapType = Object.freeze({
       searchPlaceholder: 'Search location...',
       noResultsLabel: 'No results found!',
       noTrackedLocationsLabel: 'No tracked locations yet.',
+      editLocationsTooltip: 'Edit tracked locations',
     },
     settings: {
       title: 'Settings',

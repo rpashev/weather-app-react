@@ -8,7 +8,7 @@ export const Settings = () => {
 
   return (
     <div className="mt-8 py-4 max-container ">
-      <div className="w-full rounded-lg px-5 py-4 pb-6 dark:text-slate-100 text-slate-800 sm:w-[25rem] bg-slate-100 dark:bg-slate-800">
+      <div className="w-80 rounded-lg px-5 py-4 pb-6 dark:text-slate-100 text-slate-800 sm:w-[25rem] bg-slate-100 dark:bg-slate-800">
         <h2 className="mb-5 text-center text-3xl">{translations?.pages.settings.title}</h2>
         <ul className="mx-auto flex flex-col items-center gap-6">
           <li className="flex items-center justify-between w-full gap-6">

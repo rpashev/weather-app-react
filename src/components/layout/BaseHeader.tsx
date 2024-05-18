@@ -5,8 +5,8 @@ import { NavLink } from 'react-router-dom';
 // COMPONENTS
 import { ThemeToggle } from '../UI/ThemeToggle';
 import { WeatherLocalWidget } from '../WeatherLocalWidget';
-import { MobileNavigation } from './MobileNavigation';
-
+import { MobileNavigation, iconLinkMap } from './MobileNavigation';
+import { Bars3Icon, XMarkIcon, Cog6ToothIcon } from '@heroicons/react/16/solid';
 // TYPES
 import { type BaseWeatherResponseData } from '../../schemas/BaseWeatherSchema';
 import { useSettingsContext } from '../../context/settings-context';
@@ -33,6 +33,7 @@ export const navItems: Links = {
     { title: 'Map', path: '/weather-map', id: 2 },
     { title: 'Login', path: '/login', id: 3 },
     { title: 'Sign Up', path: '/register', id: 4 },
+    { title: 'Settings', path: '/settings', id: 7 },
   ],
   user: [
     { title: 'Home', path: '/', id: 5 },
@@ -41,7 +42,6 @@ export const navItems: Links = {
     { title: 'Logout', path: '/logout', id: 8 },
   ],
 };
-
 export const BaseHeader = ({ localCityData }: BaseHeaderProps) => {
   const { isLoggedIn } = useAuthContext();
   const { settings, translations } = useSettingsContext();
@@ -57,19 +57,24 @@ export const BaseHeader = ({ localCityData }: BaseHeaderProps) => {
 
       <nav className="p-4 md:flex flex-1 justify-center hidden col-start-2">
         <ul className="flex justify-center gap-2 text-slate-100">
-          {navLinks.map(
-            (link) =>
+          {navLinks.map((link) => {
+            const Icon = iconLinkMap[link.title];
+
+            return (
               link.title !== 'Settings' && (
-                <li
-                  key={link.id}
-                  className="rounded px-3 py-1 transition-all hover:bg-amber-300 hover:dark:bg-slate-600 has-[.active]:bg-amber-300 dark:has-[.active]:bg-slate-600 text-slate-800 dark:text-slate-100"
-                >
-                  <NavLink to={link.path} className="inline-block text-xl leading-normal">
-                    {translations?.linkTitles[link.title]}
+                <li key={link.id}>
+                  <NavLink
+                    title={translations?.linkTitles[link.title]}
+                    to={link.path}
+                    className="flex items-center text-xl rounded px-3 py-1 leading-normal transition-all hover:bg-amber-300 hover:dark:bg-slate-600 has-[.active]:bg-amber-300 dark:has-[.active]:bg-slate-600 text-slate-800 dark:text-slate-100"
+                  >
+                    <span className="hidden lg:flex">{translations?.linkTitles[link.title]}</span>
+                    <Icon className="lg:hidden flex w-8 text-slate-800 dark:text-slate-100" />
                   </NavLink>
                 </li>
               )
-          )}
+            );
+          })}
         </ul>
       </nav>
 
@@ -84,46 +89,17 @@ export const BaseHeader = ({ localCityData }: BaseHeaderProps) => {
             className="dark:bg-slate-800 bg-amber-400 rounded p-2 inline-flex items-center justify-center dark:text-slate-100 text-slate-800 dark:hover:bg-gray-700 hover:bg-amber-300 focus:outline-none"
             aria-expanded="false"
           >
+            {!isOpen && <Bars3Icon className="h-8 w-8" />}
+            {isOpen && <XMarkIcon className="h-8 w-8" />}
+
             <span className="sr-only">Open menu</span>
-            {!isOpen ? (
-              <svg
-                className="h-8 w-8"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-            ) : (
-              <svg
-                className="h-8 w-8"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            )}
           </button>
         </div>
         <div className="hover:bg-amber-300 hidden md:flex hover:dark:bg-slate-600 has-[.active]:bg-amber-300 dark:has-[.active]:bg-slate-600 w-10 h-10 p-1 ">
-          <NavLink to="/settings">
-            {isDarkTheme && <img src="/cog-configure-gear-svgrepo-com.svg" />}
-            {!isDarkTheme && <img src="/cog-configure-gear-svgrepo-com-dark.svg" />}
+          <NavLink to="/settings" title={translations?.linkTitles.Settings}>
+            <Cog6ToothIcon
+              className={`w-full ${isDarkTheme ? 'text-slate-100' : 'text-slate-800'}`}
+            />
           </NavLink>
         </div>
         <div className="hidden md:flex">

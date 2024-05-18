@@ -33,6 +33,7 @@ export const hi: LanguageMapType = Object.freeze({
       searchPlaceholder: 'स्थान खोजें...',
       noResultsLabel: 'कोई परिणाम नहीं मिला!',
       noTrackedLocationsLabel: 'अब तक कोई ट्रैक किए गए स्थान नहीं।',
+      editLocationsTooltip: 'अनुगृहीत स्थानों को संपादित करें',
     },
     settings: {
       title: 'सेटिंग्स',

@@ -4,12 +4,14 @@ import { useEffect, useState } from 'react';
 import { WeatherLocationCard } from '../components/WeatherLocationCard';
 import { WeatherSearchLocationInput } from '../components/WeatherSearchLocationInput';
 import { WeatherLocationsEditDialog } from '../components/WeatherLocationsEditDialog';
+import { PencilIcon } from '@heroicons/react/24/solid';
 // HOOKS
 import { useFetchTrackedLocationsQuery } from '../hooks/tanstack-query/useFetchTrackedLocationsQuery';
 import { useAuthContext } from '../context/user-context';
 // TYPES
 import { type CityGeoDataResponse } from '../common/types';
 import { useSettingsContext } from '../context/settings-context';
+import { Tooltip } from '../components/UI/Tooltip';
 
 export const Home = () => {
   const { isLoggedIn } = useAuthContext();
@@ -55,11 +57,16 @@ export const Home = () => {
         </section>
         {isLoggedIn && (
           <section className="mt-4 mx-auto">
-            <h2 className="text-3xl dark:text-slate-100 text-slate-800 text-center flex justify-center">
+            <h2 className="text-3xl dark:text-slate-100 text-slate-800 text-center flex items-center justify-center">
               <span>{translations?.pages.home?.titleTracked}</span>
-              <button onClick={openLocationsEditDialog} className="text-xs block ml-2 -mt-2">
-                Edit
-              </button>
+              <Tooltip content={translations?.pages.home?.editLocationsTooltip!}>
+                <button
+                  onClick={openLocationsEditDialog}
+                  className="block ml-1 p-1 -mt-5 hover:bg-slate-500 transition-all"
+                >
+                  <PencilIcon className="w-[18px] text-amber-500" />
+                </button>
+              </Tooltip>
             </h2>
             <ul className="w-full flex gap-12 my-6 place-items-center place-content-center flex-wrap">
               {(trackedLocationList &&

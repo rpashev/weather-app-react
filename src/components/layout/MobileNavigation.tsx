@@ -4,11 +4,28 @@ import { navItems } from './BaseHeader';
 import { useAuthContext } from '../../context/user-context';
 import { ThemeToggle } from '../UI/ThemeToggle';
 import { type LanguageMapType } from '../../common/languages/en';
+import {
+  ArrowLeftEndOnRectangleIcon,
+  ArrowLeftStartOnRectangleIcon,
+  HomeIcon,
+  UserPlusIcon,
+  Cog6ToothIcon,
+  GlobeAltIcon,
+} from '@heroicons/react/24/solid';
 
 type PropsType = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   translations: LanguageMapType;
+};
+
+export const iconLinkMap = {
+  Login: ArrowLeftEndOnRectangleIcon,
+  Home: HomeIcon,
+  ['Sign Up']: UserPlusIcon,
+  Logout: ArrowLeftStartOnRectangleIcon,
+  Map: GlobeAltIcon,
+  Settings: Cog6ToothIcon,
 };
 
 export const MobileNavigation = ({ isOpen, setIsOpen, translations }: PropsType) => {
@@ -24,17 +41,20 @@ export const MobileNavigation = ({ isOpen, setIsOpen, translations }: PropsType)
       >
         {isOpen && (
           <ul className="flex flex-col inset-x-0 justify-center text-slate-100">
-            {navLinks.map((link) => (
-              <li
-                onClick={() => setIsOpen(false)}
-                key={link.id}
-                className="p-4 transition-all hover:bg-amber-300 hover:dark:bg-slate-600 has-[.active]:bg-amber-300 dark:has-[.active]:bg-slate-600 text-black dark:text-slate-100"
-              >
-                <NavLink to={link.path} className="inline-block w-full text-xl leading-normal">
-                  {translations?.linkTitles[link.title]}
-                </NavLink>
-              </li>
-            ))}
+            {navLinks.map((link) => {
+              const Icon = iconLinkMap[link.title];
+              return (
+                <li onClick={() => setIsOpen(false)} key={link.id}>
+                  <NavLink
+                    to={link.path}
+                    className="flex gap-4 w-full text-xl leading-normal p-4 transition-all hover:bg-amber-300 hover:dark:bg-slate-600 has-[.active]:bg-amber-300 dark:has-[.active]:bg-slate-600 text-black dark:text-slate-100"
+                  >
+                    <Icon className="w-8 text-slate-800 dark:text-slate-100" />
+                    <span>{translations?.linkTitles[link.title]}</span>
+                  </NavLink>
+                </li>
+              );
+            })}
             <li className="pt-6 px-3 absolute top-0 left-0">
               <ThemeToggle />
             </li>

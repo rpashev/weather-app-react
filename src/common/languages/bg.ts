@@ -33,6 +33,7 @@ export const bg: LanguageMapType = Object.freeze({
       searchPlaceholder: 'Търсене на местоположение...',
       noResultsLabel: 'Няма намерени резултати!',
       noTrackedLocationsLabel: 'Все още няма следени местоположения.',
+      editLocationsTooltip: 'Редактиране на проследявани местоположения',
     },
     settings: {
       title: 'Настройки',

@@ -3,6 +3,8 @@ import { useCallback, useState } from 'react';
 // COMPONENTS
 import { Backdrop } from './UI/Backdrop';
 import { SortableItem } from './WeatherLocationSortableItem';
+import { XMarkIcon } from '@heroicons/react/16/solid';
+
 // HOOKS
 import { useReplaceTrackedLocationsMutate } from '../hooks/tanstack-query/useReplaceTrackedLocationsMutate.';
 // DND-KIT
@@ -75,13 +77,13 @@ export const WeatherLocationsEditDialog = ({
         className="flex flex-col tw-fixed-center bg-red w-[900px] max-w-[95%] h-[500px] mx-auto no-doc-scroll"
         style={{ zIndex: 3000 }}
       >
-        <header className="relative flex justify-between items-center tw-gradient-main py-3 px-4 text-xl font-bold">
+        <header className="relative flex justify-between items-center tw-gradient-main py-3 px-4 pr-2 text-xl font-bold">
           <h2>{translations?.weatherLocEditDialog.title}</h2>
           <button
-            className="px-1 py-0 font-extrabold text-2xl text-grey-600 enabled:hover:bg-amber-300 transition-all"
+            className="text-grey-600 enabled:hover:bg-amber-300 transition-all"
             onClick={closeDialog}
           >
-            &#10005;
+            <XMarkIcon className="w-8 text-slate-800" />
           </button>
         </header>
         <section className="p-4">

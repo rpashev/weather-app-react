@@ -33,6 +33,7 @@ export const fr: LanguageMapType = Object.freeze({
       searchPlaceholder: 'Rechercher un emplacement...',
       noResultsLabel: 'Aucun résultat trouvé !',
       noTrackedLocationsLabel: 'Aucun emplacement suivi pour le moment.',
+      editLocationsTooltip: 'Modifier les emplacements suivis',
     },
     settings: {
       title: 'Paramètres',

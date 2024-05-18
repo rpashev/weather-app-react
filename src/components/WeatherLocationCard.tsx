@@ -8,6 +8,8 @@ import { useDeleteTrackedLocationMutate } from '../hooks/tanstack-query/useDelet
 // COMPONENTS
 import { Tooltip } from './UI/Tooltip';
 import { WeatherDetailsDialog } from './WeatherDetailsDialog';
+import { PlusIcon, XMarkIcon } from '@heroicons/react/16/solid';
+
 // UTILS
 import { formatTimezoneOffset, formatUnixTimestamp } from '../utils/formatters';
 import { useSettingsContext } from '../context/settings-context';
@@ -85,11 +87,11 @@ export const WeatherLocationCard = ({
           <div className="bg-white min-h-36 flex items-center gap-10 px-4">
             <div
               style={{ fontFamily: 'Arial' }}
-              className="text-6xl font-bold tracking-[-5px] w-1/2"
+              className="text-[3.25rem] font-bold tracking-[-5px] w-2/5"
             >
               {Math.round(weatherData.main.temp)}°C
             </div>
-            <div className="w-1/2">
+            <div className="w-3/5">
               <label className="font-bold w-full border-b-2 border-gray-400 block mt-2 mb-1">
                 {translations?.locCard?.details}
               </label>
@@ -139,21 +141,21 @@ export const WeatherLocationCard = ({
                     onMouseEnter={toggleParentTooltip}
                     onMouseLeave={toggleParentTooltip}
                     onClick={onAddLocation}
-                    className="px-1 py-0 font-semibold text-2xl enabled:hover:bg-amber-300 transition-all"
+                    className="enabled:hover:bg-amber-300 transition-all"
                   >
-                    +
+                    <PlusIcon className="w-6 text-slate-800" />
                   </button>
                 </Tooltip>
               )}
               {id && (
                 <Tooltip content={translations!.locCard?.removeTooltip}>
                   <button
-                    className="px-1 py-0 font-extrabold text-md text-red-600 enabled:hover:bg-amber-300 transition-all"
+                    className="enabled:hover:bg-amber-300 transition-all"
                     onMouseEnter={toggleParentTooltip}
                     onMouseLeave={toggleParentTooltip}
                     onClick={onDeleteLocation}
                   >
-                    &#10005;
+                    <XMarkIcon className="w-6 text-red-600" />
                   </button>
                 </Tooltip>
               )}

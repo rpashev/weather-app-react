@@ -6,6 +6,7 @@ import { useFetchCityDataQuery } from '../hooks/tanstack-query/useFetchCityDataQ
 // COMPONENTS
 import { Tooltip } from './UI/Tooltip';
 import { WeatherDetailsDialog } from './WeatherDetailsDialog';
+import { XMarkIcon } from '@heroicons/react/16/solid';
 // LEAFLET
 import { useMap } from 'react-leaflet';
 // UTILS
@@ -66,11 +67,11 @@ export const WeatherLocationMapPopup = ({ coords }: PropsType) => {
           <div className="bg-white flex items-start gap-10 px-2 flex-1 rounded-b">
             <div
               style={{ fontFamily: 'Arial' }}
-              className="text-3xl font-bold tracking-tight w-2/5 mt-6"
+              className="text-3xl font-bold tracking-tight w-1/3 mt-6"
             >
               {Math.round(weatherData.main.temp)}°C
             </div>
-            <div className="w-3/5 mt-1">
+            <div className="w-2/3 mt-1">
               <label className="font-bold w-full border-b-2 border-gray-400 block mt-2 mb-1">
                 {translations?.locCard.details}
               </label>
@@ -115,12 +116,12 @@ export const WeatherLocationMapPopup = ({ coords }: PropsType) => {
           <div className="absolute top-0 right-0">
             <Tooltip content={translations?.locCard.closePopup!}>
               <button
-                className="px-1 py-0 font-extrabold text-md text-slate-600 enabled:hover:bg-amber-300 transition-all"
+                className="enabled:hover:bg-amber-300 transition-all"
                 onClick={onClosePopup}
                 onMouseEnter={toggleParentTooltip}
                 onMouseLeave={toggleParentTooltip}
               >
-                &#10005;
+                <XMarkIcon className="w-5 text-slate-800" />
               </button>
             </Tooltip>
           </div>
