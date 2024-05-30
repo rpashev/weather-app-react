@@ -74,7 +74,7 @@ export const WeatherLocationsEditDialog = ({
       <Backdrop onClickBackdrop={closeDialog} />
       <dialog
         open
-        className="flex flex-col tw-fixed-center bg-red w-[900px] max-w-[95%] h-[500px] mx-auto no-doc-scroll"
+        className="flex flex-col sm:tw-fixed-center fixed top-0 bg-red w-[900px] overflow-y-auto max-w-[100%] md:h-[500px] h-screen no-doc-scroll"
         style={{ zIndex: 3000 }}
       >
         <header className="relative flex justify-between items-center tw-gradient-main py-3 px-4 pr-2 text-xl font-bold">

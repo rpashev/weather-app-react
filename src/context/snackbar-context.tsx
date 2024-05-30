@@ -30,7 +30,7 @@ export const SnackbarProvider = ({ children }: SnackbarProviderProps) => {
 
     setTimeout(() => {
       setShowSnackbar(false);
-    }, 3000);
+    }, 300000);
   };
 
   return (

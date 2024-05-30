@@ -19,7 +19,7 @@ export const Snackbar = ({ mode, message }: Props) => {
 
     const hideTimer = setTimeout(() => {
       setShowSnackbar(false);
-    }, 3000);
+    }, 300000);
 
     return () => {
       clearTimeout(timer);
@@ -39,16 +39,14 @@ export const Snackbar = ({ mode, message }: Props) => {
   };
 
   return (
-    <p
-      className={`tw-fixed-center-x bottom-16 ${showSnackbar ? 'translate-y-0 opacity-100' : '-translate-y-8 opacity-0'} w-full font-semibold rounded px-4 py-[14px] text-center tracking-wider
-       text-white transition-all duration-300 sm:w-auto max-w-[600px] ${getBackgroundColor()}`}
+    <div
+      className={`tw-fixed-center-x flex gap-3 items-center bottom-16 ${showSnackbar ? 'translate-y-0 opacity-100' : '-translate-y-8 opacity-0'} font-semibold rounded px-3 py-[12px] text-center tracking-wider
+       text-white transition-all duration-300 max-w-[400px] ${getBackgroundColor()}`}
     >
-      <div className="flex gap-3 items-center justify-between">
-        {mode == 'error' && <ExclamationCircleIcon className="w-7 text-slate-100" />}
-        {mode == 'warning' && <ExclamationTriangleIcon className="w-7 text-amber-400" />}
-        {mode == 'success' && <CheckIcon className="w-7 text-slate-100" />}
-        <span>{message}</span>
-      </div>
-    </p>
+      {mode == 'error' && <ExclamationCircleIcon className="min-w-8 max-w-8 text-slate-100" />}
+      {mode == 'warning' && <ExclamationTriangleIcon className="min-w-8 max-w-8 text-amber-400" />}
+      {mode == 'success' && <CheckIcon className="min-w-8 max-w-8 text-slate-100" />}
+      <div className="flex-grow">{message}</div>
+    </div>
   );
 };

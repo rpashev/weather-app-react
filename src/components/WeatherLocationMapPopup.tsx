@@ -27,7 +27,6 @@ export const WeatherLocationMapPopup = ({ coords }: PropsType) => {
   const [detailsDialogIsOpen, setDetailsDialogIsOpen] = useState(false);
   const [disableParentTooltip, setDisableParentTooltip] = useState(false);
   const toggleParentTooltip = () => {
-    console.log(disableParentTooltip);
     setDisableParentTooltip((prev) => !prev);
   };
 
@@ -37,6 +36,7 @@ export const WeatherLocationMapPopup = ({ coords }: PropsType) => {
 
   const onClosePopup = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();
+
     map.closePopup();
   };
 
@@ -57,9 +57,10 @@ export const WeatherLocationMapPopup = ({ coords }: PropsType) => {
                 {weatherData.weather[0].description}
               </label>
             </div>
-            <div className="w-16 h-auto">
+            <div className="w-16 h-auto" onClick={openDetailsDialog}>
               <img
                 className="w-full h-full object-cover"
+                onClick={openDetailsDialog}
                 src={`https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
               />
             </div>
@@ -114,7 +115,7 @@ export const WeatherLocationMapPopup = ({ coords }: PropsType) => {
             </label>
           </div>
           <div className="absolute top-0 right-0">
-            <Tooltip content={translations?.locCard.closePopup!}>
+            <Tooltip content={translations?.locCard.closePopup!} positionClasses="right-0">
               <button
                 className="enabled:hover:bg-amber-300 transition-all"
                 onClick={onClosePopup}

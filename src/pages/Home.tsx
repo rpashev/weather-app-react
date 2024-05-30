@@ -59,7 +59,10 @@ export const Home = () => {
           <section className="mt-4 mx-auto">
             <h2 className="text-3xl dark:text-slate-100 text-slate-800 text-center flex items-center justify-center">
               <span>{translations?.pages.home?.titleTracked}</span>
-              <Tooltip content={translations?.pages.home?.editLocationsTooltip!}>
+              <Tooltip
+                content={translations?.pages.home?.editLocationsTooltip!}
+                positionClasses="-top-12 right-0"
+              >
                 <button
                   onClick={openLocationsEditDialog}
                   className="block ml-1 p-1 -mt-5 hover:bg-slate-500 transition-all"
