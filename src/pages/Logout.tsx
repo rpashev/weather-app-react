@@ -5,7 +5,7 @@ import { useSnackbarContext } from '../context/snackbar-context';
 import { useSettingsContext } from '../context/settings-context';
 
 export const Logout = () => {
-  const { showSnackbar: show } = useSnackbarContext();
+  const { showSnackbar } = useSnackbarContext();
   const { logout } = useAuthContext();
   const { translations } = useSettingsContext();
 
@@ -14,7 +14,7 @@ export const Logout = () => {
   useEffect(() => {
     logout();
     navigate('/');
-    show(translations?.messages.successLogout!, 'success');
+    showSnackbar(translations?.messages.successLogout!, 'success');
   }, []);
 
   return null;

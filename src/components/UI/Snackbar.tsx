@@ -19,13 +19,13 @@ export const Snackbar = ({ mode, message }: Props) => {
 
     const hideTimer = setTimeout(() => {
       setShowSnackbar(false);
-    }, 300000);
+    }, 3000);
 
     return () => {
       clearTimeout(timer);
       clearTimeout(hideTimer);
     };
-  }, []);
+  }, [mode, message]);
 
   const getBackgroundColor = () => {
     switch (mode) {
@@ -40,8 +40,8 @@ export const Snackbar = ({ mode, message }: Props) => {
 
   return (
     <div
-      className={`tw-fixed-center-x flex gap-3 items-center bottom-16 ${showSnackbar ? 'translate-y-0 opacity-100' : '-translate-y-8 opacity-0'} font-semibold rounded px-3 py-[12px] text-center tracking-wider
-       text-white transition-all duration-300 max-w-[400px] ${getBackgroundColor()}`}
+      className={`tw-fixed-center-x flex gap-3 items-center bottom-16 ${showSnackbar ? 'translate-y-0 opacity-100' : '-translate-y-8 opacity-0'} font-semibold rounded px-3 py-[10px] text-center tracking-wider
+       text-white transition-all duration-300 max-w-[400px] w-full sm:w-auto ${getBackgroundColor()}`}
     >
       {mode == 'error' && <ExclamationCircleIcon className="min-w-8 max-w-8 text-slate-100" />}
       {mode == 'warning' && <ExclamationTriangleIcon className="min-w-8 max-w-8 text-amber-400" />}

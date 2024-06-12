@@ -128,8 +128,8 @@ export const en: LanguageMapType = Object.freeze({
     },
     signUp: {
       title: 'Sign Up',
-      email: 'email',
-      password: 'password',
+      email: 'Email',
+      password: 'Password',
       errorEmail: 'Please enter a valid email!',
       errorPassword: 'Password should be at least 6 symbols!',
       repPassword: 'Repeat password',
