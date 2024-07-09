@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { createPortal } from 'react-dom';
 // HOOKS
 import { useFetchCityDataQuery } from '../hooks/tanstack-query/useFetchCityDataQuery';
+import { useFormatUnits } from '../hooks/useFormatUnits';
 // COMPONENTS
 import { Tooltip } from './UI/Tooltip';
 import { WeatherDetailsDialog } from './WeatherDetailsDialog';
@@ -18,6 +19,8 @@ type PropsType = {
 };
 export const WeatherLocationMapPopup = ({ coords }: PropsType) => {
   const { translations } = useSettingsContext();
+  const { tempUnits, speedUnits } = useFormatUnits();
+
   const map = useMap();
   const { data: weatherData } = useFetchCityDataQuery({
     lon: coords?.lon!,
@@ -70,7 +73,8 @@ export const WeatherLocationMapPopup = ({ coords }: PropsType) => {
               style={{ fontFamily: 'Arial' }}
               className="text-3xl font-bold tracking-tight w-1/3 mt-6"
             >
-              {Math.round(weatherData.main.temp)}°C
+              {Math.round(weatherData.main.temp)}
+              {tempUnits}
             </div>
             <div className="w-2/3 mt-1">
               <label className="font-bold w-full border-b-2 border-gray-400 block mt-2 mb-1">
@@ -80,13 +84,15 @@ export const WeatherLocationMapPopup = ({ coords }: PropsType) => {
                 <li className="flex justify-between items-end">
                   <label> {translations?.locCard.feelsLike}</label>
                   <label className="font-bold text-[12px]">
-                    {Math.round(weatherData.main.feels_like)}°C
+                    {Math.round(weatherData.main.feels_like)}
+                    {tempUnits}
                   </label>
                 </li>
                 <li className="flex justify-between items-end">
                   <label> {translations?.locCard.wind}</label>
                   <label className="font-bold text-[12px]">
-                    {Math.round(weatherData.wind.speed)}m/s
+                    {Math.round(weatherData.wind.speed)}
+                    {speedUnits}
                   </label>
                 </li>
                 <li className="flex justify-between items-end">

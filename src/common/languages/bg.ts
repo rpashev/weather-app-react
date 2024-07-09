@@ -79,8 +79,8 @@ export const bg: LanguageMapType = Object.freeze({
     filtPrecipitation: 'Валежи',
     filtTemp: 'Температура',
     closeBtn: 'Затвори',
-    chartWind: 'Вятър измерен в м/с',
-    chartTemp: 'Температура измерена в Целзий',
+    chartWind: 'Вятър измерен в ',
+    chartTemp: 'Температура измерена в ',
     chartRain: 'Вероятност за валежи в %',
   },
   weatherLocEditDialog: {

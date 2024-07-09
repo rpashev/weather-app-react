@@ -5,6 +5,7 @@ import { useAuthContext } from '../context/user-context';
 import { useFetchCityDataQuery } from '../hooks/tanstack-query/useFetchCityDataQuery';
 import { useTrackedLocationMutate } from '../hooks/tanstack-query/useTrackedLocationMutate';
 import { useDeleteTrackedLocationMutate } from '../hooks/tanstack-query/useDeleteTrackedLocationMutate';
+import { useFormatUnits } from '../hooks/useFormatUnits';
 // COMPONENTS
 import { Tooltip } from './UI/Tooltip';
 import { WeatherDetailsDialog } from './WeatherDetailsDialog';
@@ -26,6 +27,7 @@ export const WeatherLocationCard = ({
 }: WeatherLocationCardProps) => {
   const { isLoggedIn } = useAuthContext();
   const { translations } = useSettingsContext();
+  const { tempUnits, speedUnits } = useFormatUnits();
 
   const { data: weatherData } = useFetchCityDataQuery({
     lon: coords?.lon!,
@@ -41,7 +43,6 @@ export const WeatherLocationCard = ({
 
   const [detailsDialogIsOpen, setDetailsDialogIsOpen] = useState(false);
   const openDetailsDialog = () => {
-    console.log('dialog');
     setDetailsDialogIsOpen(true);
   };
 
@@ -89,7 +90,8 @@ export const WeatherLocationCard = ({
               style={{ fontFamily: 'Arial' }}
               className="text-[3.25rem] font-bold tracking-[-5px] w-2/5"
             >
-              {Math.round(weatherData.main.temp)}°C
+              {Math.round(weatherData.main.temp)}
+              {tempUnits}
             </div>
             <div className="w-3/5">
               <label className="font-bold w-full border-b-2 border-gray-400 block mt-2 mb-1">
@@ -99,13 +101,15 @@ export const WeatherLocationCard = ({
                 <li className="flex justify-between items-end">
                   <label> {translations?.locCard?.feelsLike}</label>
                   <label className="font-bold text-[13px]">
-                    {Math.round(weatherData.main.feels_like)}°C
+                    {Math.round(weatherData.main.feels_like)}
+                    {tempUnits}
                   </label>
                 </li>
                 <li className="flex justify-between items-end">
                   <label>{translations?.locCard?.wind}</label>
                   <label className="font-bold text-[13px]">
-                    {Math.round(weatherData.wind.speed)}m/s
+                    {Math.round(weatherData.wind.speed)}
+                    {speedUnits}
                   </label>
                 </li>
                 <li className="flex justify-between items-end">

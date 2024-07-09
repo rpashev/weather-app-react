@@ -1,18 +1,22 @@
 import { type WeatherMapLayerType } from '../common/types';
 import { useSettingsContext } from '../context/settings-context';
+import { useFormatUnits } from '../hooks/useFormatUnits';
 
 type PropsType = {
   weatherLayer: WeatherMapLayerType;
 };
 
-const tempLegendData = [-40, -20, 0, 20, 40];
-const windLegendData = [0, 2, 3, 6, 12, 25, 50, 100];
+const tempLegendDataMetric = [-40, -20, 0, 20, 40];
+const windLegendDataMetric = [0, 2, 3, 6, 12, 25, 50, 100];
+const tempLegendDataImperial = [-40, -4, 32, 68, 104];
+const windLegendDataImperial = [0, 4, 7, 13, 27, 56, 112, 224];
 const rainLegendData = [0, 0.5, 1, 2, 4, 6, 7, 10, 12, 14, 16, 24, 32, 60];
 const pressureLegendData = [950, 980, 1010, 1040, 1070];
 const cloudsLegendData = [0, 25, 50, 75, 100];
 
 export const WeatherMapLegend = ({ weatherLayer }: PropsType) => {
-  const { translations } = useSettingsContext();
+  const { translations, settings } = useSettingsContext();
+  const { tempUnits, speedUnits } = useFormatUnits();
 
   let activeLegendData: number[] = [];
   let legendLabel: string = '';
@@ -25,14 +29,16 @@ export const WeatherMapLegend = ({ weatherLayer }: PropsType) => {
       gradientClass = 'legend-gradient-rain';
       break;
     case 'wind':
-      activeLegendData = windLegendData;
-      legendLabel = translations?.pages.map.legWind + ', m/s';
+      activeLegendData =
+        settings.units === 'metric' ? windLegendDataMetric : windLegendDataImperial;
+      legendLabel = translations?.pages.map.legWind + `, ${speedUnits}`;
       gradientClass = 'legend-gradient-wind';
 
       break;
     case 'temp':
-      activeLegendData = tempLegendData;
-      legendLabel = translations?.pages.map.legTemp + ', °C';
+      activeLegendData = activeLegendData =
+        settings.units === 'metric' ? tempLegendDataMetric : tempLegendDataImperial;
+      legendLabel = translations?.pages.map.legTemp + `, ${tempUnits}`;
       gradientClass = 'legend-gradient-temp';
 
       break;

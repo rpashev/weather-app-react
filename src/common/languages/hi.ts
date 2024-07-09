@@ -79,8 +79,8 @@ export const hi: LanguageMapType = Object.freeze({
     filtPrecipitation: 'वर्षा',
     filtTemp: 'तापमान',
     closeBtn: 'बंद करें',
-    chartWind: 'हवा की गति (मीटर/सेकंड में मापा गया है)',
-    chartTemp: 'तापमान (सेल्सियस में मापा गया है)',
+    chartWind: 'हवा की गति ',
+    chartTemp: 'तापमान ',
     chartRain: 'वर्षा की संभावना (%)',
   },
   weatherLocEditDialog: {

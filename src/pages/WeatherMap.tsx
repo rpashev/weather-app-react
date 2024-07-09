@@ -31,7 +31,7 @@ export const WeatherMap = () => {
           onClick={() => setWeatherLayer('temp')}
           className={`flex flex-col bg-white
                    items-center rounded-t
-                   hover:bg-slate-200 cursor-pointer p-2 transition-all ${weatherLayer === 'temp' && 'bg-slate-300'}`}
+                   hover:bg-slate-200 cursor-pointer p-2 transition-all ${weatherLayer === 'temp' && 'bg-stone-200'}`}
         >
           {translations?.pages.map.legTemp}
         </div>
@@ -39,7 +39,7 @@ export const WeatherMap = () => {
           onClick={() => setWeatherLayer('wind')}
           className={`flex flex-col bg-white 
                    items-center 
-                   hover:bg-slate-200 cursor-pointer p-2 transition-all ${weatherLayer === 'wind' && 'bg-slate-300'}`}
+                   hover:bg-slate-200 cursor-pointer p-2 transition-all ${weatherLayer === 'wind' && 'bg-stone-200'}`}
         >
           {translations?.pages.map.filtWind}
         </div>
@@ -47,7 +47,7 @@ export const WeatherMap = () => {
           onClick={() => setWeatherLayer('precipitation')}
           className={`flex flex-col bg-white 
                    items-center 
-                   hover:bg-slate-200 cursor-pointer p-2 transition-all ${weatherLayer === 'precipitation' && 'bg-slate-300'}`}
+                   hover:bg-slate-200 cursor-pointer p-2 transition-all ${weatherLayer === 'precipitation' && 'bg-stone-200'}`}
         >
           {translations?.pages.map.legPrecip}
         </div>
@@ -55,7 +55,7 @@ export const WeatherMap = () => {
           onClick={() => setWeatherLayer('pressure')}
           className={`flex flex-col bg-white 
                    items-center 
-                   hover:bg-slate-200 cursor-pointer p-2 transition-all ${weatherLayer === 'pressure' && 'bg-slate-300'}`}
+                   hover:bg-slate-200 cursor-pointer p-2 transition-all ${weatherLayer === 'pressure' && 'bg-stone-200'}`}
         >
           {translations?.pages.map.legPressure}
         </div>
@@ -63,7 +63,7 @@ export const WeatherMap = () => {
           onClick={() => setWeatherLayer('clouds')}
           className={`flex flex-col bg-white 
                    items-center
-                   hover:bg-slate-200 cursor-pointer p-2 transition-all ${weatherLayer === 'clouds' && 'bg-slate-300'}`}
+                   hover:bg-slate-200 cursor-pointer p-2 transition-all ${weatherLayer === 'clouds' && 'bg-stone-200'}`}
         >
           {translations?.pages.map.filtClouds}
         </div>

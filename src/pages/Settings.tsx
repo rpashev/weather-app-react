@@ -16,7 +16,7 @@ export const Settings = () => {
               {translations?.pages.settings.units}
             </label>
             <div>
-              <BaseToggle isChecked={settings.units === 'metric'} setIsChecked={onChangeUnits} />
+              <BaseToggle isChecked={settings.units !== 'metric'} setIsChecked={onChangeUnits} />
             </div>
           </li>
           <li className="flex items-center w-full justify-between gap-6">

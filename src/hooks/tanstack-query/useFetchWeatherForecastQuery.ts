@@ -18,17 +18,20 @@ import { useSettingsContext } from '../../context/settings-context';
 export const useFetchWeatherForecastQuery = (coordinates: CoordinatesWeatherApi | null) => {
   const { hideSpinner, showSpinner } = useSpinnerContext();
   const { showSnackbar } = useSnackbarContext();
-  const { translations } = useSettingsContext();
+  const { translations, settings } = useSettingsContext();
 
   return useQuery<WeatherForecastResponseData, AxiosError>({
     queryKey: ['forecast-city', { lon: coordinates?.lon!, lat: coordinates?.lat! }],
     queryFn: async () => {
       showSpinner();
       try {
-        const response = await weatherApiService.getFiveDaysHourlyWeather({
-          lon: coordinates?.lon!,
-          lat: coordinates?.lat!,
-        });
+        const response = await weatherApiService.getFiveDaysHourlyWeather(
+          {
+            lon: coordinates?.lon!,
+            lat: coordinates?.lat!,
+          },
+          settings.units
+        );
         return zodParseResult(response.data, WeatherForecastSchema);
       } catch (err) {
         showSnackbar(translations?.messages.errForecast!, 'error');

@@ -25,7 +25,7 @@ export const BaseLayout = () => {
       showSpinner();
       fetchLocalCityData().finally(() => hideSpinner());
     }
-  }, [settings.userLocation]);
+  }, [settings.userLocation, settings.units]);
   return (
     <div className="flex min-h-screen flex-col items-center dark:bg-slate-600 bg-white">
       <BaseHeader localCityData={localCityData || null} />

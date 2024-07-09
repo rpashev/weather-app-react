@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 // HOOKS
 import { useFetchWeatherForecastQuery } from '../hooks/tanstack-query/useFetchWeatherForecastQuery';
+import { useFormatUnits } from '../hooks/useFormatUnits';
 // COMPONENTS
 import { Backdrop } from './UI/Backdrop';
 import { LineChart } from './UI/LineChart';
@@ -26,6 +27,8 @@ export const WeatherDetailsDialog = ({
   currentWeatherData,
 }: PropsType) => {
   const { translations } = useSettingsContext();
+  const { tempUnits, speedUnits } = useFormatUnits();
+
   const closeDialog = () => setDetailsDialogIsOpen(false);
 
   const [activeTimestamp, setActiveTimestamp] = useState<string | null>(null);
@@ -142,7 +145,7 @@ export const WeatherDetailsDialog = ({
                 {activeTimestamp &&
                   Math.round(dailyForecastData[activeDay]?.hourlyData[activeTimestamp]?.main?.temp)}
                 {!activeTimestamp && Math.round(dailyForecastData[activeDay]?.maxTemp || 0)}
-                °C
+                {tempUnits}
               </div>
             </div>
             {activeTimestamp && (
@@ -155,7 +158,7 @@ export const WeatherDetailsDialog = ({
                         dailyForecastData[activeDay]?.hourlyData[activeTimestamp]?.main?.feels_like
                       )
                     )}
-                    °C
+                    {tempUnits}
                   </label>
                 </li>
                 <li className="flex justify-between items-end gap-4">
@@ -164,7 +167,7 @@ export const WeatherDetailsDialog = ({
                     {Math.round(
                       dailyForecastData[activeDay]?.hourlyData[activeTimestamp].wind.speed
                     )}
-                    m/s
+                    {speedUnits}
                   </label>
                 </li>
                 <li className="flex justify-between items-end gap-4">
@@ -185,21 +188,21 @@ export const WeatherDetailsDialog = ({
                   <label>{translations?.detDialog.maxTemp}</label>
                   <label className="font-bold text-[13px]">
                     {dailyForecastData[activeDay]?.maxTemp}
-                    °C
+                    {tempUnits}
                   </label>
                 </li>
                 <li className="flex justify-between items-end gap-4">
                   <label>{translations?.detDialog.minTemp}</label>
                   <label className="font-bold text-[13px]">
                     {dailyForecastData[activeDay]?.minTemp}
-                    °C
+                    {tempUnits}
                   </label>
                 </li>
                 <li className="flex justify-between items-end gap-4">
                   <label>{translations?.detDialog.avgTemp}</label>
                   <label className="font-bold text-[13px]">
                     {dailyForecastData[activeDay]?.avgTemp}
-                    °C
+                    {tempUnits}
                   </label>
                 </li>
               </ul>
@@ -302,11 +305,13 @@ export const WeatherDetailsDialog = ({
                   </div>
                   <div>
                     <span className="text-red-600 text-sm md:text-md font-semibold">
-                      {dailyForecastData[date].maxTemp}°
+                      {dailyForecastData[date].maxTemp}
+                      {tempUnits}
                     </span>
                     <span> | </span>
                     <span className="text-blue-600 text-sm md:text-md font-semibold">
-                      {dailyForecastData[date].minTemp}°
+                      {dailyForecastData[date].minTemp}
+                      {tempUnits}
                     </span>
                   </div>
                 </div>

@@ -79,8 +79,8 @@ export const ru: LanguageMapType = Object.freeze({
     filtPrecipitation: 'Осадки',
     filtTemp: 'Температура',
     closeBtn: 'Закрыть',
-    chartWind: 'Скорость ветра в м/с',
-    chartTemp: 'Температура в градусах Цельсия',
+    chartWind: 'Скорость ветра в ',
+    chartTemp: 'Температура в градусах ',
     chartRain: 'Вероятность осадков в %',
   },
   weatherLocEditDialog: {

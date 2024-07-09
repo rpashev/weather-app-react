@@ -16,16 +16,19 @@ export const useFetchCityDataQuery = (
   enabled = true
 ) => {
   const { showSnackbar } = useSnackbarContext();
-  const { translations } = useSettingsContext();
+  const { translations, settings } = useSettingsContext();
 
   return useQuery<BaseWeatherResponseData, AxiosError>({
     queryKey: ['selected-city', { lon: coordinates?.lon!, lat: coordinates?.lat! }],
     queryFn: async () => {
       try {
-        const response = await weatherApiService.getCurrentWeather({
-          lon: coordinates?.lon!,
-          lat: coordinates?.lat!,
-        });
+        const response = await weatherApiService.getCurrentWeather(
+          {
+            lon: coordinates?.lon!,
+            lat: coordinates?.lat!,
+          },
+          settings.units
+        );
         return zodParseResult(response.data, WeatherSchema);
       } catch (err) {
         showSnackbar(translations?.messages.errLoadCity!, 'error');

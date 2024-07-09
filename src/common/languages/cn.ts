@@ -79,8 +79,8 @@ export const cn: LanguageMapType = Object.freeze({
     filtPrecipitation: '降水',
     filtTemp: '温度',
     closeBtn: '关闭',
-    chartWind: '风速（米/秒）',
-    chartTemp: '温度（摄氏度）',
+    chartWind: '风速 ',
+    chartTemp: '温度 ',
     chartRain: '降雨概率（%）',
   },
   weatherLocEditDialog: {

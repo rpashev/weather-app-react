@@ -79,7 +79,7 @@ export const SettingsProvider = ({ children }: SettingsProviderProps) => {
 
   const onChangeUnits = (val: boolean) => {
     setSettingsState((prevState) => {
-      return { ...prevState, units: val ? 'metric' : 'imperial' };
+      return { ...prevState, units: val ? 'imperial' : 'metric' };
     });
   };
 

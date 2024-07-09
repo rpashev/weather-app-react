@@ -79,8 +79,8 @@ export const fr: LanguageMapType = Object.freeze({
     filtPrecipitation: 'Précipitations',
     filtTemp: 'Température',
     closeBtn: 'Fermer',
-    chartWind: 'Vent mesuré en m/s',
-    chartTemp: 'Température mesurée en Celsius',
+    chartWind: 'Vent mesuré en ',
+    chartTemp: 'Température mesurée en ',
     chartRain: 'Probabilité de pluie en %',
   },
   weatherLocEditDialog: {
