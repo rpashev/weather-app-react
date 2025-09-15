@@ -94,7 +94,7 @@ I like playing with external APIs so I decided to create an application using th
 
    ### `npm run dev`
 
-5. You can view the app on [http://localhost:3000](http://localhost:3000)
+5. You can view the app on [http://localhost:5173](http://localhost:5173)
 
 6. To build for production run the following command
    ### `npm run build`
@@ -110,4 +110,5 @@ I like playing with external APIs so I decided to create an application using th
 ## Contact
 
 Created by rpashev - feel free to [contact me](https://www.rpashev.com/).
+
 
