@@ -3,7 +3,7 @@
 A responsive single page application allowing registered users to track the weather for multiple locations and view a weather map with different layers like temperature, precipitation, wind, etc. Built with React and Tailwind, it was fun incorporating a map and different charts, visualising the weather condtions.
 This app is built with the MERN stack - Mongo/Express/React/Node and is employing the Open Weather API.
 
-The backend API is part of a larger API that I have built. Here you can find the **[REST API](https://github.com/rpashev/journal-app-REST)** for the app.
+The backend API is part of a larger API that I have built for another app. Here you can find the **[REST API](https://github.com/rpashev/journal-app-REST)** 
 
 > Live demo **[HERE](https://weather-app-react-tw.netlify.app/)**
 
@@ -19,15 +19,14 @@ The backend API is part of a larger API that I have built. Here you can find the
 
 ## General Information
 
-I like playing with external APIs so I decided to create an application using the Open Weather API, containing all CRUD operations and visualizing the data in nice charts and a map. Practicing Tailwind was also a goal of mine so I was looking for an opportunity to build an application using the CSS framework along with the trusty React.
+I like playing with external APIs so I decided to create an application using the [Open Weather API](https://openweathermap.org/), containing all CRUD operations and visualizing the data in nice charts and an interactive map. Practicing Tailwind was also a goal of mine so I was looking for an opportunity to build an application using the CSS framework along with the trusty React.
 
 ## Challenges
 
 - figuring out how to properly use the [Open Weather API](https://openweathermap.org/)
 - first time using Tailwind was a fun but at times challenging process
 - first time using Zod for validating API responses took some digging into the documentation but proved very useful
-- integratig the Leaflet map with the different weather layers required some configurations as well as produced some styling difficulties
-- view a settings page, where user can change language, units, dark/light mode and enable/disable location permission.
+- integrating the Leaflet map with the different weather layers required some configurations as well as produced some styling difficulties
 - implementing the app in different languages, including more exotic like Chinese and Hindi
 - implementing settings for switching between imperial and metric units
 
@@ -85,7 +84,7 @@ I like playing with external APIs so I decided to create an application using th
 
 2. Clone the repo
 
-   ### `git clone https://github.com/rpashev/weather-app-react`
+   ### `git clone https://github.com/rpashev/weather-app-react.git`
 
 3. Install NPM packages
 
@@ -111,3 +110,4 @@ I like playing with external APIs so I decided to create an application using th
 ## Contact
 
 Created by rpashev - feel free to [contact me](https://www.rpashev.com/).
+
